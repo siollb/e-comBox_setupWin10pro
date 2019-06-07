@@ -21,6 +21,16 @@ $settings = Get-ItemProperty -Path $reg
 
 if ($settings.ProxyEnable -eq 1) {
 $adresseProxy = $settings.ProxyServer
+if ($adresseProxy -ilike "*=*")
+        {
+            $adresseProxy = $adresseProxy -replace "=","://" -split(';') | Select-Object -First 1
+        }
+
+        else
+        {
+            $adresseProxy = "http://" + $adresseProxy
+        }
+    Write-Host "l'adresse du proxy est $adresseProxy"
 $noProxy = $settings.ProxyOverride
 $noProxy = $noProxy.Replace(';',',')
 new-item "config.json" –type file -force 

@@ -15,9 +15,7 @@ if ($settings.ProxyEnable -eq 1) {
         {
             $adresseProxy = "http://" + $adresseProxy
         }
-    Write-Host "l'adresse proxy est $adresseProxy"
-    $noProxy = $settings.ProxyOverride
-    $noProxy = $noProxy.Replace(';',',')
+    Write-Host "l'adresse du proxy est $adresseProxy"
     git config --global http.proxy $adresseProxy
     }
     else {
