@@ -6,9 +6,19 @@ $settings = Get-ItemProperty -Path $reg
 
 if ($settings.ProxyEnable -eq 1) {
     $adresseProxy = $settings.ProxyServer
+    if ($adresseProxy -ilike "*=*")
+        {
+            $adresseProxy = $adresseProxy -replace "=","://" -split(';') | Select-Object -First 1
+        }
+
+        else
+        {
+            $adresseProxy = "http://" + $adresseProxy
+        }
+    Write-Host "l'adresse proxy est $adresseProxy"
     $noProxy = $settings.ProxyOverride
     $noProxy = $noProxy.Replace(';',',')
-    git config --global http://$adresseProxy
+    git config --global http.proxy $adresseProxy
     }
     else {
       git config --global --unset http.proxy
