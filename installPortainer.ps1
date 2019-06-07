@@ -1,4 +1,6 @@
 ﻿# Récupération de portainer
+Set-Location -Path C:\Users\$env:USERNAME
+
 git clone https://github.com/siollb/e-comBox_portainer.git 2>$null
 
 # Récupération et mise au bon format de l'adresse IP de l'hôte

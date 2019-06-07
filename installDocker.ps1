@@ -42,3 +42,5 @@ Set-Content config.json -Encoding UTF8 -Value (Get-Content config.json)
 else {
 new-item "config.json" –type file -force
 }
+
+Start-Sleep -Seconds 5 ; Restart-Computer -Force
