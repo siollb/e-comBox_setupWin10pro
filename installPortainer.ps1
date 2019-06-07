@@ -1,7 +1,24 @@
-﻿# Récupération de portainer
+﻿# Détection et configuration d'un éventuel proxy
 Set-Location -Path C:\Users\$env:USERNAME
 
+$reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+$settings = Get-ItemProperty -Path $reg
+
+if ($settings.ProxyEnable -eq 1) {
+    $adresseProxy = $settings.ProxyServer
+    $noProxy = $settings.ProxyOverride
+    $noProxy = $noProxy.Replace(';',',')
+    git config --global http://$adresseProxy
+    }
+    else {
+      git config --global --unset http.proxy
+      }
+
+
+# Récupération de portainer 
+
 git clone https://github.com/siollb/e-comBox_portainer.git 2>$null
+
 
 # Récupération et mise au bon format de l'adresse IP de l'hôte
 $docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPv4Address
