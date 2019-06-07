@@ -1,29 +1,44 @@
-﻿# First Download the installer (wget is slow...)
-# wget https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe -OutFile docker-installer.exe
+﻿# Téléchargement de l'exécutable
 
 (New-Object System.Net.WebClient).DownloadFile('https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe', 'docker-installer.exe')
 
-# Install
+# Installation en mode silentieux avec les options par défaut
 start-process -wait docker-installer.exe " install --quiet"
 
-# Clean-up
+# Suppression de l'exécutable
 rm docker-installer.exe
 
-# Run
+# Lancement de docker
 start-process "$env:ProgramFiles\docker\Docker\Docker for Windows.exe"
 
-write-host "Done."
+write-host "Docker et docker-compose sont installés."
 
-# Récupération de portainer
-git clone https://github.com/siollb/e-comBox_portainer.git 2>$null
 
-# Récupération et mise au bon format de l'adresse IP 
-$docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPv4Address
-$docker_ip_host = "$docker_ip_host"
-$docker_ip_host = $docker_ip_host.Trim()
+# Détection et configuration d'un éventuel proxy
+Set-Location -Path C:\Users\$env:USERNAME\.docker\
+$reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+$settings = Get-ItemProperty -Path $reg
 
-# Mise à jour de l'adresse IP
+if ($settings.ProxyEnable -eq 1) {
+$adresseProxy = $settings.ProxyServer
+$noProxy = $settings.ProxyOverride
+$noProxy = $noProxy.Replace(';',',')
+new-item "config.json" –type file -force 
 @"
-DOCKER_IP_TOUT=0.0.0.0
-DOCKER_IP_HOST=$docker_ip_host
-"@ > .\e-comBox_portainer\.env
+{
+ "proxies":
+ {
+   "default":
+   {
+     "httpProxy": "http://$adresseProxy",
+     "httpsProxy": "http://$adresseProxy",
+     "noProxy": "$noProxy"
+   }
+ }
+}
+"@ > config.json
+Set-Content config.json -Encoding UTF8 -Value (Get-Content config.json)
+}
+else {
+new-item "config.json" –type file -force
+}
