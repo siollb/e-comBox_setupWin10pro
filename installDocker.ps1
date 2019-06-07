@@ -40,8 +40,8 @@ new-item "config.json" –type file -force
  {
    "default":
    {
-     "httpProxy": "http://$adresseProxy",
-     "httpsProxy": "http://$adresseProxy",
+     "httpProxy": "$adresseProxy",
+     "httpsProxy": "$adresseProxy",
      "noProxy": "$noProxy"
    }
  }
