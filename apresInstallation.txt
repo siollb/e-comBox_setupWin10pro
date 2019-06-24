@@ -1,0 +1,2 @@
+L'application e-comBox est installée. 
+Elle est accessible à l'URL suivante http://localhost:8888.

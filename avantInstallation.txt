@@ -1,0 +1,6 @@
+Vous vous apprêtez à installer l'application e-comBox qui nécessite les composants suivants :
+ - HyperV
+ - Docker
+ - Git
+
+Ces composants vont être installés. Deux redémarrages de votre machine (qui vont peut-être vous paraitre un peu long) sont prévus. Fermez toutes les applications et enregistrez votre travail en cours !
