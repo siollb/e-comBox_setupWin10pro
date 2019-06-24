@@ -15,6 +15,9 @@ write-host "Docker et docker-compose sont installés."
 
 
 # Détection et configuration d'un éventuel proxy
+Set-Location -Path C:\Users\$env:USERNAME\
+New-Item -Name ".docker" -ItemType directory -force
+
 Set-Location -Path C:\Users\$env:USERNAME\.docker\
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 $settings = Get-ItemProperty -Path $reg

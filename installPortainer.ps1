@@ -37,7 +37,7 @@ $docker_ip_host = $docker_ip_host.Trim()
 Set-Location -Path C:\Users\$env:USERNAME\e-comBox_portainer\
 
 @"
-DOCKER_IP_TOUT=0.0.0.0
+DOCKER_IP_LOCALHOST=127.0.0.1
 DOCKER_IP_HOST=$docker_ip_host
 "@ > .env
 
