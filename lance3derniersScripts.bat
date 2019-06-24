@@ -1,0 +1,3 @@
+call lanceScriptPS_installGit.bat
+call lanceScriptPS_installPortainer.bat
+call lanceScriptPS_installApplication.bat
