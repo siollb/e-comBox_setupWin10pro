@@ -1,6 +1,8 @@
+Cette exécutable ne doit être utilisé que sur Windows 10 professionnel, education ou entreprise. Un autre exécutable est prévu pour Windows 10 famille.
+
 Vous vous apprêtez à installer l'application e-comBox qui nécessite les composants suivants :
  - HyperV
  - Docker
  - Git
 
-Ces composants vont être installés. Deux redémarrages de votre machine (qui vont peut-être vous paraitre un peu long) sont prévus. Fermez toutes les applications et enregistrez votre travail en cours !
+Vous devez avoir les droits d'administrateur pour installer ces composants. Deux redémarrages de votre machine (qui peuvent être un peu long) sont prévus. Fermez toutes les applications et enregistrez votre travail en cours !

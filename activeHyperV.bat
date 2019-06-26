@@ -27,4 +27,4 @@ if '%errorlevel%' NEQ '0' (
 :--------------------------------------
 
 DISM /Online /NoRestart /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
-shutdown.exe /r /t 00
+REM  -->  shutdown.exe /r /t 00

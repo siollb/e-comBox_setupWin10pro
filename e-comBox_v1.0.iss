@@ -21,7 +21,7 @@ InfoAfterFile=C:\Users\daniel\e-comBox_setupWin10pro\apresInstallation.txt
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 OutputDir=C:\Users\daniel\e-comBox_setupWin10pro
-OutputBaseFilename=e-combox_v1.0
+OutputBaseFilename=e-combox_pro_educ_ent_v1.0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -30,7 +30,7 @@ WizardStyle=modern
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 
 [Files]
-Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion, dontcopy
 Source: "installApplication.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installGit.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
@@ -50,3 +50,109 @@ Name: "Docker"; Description: "Installation de Docker"; ExtraDiskSpaceRequired: 6
 Name: "Git"; Description: "Installation de Git"; ExtraDiskSpaceRequired: 262144000
 Name: "Portainer"; Description: "Install Portainer"
 Name: "e-comBox"; Description: "Installation de l'application e-comBox"
+
+[Run]
+Filename: "{tmp}\lanceScriptPS_installDocker.bat"; Flags: shellexec waituntilterminated
+
+[Code]
+const
+  RunOnceName = 'Redémarrage de la machine';
+
+  QuitMessageReboot = 'L''installation d''un programme prérequis n''est pas terminée. Vous devrez redémarrer votre ordinateur pour terminer cette installation. '# 13 # 13' Après le redémarrage de votre ordinateur, le programme d''installation se poursuivra la prochaine fois que vous vous reconnecterez.';
+  QuitMessageError = 'Error. Cannot continue.';
+
+var
+  Restarted: Boolean;
+
+function InitializeSetup(): Boolean;
+begin
+  Restarted := ExpandConstant('{param:restart|0}') = '1';
+
+  if not Restarted then begin
+    Result := not RegValueExists(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName);
+    if not Result then
+      MsgBox(QuitMessageReboot, mbError, mb_Ok);
+  end else
+    Result := True;
+end;
+
+function DetectAndInstallPrerequisites: Boolean;
+var
+  ResultCode: Integer;
+  Success: Boolean;
+begin
+  (*** Place your prerequisite detection and installation code below. ***)
+  (*** Return False if missing prerequisites were detected but their installation failed, else return True. ***)
+
+  //<your code here>
+  ExtractTemporaryFile('activeHyperV.bat');
+
+  WizardForm.PreparingLabel.Caption := 'Activation d''hyper V ...';
+  WizardForm.PreparingLabel.Visible := True;
+  try
+    Success :=
+      Exec(
+        ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+  finally
+    WizardForm.PreparingLabel.Caption := '';
+    WizardForm.PreparingLabel.Visible := False;
+  Result := True;
+end;
+
+function Quote(const S: String): String;
+begin
+  Result := '"' + S + '"';
+end;
+
+function AddParam(const S, P, V: String): String;
+begin
+  if V <> '""' then
+    Result := S + ' /' + P + '=' + V;
+end;
+
+function AddSimpleParam(const S, P: String): String;
+begin
+ Result := S + ' /' + P;
+end;
+
+procedure CreateRunOnceEntry;
+var
+  RunOnceData: String;
+begin
+  RunOnceData := Quote(ExpandConstant('{srcexe}')) + ' /restart=1';
+  RunOnceData := AddParam(RunOnceData, 'LANG', ExpandConstant('{language}'));
+  RunOnceData := AddParam(RunOnceData, 'DIR', Quote(WizardDirValue));
+  RunOnceData := AddParam(RunOnceData, 'GROUP', Quote(WizardGroupValue));
+  if WizardNoIcons then
+    RunOnceData := AddSimpleParam(RunOnceData, 'NOICONS');
+    RunOnceData := AddParam(RunOnceData, 'TYPE', Quote(WizardSetupType(False)));
+    RunOnceData := AddParam(RunOnceData, 'COMPONENTS', Quote(WizardSelectedComponents(False)));
+    RunOnceData := AddParam(RunOnceData, 'TASKS', Quote(WizardSelectedTasks(False)));
+
+  (*** Place any custom user selection you want to remember below. ***)
+
+  //<your code here>
+  
+  RegWriteStringValue(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName, RunOnceData);
+end;
+
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+var
+  ChecksumBefore, ChecksumAfter: String;
+begin
+  ChecksumBefore := MakePendingFileRenameOperationsChecksum;
+  if DetectAndInstallPrerequisites then begin
+    ChecksumAfter := MakePendingFileRenameOperationsChecksum;
+    if ChecksumBefore <> ChecksumAfter then begin
+      CreateRunOnceEntry;
+      NeedsRestart := True;
+      Result := QuitMessageReboot;
+    end;
+  end else
+    Result := QuitMessageError;
+end;
+
+function ShouldSkipPage(PageID: Integer): Boolean;
+begin
+  Result := Restarted;
+end;
