@@ -5,4 +5,9 @@ Vous vous apprêtez à installer l'application e-comBox qui nécessite les composan
  - Docker
  - Git
 
-Vous devez avoir les droits d'administrateur pour installer ces composants. Deux redémarrages de votre machine (qui peuvent être un peu long) sont prévus. Fermez toutes les applications et enregistrez votre travail en cours !
+Pour installer ces composants, vous devez disposer :
+  - des droits d'administrateur ;
+  - d'au moins 4 Go de RAM (12 Go minimum sont recommandés pour pouvoir lancer de nombreux sites) ;
+  - d'au moins 80 Go de libre sur le disque dur.
+
+Lorsque cela est demandé, vous devrez procéder au redémarrage de voutre machine (probalement au nombre de deux). Fermez toutes les applications et enregistrez votre travail en cours !

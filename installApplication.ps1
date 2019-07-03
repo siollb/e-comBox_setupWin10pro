@@ -1,1 +1,1 @@
-docker run -dit --name e-combox -v ecombox_data:/usr/local/apache2/htdocs/ -p 8080:80 aporaf/e-combox:1.0
+docker run -dit --name e-combox -v ecombox_data:/usr/local/apache2/htdocs/ -p 8888:80 aporaf/e-combox:1.0

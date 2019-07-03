@@ -11,8 +11,6 @@
 AppId={{AE3F5FEF-D723-417C-B5F3-9D491655D7DB}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-MinVersion=10.0.15063
-;OnlyBelowVersion=6.0
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
@@ -36,26 +34,28 @@ Source: "fichierTemoin.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "fichierTemoinBis.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "checkHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "activeHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "activeHyperV.bat"; DestDir: "{tmp}"
+Source: "installApplication.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "startDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installGit.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installPortainer.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "installApplication.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "lanceScriptPS_installApplication.bat"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "lanceScriptPS_installDocker.bat"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "lanceScriptPS_installGit.bat"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "lanceScriptPS_installPortainer.bat"; DestDir: "{tmp}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
-; Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
-; Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installApplication.ps1"""""; WorkingDir: "{app}";
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
+; Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoin.ps1"""""; WorkingDir: "{app}";
 [Code]
 const
   RunOnceName = 'Redémarrage de la machine';
 
-  QuitMessageReboot = 'L''installation de pré-requis est nécessaire. Merci de redémarrer votre ordinateur. ''#13 #13''Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Merci de redémarrer votre ordinateur. ''#13 #13''Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage2Reboot = 'L''installation de Docker a été effectué. Merci de redémarrer votre ordinateur. ''#13 #13''Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez. ''#13 #13'' Vous pourrez également fermer le popup de bienvenue de Docker';
+  QuitMessageReboot = 'L''installation d''un programme préalable n''est pas terminée. Vous devrez redémarrer votre ordinateur pour terminer cette installation. ''# 13 # 13''Après le redémarrage de votre ordinateur, le programme d''installation continuera dès que vous vous connecterez.';
   QuitMessageError = 'Erreur. Il est impossible de continuer.';
 
 var
@@ -84,8 +84,36 @@ begin
   (*** Return False if missing prerequisites were detected but their installation failed, else return True. ***)
 
   //<your code here>
- 
+  ExtractTemporaryFile('checkHyperV.ps1');
+  Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+  if ResultCode <> 0 then
+  begin
+  MsgBox('Hyper V n''est pas activé', mbInformation, mb_Ok);
+  ExtractTemporaryFile('activeHyperV.bat');
+  Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+  //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\activeHyperV.ps1" -Verb RunAs'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+  end
+  else
+  begin
+  MsgBox('Hyper V est activé', mbInformation, mb_Ok);
+  end; 
+  //if not FileExists(ExpandConstant('{app}\fichierTemoin.txt')) then 
+  //begin
+  //MsgBox('Le fichier n''existe pas, il sera créé', mbInformation, mb_Ok);
+  //SaveStringToFile(ExpandConstant('{app}\fichierTemoin.txt'), 'Fichier créé par innosetup', true);
+  //Restarted := true
+  //CreateRunOnceEntry;
   Result:= true;
+  
+  //NeedsRestart := True;
+  //Result := QuitMessageReboot;
+  //RestartReplace(ParamStr(0), '');
+  //end
+  //else 
+  //begin 
+  //MsgBox('Le fichier existe, on peut continuer', mbInformation, mb_Ok);
+  //Result:= true;
+  //end; 
 end;
 
 function Quote(const S: String): String;
@@ -129,52 +157,26 @@ end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
-ResultCode: Integer;
-//ErrorCode: Integer;
-//ReturnCode: Boolean;
-
-  //ChecksumBefore, ChecksumAfter: String;
+  ChecksumBefore, ChecksumAfter: String;
 begin
-  //ChecksumBefore := MakePendingFileRenameOperationsChecksum;
+  ChecksumBefore := MakePendingFileRenameOperationsChecksum;
   if DetectAndInstallPrerequisites then begin
-     ExtractTemporaryFile('checkHyperV.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-     if ResultCode <> 0 then begin
-      MsgBox('Hyper V n''est pas activé', mbInformation, mb_Ok);
-      ExtractTemporaryFile('activeHyperV.bat');
-      Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-      //ExtractTemporaryFile('activeHyperV.ps1');
-      //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\activeHyperV.ps1" -Verb RunAs'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-      CreateRunOnceEntry;
-      NeedsRestart := True;
-      Result := QuitMessage1Reboot;
-      end else if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
-       MsgBox('Docker n''est pas installé', mbInformation, mb_Ok);
-       ExtractTemporaryFile('fichierTemoinBis.ps1');
-       Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\fichierTemoinBis.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-       ExtractTemporaryFile('installDocker.ps1');
-       Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-       CreateRunOnceEntry;
-       NeedsRestart := True;
-       Result := QuitMessage2Reboot;
-       end else begin MsgBox('Docker est déjà installé, l''installation des autres composants se poursuit', mbInformation, mb_Ok); 
-       end;
+    if not FileExists(ExpandConstant('{app}\fichierTemoin.txt')) then 
+    begin
+    MsgBox('J''ai détecté des prérequis', mbInformation, mb_Ok);
+    SaveStringToFile(ExpandConstant('{app}\fichierTemoin.txt'), 'Fichier créé par innosetup', true);
+    //ChecksumAfter := MakePendingFileRenameOperationsChecksum;
+    //if ChecksumBefore <> ChecksumAfter then begin
+    CreateRunOnceEntry;
+    NeedsRestart := True;
+    Result := QuitMessageReboot;
+    end
+    else
+    begin
+    MsgBox('Le fichier existe, on peut continuer', mbInformation, mb_Ok);
+    end;
   end else
     Result := QuitMessageError;
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
-var
-ResultCode: Integer;
-begin
-  if(CurStep=ssInstall) then begin
-    //ExtractTemporaryFile('installGit.ps1');
-    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    //ExtractTemporaryFile('installPortainer.ps1');
-    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    //ExtractTemporaryFile('installApplication.ps1');
-    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-  end;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;

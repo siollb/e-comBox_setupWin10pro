@@ -8,12 +8,6 @@ start-process -wait docker-installer.exe " install --quiet"
 # Suppression de l'exécutable
 rm docker-installer.exe
 
-# Lancement de docker
-start-process "$env:ProgramFiles\docker\Docker\Docker for Windows.exe"
-
-write-host "Docker et docker-compose sont installés."
-
-
 # Détection et configuration d'un éventuel proxy
 Set-Location -Path C:\Users\$env:USERNAME\
 New-Item -Name ".docker" -ItemType directory -force
@@ -56,4 +50,8 @@ else {
 new-item "config.json" –type file -force
 }
 
+# Lancement de docker
+# start-process "$env:ProgramFiles\docker\Docker\Docker for Windows.exe"
+
+# write-host "Docker et docker-compose sont installés."
 # Start-Sleep -Seconds 5 ; Restart-Computer -Force
