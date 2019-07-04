@@ -49,6 +49,10 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 [Run]
 ; Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
 ; Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installApplication.ps1"""""; WorkingDir: "{app}";
+
+[LangOptions]
+LanguageID=$040C
+
 [Code]
 const
   RunOnceName = 'Redémarrage de la machine';
@@ -168,10 +172,10 @@ var
 ResultCode: Integer;
 begin
   if(CurStep=ssInstall) then begin
-    //ExtractTemporaryFile('installGit.ps1');
-    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    //ExtractTemporaryFile('installPortainer.ps1');
-    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    ExtractTemporaryFile('installGit.ps1');
+    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    ExtractTemporaryFile('installPortainer.ps1');
+    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
     ExtractTemporaryFile('installApplication.ps1');
     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
   end;

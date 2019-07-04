@@ -1,3 +1,6 @@
+Licence e-comBox
+==================
+
 L'application e-comBox est diffusée sous licence CC BY-NC-SA 2.0 FR (Creative Common Attribution - Pas d’Utilisation Commerciale - Partage dans les mêmes Conditions 2.0 France).
 
 Vous êtes autorisé à utiliser, partager / copier, distribuer et adapter l'application e-comBox par tous moyens et sous tous formats selon les conditions suivantes :
