@@ -141,10 +141,10 @@ begin
      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
      if ResultCode <> 0 then begin
       MsgBox('Hyper V n''est pas activé', mbInformation, mb_Ok);
-      //ExtractTemporaryFile('activeHyperV.bat');
-      //Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-      ExtractTemporaryFile('activeHyperV.ps1');
-      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\activeHyperV.ps1" -Verb RunAs'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+      ExtractTemporaryFile('activeHyperV.bat');
+      Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+      //ExtractTemporaryFile('activeHyperV.ps1');
+      //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\activeHyperV.ps1" -Verb RunAs'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
       CreateRunOnceEntry;
       NeedsRestart := True;
       Result := QuitMessage1Reboot;
