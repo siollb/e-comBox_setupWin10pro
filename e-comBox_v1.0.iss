@@ -11,7 +11,7 @@
 AppId={{AE3F5FEF-D723-417C-B5F3-9D491655D7DB}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-MinVersion=10.0
+;MinVersion=10.0.15063
 ;OnlyBelowVersion=6.0
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
