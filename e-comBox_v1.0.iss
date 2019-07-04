@@ -36,8 +36,8 @@ Source: "fichierTemoin.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "fichierTemoinBis.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "checkHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "activeHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "startDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installGit.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installPortainer.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installApplication.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
@@ -172,8 +172,8 @@ begin
     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
     //ExtractTemporaryFile('installPortainer.ps1');
     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    //ExtractTemporaryFile('installApplication.ps1');
-    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    ExtractTemporaryFile('installApplication.ps1');
+    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
   end;
 end;
 

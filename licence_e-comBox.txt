@@ -6,5 +6,5 @@ Vous êtes autorisé à utiliser, partager / copier, distribuer et adapter l'applic
 
 Vous n'êtes pas autorisé à :
   - faire un usage commercial de cette application ou de tout ou partie de l'application ;
-  - à appliquer des conditions légales ou des mesures techniques qui restreindraient légalement autrui à utiliser l'application e-comBox dans les conditions décrites par la licence.
+  - appliquer des conditions légales ou des mesures techniques qui restreindraient légalement autrui à utiliser l'application e-comBox dans les conditions décrites par la licence.
 
