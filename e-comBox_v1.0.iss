@@ -35,31 +35,35 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Source: "fichierTemoin.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "fichierTemoinBis.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "checkHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "activeHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
+;Source: "activeHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "configDocker.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "installGit.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "installPortainer.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "installApplication.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "installPortainer.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "installApplication.ps1"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
-; Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
-; Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installApplication.ps1"""""; WorkingDir: "{app}";
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installGit.ps1"""""; WorkingDir: "{app}";
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\configDocker.ps1"""""; WorkingDir: "{app}";
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}";
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installApplication.ps1"""""; WorkingDir: "{app}";
 
 [LangOptions]
-LanguageID=$040C
+;LanguageID=$040C
 
 [Code]
 const
   RunOnceName = 'Redémarrage de la machine';
 
-  QuitMessageReboot = 'L''installation de pré-requis est nécessaire. Merci de redémarrer votre ordinateur. ''#13 #13''Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Merci de redémarrer votre ordinateur. ''#13 #13''Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage2Reboot = 'L''installation de Docker a été effectué. Merci de redémarrer votre ordinateur. ''#13 #13''Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez. ''#13 #13'' Vous pourrez également fermer le popup de bienvenue de Docker';
+  QuitMessageReboot = 'L''installation de pré-requis est nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
+  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Votre ordinateur va redémarré. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
+  QuitMessage2Reboot = 'L''installation de Docker a été effectué. Votre ordinateur va redémarré. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez. '#13#13'Vous pourrez également fermer le popup de bienvenue de Docker.';
   QuitMessageError = 'Erreur. Il est impossible de continuer.';
 
 var
@@ -149,7 +153,7 @@ begin
       NeedsRestart := True;
       Result := QuitMessage1Reboot;
       end else if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
-       MsgBox('Docker n''est pas installé', mbInformation, mb_Ok);
+       MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Merci de patienter.', mbInformation, mb_Ok);
        ExtractTemporaryFile('fichierTemoinBis.ps1');
        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\fichierTemoinBis.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
        ExtractTemporaryFile('installDocker.ps1');
@@ -157,25 +161,25 @@ begin
        CreateRunOnceEntry;
        NeedsRestart := True;
        Result := QuitMessage2Reboot;
-       end else begin MsgBox('Docker est déjà installé, l''installation des autres composants se poursuit', mbInformation, mb_Ok); 
+       end else begin MsgBox('Docker est déjà installé. '#13#13' l''installation des autres composants se poursuit.', mbInformation, mb_Ok); 
        end;
   end else
     Result := QuitMessageError;
 end;
 
-procedure CurStepChanged(CurStep: TSetupStep);
-var
-ResultCode: Integer;
-begin
-  if(CurStep=ssInstall) then begin
-    ExtractTemporaryFile('installGit.ps1');
-    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    ExtractTemporaryFile('installPortainer.ps1');
-    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    ExtractTemporaryFile('installApplication.ps1');
-    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-  end;
-end;
+//procedure CurStepChanged(CurStep: TSetupStep);
+//var
+//ResultCode: Integer;
+//begin
+  //if(CurStep=ssInstall) then begin
+    //ExtractTemporaryFile('installGit.ps1');
+    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    //ExtractTemporaryFile('installPortainer.ps1');
+    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    //ExtractTemporaryFile('installApplication.ps1');
+    //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+  //end;
+//end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin

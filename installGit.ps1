@@ -21,7 +21,7 @@ try {
        }
 
        # Téléchargement de le dernière version satble
-       Write-Host "`nTéléchargement de la dernière version stable..." -ForegroundColor Yellow
+       Write-Host "`nTéléchargement de la dernière version stable de Git..." -ForegroundColor Yellow
        Remove-Item -Force $env:TEMP\git-stable.exe -ErrorAction SilentlyContinue
        Invoke-WebRequest -Uri $dlurl -OutFile $env:TEMP\git-stable.exe
 
