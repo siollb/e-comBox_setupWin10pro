@@ -27,6 +27,7 @@ OutputBaseFilename=e-combox_pro_educ_ent_v1.0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+SetupLogging=yes
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -49,10 +50,10 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installGit.ps1"""""; WorkingDir: "{app}";
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\configDocker.ps1"""""; WorkingDir: "{app}";
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}";
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installApplication.ps1"""""; WorkingDir: "{app}";
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installGit.ps1"""""; WorkingDir: "{app}";
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\configDocker.ps1"""""; WorkingDir: "{app}";
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}";
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installApplication.ps1"""""; WorkingDir: "{app}";
 
 [LangOptions]
 ;LanguageID=$040C
@@ -62,12 +63,16 @@ const
   RunOnceName = 'Redémarrage de la machine';
 
   QuitMessageReboot = 'L''installation de pré-requis est nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Votre ordinateur va redémarré. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage2Reboot = 'L''installation de Docker a été effectué. Votre ordinateur va redémarré. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez. '#13#13'Vous pourrez également fermer le popup de bienvenue de Docker.';
+  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
+  QuitMessage2Reboot = 'L''installation de Docker a été effectué. Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez. Vous pourrez également, à ce moment là, fermer le popup de bienvenue de Docker.';
   QuitMessageError = 'Erreur. Il est impossible de continuer.';
 
 var
   Restarted: Boolean;
+
+
+
+
 
 function InitializeSetup(): Boolean;
 begin
@@ -76,7 +81,7 @@ begin
   if not Restarted then begin
     Result := not RegValueExists(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName);
     if not Result then
-      MsgBox(QuitMessageReboot, mbError, mb_Ok);
+      MsgBox(QuitMessageReboot, mbInformation, mb_Ok);
   end else
     Result := True;
 end;
@@ -134,13 +139,13 @@ end;
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
 ResultCode: Integer;
-//ErrorCode: Integer;
-//ReturnCode: Boolean;
+AdresseProxy: string;
+V: Cardinal;
 
-  //ChecksumBefore, ChecksumAfter: String;
 begin
-  //ChecksumBefore := MakePendingFileRenameOperationsChecksum;
   if DetectAndInstallPrerequisites then begin
+
+     // Vérifie si HyperV est activé et l'active au cas où puis redémarre la machine
      ExtractTemporaryFile('checkHyperV.ps1');
      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
      if ResultCode <> 0 then begin
@@ -152,17 +157,43 @@ begin
       CreateRunOnceEntry;
       NeedsRestart := True;
       Result := QuitMessage1Reboot;
-      end else if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
+     end;
+
+     // Vérifie si Dockér est installé et l'installe au cas où puis redémarre la machine
+     if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
        MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Merci de patienter.', mbInformation, mb_Ok);
-       ExtractTemporaryFile('fichierTemoinBis.ps1');
-       Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\fichierTemoinBis.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+       //ExtractTemporaryFile('fichierTemoinBis.ps1');
+       //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\fichierTemoinBis.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
        ExtractTemporaryFile('installDocker.ps1');
        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
        CreateRunOnceEntry;
        NeedsRestart := True;
        Result := QuitMessage2Reboot;
-       end else begin MsgBox('Docker est déjà installé. '#13#13' l''installation des autres composants se poursuit.', mbInformation, mb_Ok); 
-       end;
+
+       // Dans le cas où Docker est installé
+       end else begin 
+       MsgBox('Docker est installé. '#13#13'Avant de poursuivre l''installation, validez le démarrage de Docker si cela vous est demandé.', mbInformation, mb_Ok); 
+     end;
+    // Vérifie si un proxy est activé sur la machine et donne les informations le cas échéant
+ 
+     RegQueryDWordValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings', 'ProxyEnable', V);
+     
+     if IntToStr(V)='1' then begin
+     RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyServer', AdresseProxy);
+     MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) :'#13#10' ' + AdresseProxy + ' Valeur de V ' + IntToStr(V), mbInformation, mb_Ok);
+     end;
+
+     Log('Informations du proxy : ' + AdresseProxy + 'Proxy Enable : ' +IntToStr(V));
+
+    ExtractTemporaryFile('installGit.ps1');
+    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    ExtractTemporaryFile('configDocker.ps1');
+    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\configDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    ExtractTemporaryFile('installPortainer.ps1');
+    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    ExtractTemporaryFile('installApplication.ps1');
+    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+ 
   end else
     Result := QuitMessageError;
 end;

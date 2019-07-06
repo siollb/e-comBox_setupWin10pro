@@ -2,7 +2,7 @@ Cette exécutable ne doit être utilisé que sur Windows 10 professionnel, educatio
 
 Vous vous apprêtez à installer l'application e-comBox qui nécessite les composants suivants :
  - HyperV
- - Docker
+ - Docker Dekstop pour Windows 10
  - Git
 
 Pour installer ces composants, vous devez disposer :
@@ -10,4 +10,6 @@ Pour installer ces composants, vous devez disposer :
   - d'au moins 4 Go de RAM (12 Go minimum sont recommandés pour pouvoir lancer de nombreux sites) ;
   - d'au moins 80 Go de libre sur le disque dur.
 
-Lorsque cela est demandé, vous devrez procéder au redémarrage de voutre machine (probalement au nombre de deux). Fermez toutes les applications et enregistrez votre travail en cours !
+Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue.
+
+Lorsque cela est demandé, vous devrez procéder au redémarrage de votre machine (probablement au nombre de deux). Fermez toutes les applications et enregistrez votre travail en cours !

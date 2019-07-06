@@ -34,7 +34,9 @@ new-item "config.json" –type file -force
  }
 }
 "@ > config.json
+
 Set-Content config.json -Encoding UTF8 -Value (Get-Content config.json)
+
 }
 else {
 new-item "config.json" –type file -force

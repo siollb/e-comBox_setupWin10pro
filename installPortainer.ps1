@@ -1,4 +1,29 @@
-﻿# Récupération de portainer 
+﻿# Détection et configuration d'un éventuel proxy pour Git
+Set-Location -Path C:\Users\$env:USERNAME
+
+$reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+$settings = Get-ItemProperty -Path $reg
+
+if ($settings.ProxyEnable -eq 1) {
+    $adresseProxy = $settings.ProxyServer
+    if ($adresseProxy -ilike "*=*")
+        {
+            $adresseProxy = $adresseProxy -replace "=","://" -split(';') | Select-Object -First 1
+        }
+
+        else
+        {
+            $adresseProxy = "http://" + $adresseProxy
+        }
+    Write-Host "l'adresse du proxy est $adresseProxy"
+    git config --global http.proxy $adresseProxy
+    }
+    else {
+      git config --global --unset http.proxy
+      }
+
+
+# Récupération de portainer 
 
 git clone https://github.com/siollb/e-comBox_portainer.git 2>$null
 
@@ -19,6 +44,6 @@ DOCKER_IP_HOST=$docker_ip_host
 Set-Content .env -Encoding UTF8 -Value (Get-Content .env)
 
 # Lancement de Portainer (qui écoute sur le port 8000)
-# On peut y accèder avec l'URL : http://localhost/portainer:8000
+# On peut y accèder avec l'URL : http://localhost:8000/portainer
 docker-compose up -d
 
