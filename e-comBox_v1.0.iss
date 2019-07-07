@@ -58,6 +58,12 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 [LangOptions]
 ;LanguageID=$040C
 
+[INI]
+Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"
+
+[UninstallDelete]
+Type: files; Name: "{app}\{#MyAppName}.url"
+
 [Code]
 const
   RunOnceName = 'Redémarrage de la machine';
@@ -77,12 +83,16 @@ var
 function InitializeSetup(): Boolean;
 begin
   Restarted := ExpandConstant('{param:restart|0}') = '1';
-
+  MsgBox('Fonction InitializeSetup Début' , mbInformation, mb_Ok);
   if not Restarted then begin
     Result := not RegValueExists(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName);
+    MsgBox('Fonction InitializeSetup if not restarted' , mbInformation, mb_Ok);
     if not Result then
+      MsgBox('Fonction InitializeSetup if not result' , mbInformation, mb_Ok);
       MsgBox(QuitMessageReboot, mbInformation, mb_Ok);
+      
   end else
+    MsgBox('Fonction InitializeSetup if restart' , mbInformation, mb_Ok);
     Result := True;
 end;
 
@@ -93,7 +103,7 @@ begin
   (*** Return False if missing prerequisites were detected but their installation failed, else return True. ***)
 
   //<your code here>
- 
+   MsgBox('Message dans la fonction DetectAndInstallPrerequisites', mbInformation, mb_Ok);
   Result:= true;
 end;
 
@@ -138,6 +148,7 @@ end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
+ResultCodeHyperV: Integer;
 ResultCode: Integer;
 AdresseProxy: string;
 V: Cardinal;
@@ -147,8 +158,8 @@ begin
 
      // Vérifie si HyperV est activé et l'active au cas où puis redémarre la machine
      ExtractTemporaryFile('checkHyperV.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-     if ResultCode <> 0 then begin
+     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCodeHyperV);
+     if ResultCodeHyperV <> 0 then begin
       MsgBox('Hyper V sera activé', mbInformation, mb_Ok);
       ExtractTemporaryFile('activeHyperV.bat');
       Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
@@ -158,7 +169,7 @@ begin
       NeedsRestart := True;
       Result := QuitMessage1Reboot;
       // Vérifie si Docker est installé et l'installe au cas où puis redémarre la machine
-      end
+     end
       else if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
         MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Merci de patienter.', mbInformation, mb_Ok);
         //ExtractTemporaryFile('fichierTemoinBis.ps1');
@@ -168,7 +179,7 @@ begin
         CreateRunOnceEntry;
         NeedsRestart := True;
         Result := QuitMessage2Reboot;   
-        end
+      end
        // Dans le cas où Docker est installé          
         else begin 
           MsgBox('Docker est installé. '#13#13'Avant de poursuivre l''installation, validez le démarrage de Docker si cela vous est demandé.', mbInformation, mb_Ok); 
@@ -178,29 +189,34 @@ begin
      
           if IntToStr(V)='1' then begin
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyServer', AdresseProxy);
-          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) :'#13#10' ' + AdresseProxy + ' Valeur de V ' + IntToStr(V), mbInformation, mb_Ok);
+          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) et attendre que le service redémarre, ce qu''il fait automatiquement :'#13#13' ' + AdresseProxy + ' '#13#10' ByPass : ', mbInformation, mb_Ok);
           end;
-        end;
-    Log('Informations du proxy : ' + AdresseProxy + 'Proxy Enable : ' +IntToStr(V));
-
-    ExtractTemporaryFile('installGit.ps1');
-    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    ExtractTemporaryFile('configDocker.ps1');
-    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\configDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    ExtractTemporaryFile('installPortainer.ps1');
-    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-    ExtractTemporaryFile('installApplication.ps1');
-    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
- 
+        Log('Informations du proxy : ' + AdresseProxy + 'Proxy Enable : ' +IntToStr(V));
+        MsgBox('Message avant InstallGit' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('installGit.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message après InstallGit' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('configDocker.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\configDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message avant configDocker' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('installPortainer.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('installApplication.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message après installApplication' , mbInformation, mb_Ok);
+      end;
   end else
     Result := QuitMessageError;
 end;
 
-//procedure CurStepChanged(CurStep: TSetupStep);
-//var
-//ResultCode: Integer;
-//begin
-  //if(CurStep=ssInstall) then begin
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+ResultCode: Integer;
+begin
+  if(CurStep=ssInstall) then begin
+  MsgBox('Message dans CurStepchanged' , mbInformation, mb_Ok);
+  end;
     //ExtractTemporaryFile('installGit.ps1');
     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
     //ExtractTemporaryFile('installPortainer.ps1');
@@ -208,7 +224,7 @@ end;
     //ExtractTemporaryFile('installApplication.ps1');
     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
   //end;
-//end;
+end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin

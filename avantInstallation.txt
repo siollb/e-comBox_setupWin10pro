@@ -8,7 +8,7 @@ Vous vous apprêtez à installer l'application e-comBox qui nécessite les composan
 Pour installer ces composants, vous devez disposer :
   - des droits d'administrateur ;
   - d'au moins 4 Go de RAM (12 Go minimum sont recommandés pour pouvoir lancer de nombreux sites) ;
-  - d'au moins 80 Go de libre sur le disque dur.
+  - d'au moins 20 Go de libre sur le disque dur (selon le nombre de sites installés, l'utilisation de l'espace disque sera variable, il ne pourra cependant pas excéder 64 GO).
 
 Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue.
 

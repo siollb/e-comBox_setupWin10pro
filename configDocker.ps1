@@ -4,7 +4,13 @@ New-Item -Name ".docker" -ItemType directory -force
 
 Set-Location -Path C:\Users\$env:USERNAME\.docker\
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+
 $settings = Get-ItemProperty -Path $reg
+$adresseProxy = $settings.ProxyServer
+$proxyEnable = $settings.ProxyEnable
+
+Write-Host "l'adresse du proxy est $adresseProxy"
+Write-Host "le proxy est enable à $proxyEnable"
 
 if ($settings.ProxyEnable -eq 1) {
 $adresseProxy = $settings.ProxyServer
