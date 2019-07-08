@@ -40,7 +40,6 @@ Source: "checkHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "configDocker.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "restartDocker.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "installGit.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installPortainer.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "installApplication.ps1"; DestDir: "{app}"; Flags: ignoreversion
@@ -177,9 +176,9 @@ begin
         //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\fichierTemoinBis.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
         ExtractTemporaryFile('installDocker.ps1');
         Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-        //CreateRunOnceEntry;
-        //NeedsRestart := True;
-        //Result := QuitMessage2Reboot;   
+        CreateRunOnceEntry;
+        NeedsRestart := True;
+        Result := QuitMessage2Reboot;   
       end
        // Dans le cas où Docker est installé          
         else begin 
@@ -191,25 +190,22 @@ begin
           if IntToStr(V)='1' then begin
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyServer', AdresseProxy);
           MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) et attendre que le service redémarre, ce qu''il fait automatiquement :'#13#13' ' + AdresseProxy + ' '#13#10' ByPass : ', mbInformation, mb_Ok);
-          end;           
+          end;
+        Log('Informations du proxy : ' + AdresseProxy + 'Proxy Enable : ' +IntToStr(V));
+        MsgBox('Message avant InstallGit' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('installGit.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message après InstallGit' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('configDocker.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\configDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message avant configDocker' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('installPortainer.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
+        ExtractTemporaryFile('installApplication.ps1');
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        MsgBox('Message après installApplication' , mbInformation, mb_Ok);
       end;
-      Log('Informations du proxy : ' + AdresseProxy + 'Proxy Enable : ' +IntToStr(V));
-      MsgBox('Message avant InstallGit' , mbInformation, mb_Ok);
-      ExtractTemporaryFile('installGit.ps1');
-      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-      MsgBox('Message après InstallGit' , mbInformation, mb_Ok);
-      ExtractTemporaryFile('configDocker.ps1');
-      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\configDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-      //MsgBox('Message avant configDocker' , mbInformation, mb_Ok);
-      //ExtractTemporaryFile('restartDocker.ps1');
-      //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\restartDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-      MsgBox('Message après configDocker' , mbInformation, mb_Ok);
-      ExtractTemporaryFile('installPortainer.ps1');
-      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-      MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
-      ExtractTemporaryFile('installApplication.ps1');
-      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-      MsgBox('Message après installApplication' , mbInformation, mb_Ok);
   end else
     Result := QuitMessageError;
 end;

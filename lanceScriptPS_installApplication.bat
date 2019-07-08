@@ -1,1 +1,0 @@
-powershell.exe -executionpolicy bypass -file "installApplication.ps1"
