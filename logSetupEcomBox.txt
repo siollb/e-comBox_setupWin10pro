@@ -1,0 +1,91 @@
+Starting compile.  [mardi, juillet 09 2019 at 18:42:55]
+Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
+
+[PreCompile] Processing.
+[PreCompile] Processing is still being tested.
+[PreCompile] Processing finished.
+
+[ISPP] Preprocessing.
+[ISPP] Preprocessed.
+
+Parsing [Setup] section, line 11
+Parsing [Setup] section, line 12
+Parsing [Setup] section, line 13
+Parsing [Setup] section, line 14
+Parsing [Setup] section, line 17
+Parsing [Setup] section, line 18
+Parsing [Setup] section, line 19
+Parsing [Setup] section, line 20
+Parsing [Setup] section, line 21
+Parsing [Setup] section, line 22
+Parsing [Setup] section, line 24
+Parsing [Setup] section, line 25
+Parsing [Setup] section, line 26
+Parsing [Setup] section, line 27
+Parsing [Setup] section, line 28
+Parsing [Setup] section, line 29
+Parsing [Setup] section, line 30
+Parsing [Setup] section, line 31
+Reading file (LicenseFile)
+Reading file (InfoBeforeFile)
+Reading file (InfoAfterFile)
+Reading file (WizardImageFile)
+   File: C:\Program Files (x86)\Inno Setup 6\WIZMODERNIMAGE.BMP
+Reading file (WizardSmallImageFile)
+   File: C:\Program Files (x86)\Inno Setup 6\WIZMODERNSMALLIMAGE.BMP
+Preparing Setup program executable
+Determining language code pages
+Parsing [Languages] section, line 34
+   File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
+   Messages in script file
+Reading default messages from Default.isl
+Parsing [Languages] section, line 34
+   File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
+Parsing [LangOptions], [Messages], and [CustomMessages] sections
+   Messages in script file
+Reading [Code] section
+Parsing [Components] section, line 73
+Parsing [Components] section, line 74
+Parsing [Components] section, line 75
+Parsing [Icons] section, line 53
+Parsing [INI] section, line 67
+Parsing [UninstallDelete] section, line 70
+Parsing [Run] section, line 59
+Parsing [Run] section, line 60
+Parsing [Run] section, line 61
+Parsing [Files] section, line 37
+Parsing [Files] section, line 38
+Parsing [Files] section, line 39
+Parsing [Files] section, line 41
+Parsing [Files] section, line 42
+Parsing [Files] section, line 43
+Parsing [Files] section, line 44
+Parsing [Files] section, line 45
+Parsing [Files] section, line 46
+Parsing [Files] section, line 47
+Parsing [Files] section, line 48
+Parsing [Files] section, line 50
+Compiling [Code] section
+Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
+Creating setup files
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\fichierTemoin.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\fichierTemoinBis.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\checkHyperV.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\activeHyperV.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installDocker.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\configProxyDocker.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartDocker.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installGit.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installPortainer.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startPortainer.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installApplication.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartPortainer.ps1
+   Compressing Setup program executable
+   Updating version info
+
+[PostCompile] Processing.
+[PostCompile] Processing is still being tested.
+[PostCompile] Processing finished.
+
+Compile finished.  [mardi, juillet 09 2019 at 18:42:57]
+Total compile time: 00:01,109

@@ -1,9 +1,8 @@
-﻿#Requires -RunAsAdministrator
-# Détection et configuration d'un éventuel proxy pour Docker
-Set-Location -Path C:\Users\$env:USERNAME\
-New-Item -Name ".docker" -ItemType directory -force
+﻿# Détection et configuration d'un éventuel proxy pour Docker
+#Set-Location -Path $env:USERPROFILE\
+#New-Item -Name ".docker" -ItemType directory -force
 
-Set-Location -Path C:\Users\$env:USERNAME\.docker\
+Set-Location -Path $env:USERPROFILE\.docker\
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 
 $settings = Get-ItemProperty -Path $reg
@@ -47,10 +46,11 @@ Set-Content config.json -Encoding ASCII -Value (Get-Content config.json)
 
 }
 else {
-new-item "config.json" –type file -force
+new-item "config.noproxy.json" –type file -force
+ Write-Host "Rien à faire"
 }
 
 #[Environment]::SetEnvironmentVariable("HTTP_PROXY", "http://172.16.160.100:3130", [EnvironmentVariableTarget]::Machine)
 #[Environment]::SetEnvironmentVariable("HTTPS_PROXY", "https://172.16.160.100:3130", [EnvironmentVariableTarget]::Machine)
-[Environment]::SetEnvironmentVariable("HTTP_PROXY", $null, [EnvironmentVariableTarget]::Machine)
-[Environment]::SetEnvironmentVariable("HTTPS_PROXY", $null, [EnvironmentVariableTarget]::Machine)
+#[Environment]::SetEnvironmentVariable("HTTP_PROXY", $null, [EnvironmentVariableTarget]::Machine)
+#[Environment]::SetEnvironmentVariable("HTTPS_PROXY", $null, [EnvironmentVariableTarget]::Machine)

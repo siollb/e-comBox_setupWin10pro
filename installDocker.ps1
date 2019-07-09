@@ -14,4 +14,4 @@ Start-Process "C:\Program Files\Docker\Docker\Docker for Windows.exe"
 #start-process "$env:ProgramFiles\Docker\Docker\Docker for Windows.exe"
 
 # write-host "Docker et docker-compose sont installés."
-Start-Sleep -Seconds 120
+Start-Sleep -Seconds 90

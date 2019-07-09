@@ -28,6 +28,7 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 SetupLogging=yes
+ArchitecturesInstallIn64BitMode=x64 ia64
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -39,12 +40,14 @@ Source: "checkHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 ;Source: "activeHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "configDocker.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "configProxyDocker.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "restartDocker.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "installGit.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installPortainer.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "startPortainer.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "installApplication.ps1"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "restartPortainer.ps1"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
@@ -53,14 +56,15 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installGit.ps1"""""; WorkingDir: "{app}";
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\configDocker.ps1"""""; WorkingDir: "{app}";
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}";
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installApplication.ps1"""""; WorkingDir: "{app}";
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}";
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startPortainer.ps1"""""; WorkingDir: "{app}";
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installApplication.ps1"""""; WorkingDir: "{app}";
 
 [LangOptions]
 ;LanguageID=$040C
 
 [INI]
-Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"
+Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry
 
 [UninstallDelete]
 Type: files; Name: "{app}\{#MyAppName}.url"
@@ -69,6 +73,13 @@ Type: files; Name: "{app}\{#MyAppName}.url"
 Name: "HyperV"; Description: "Active Hyper V"; Types: full; Flags: fixed
 Name: "Docker"; Description: "Docker Dekstop CEE pour Windows 10"; Types: full; Flags: fixed
 Name: "Git"; Description: "Git pour Windows"; Types: full; Flags: fixed
+
+[ThirdParty]
+CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
+
+[Messages]
+french.SelectComponentsDesc=Pour que l'application e-comBox fonctionne, les composants ci-dessous doivent être installés. Vous devez disposer des droits d'administrateur.
+french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. Cliquez sur suivant pour continuer.
 
 [Code]
 const
@@ -89,12 +100,12 @@ var
 function InitializeSetup(): Boolean;
 begin
   Restarted := ExpandConstant('{param:restart|0}') = '1';
-  MsgBox('Fonction InitializeSetup Début' , mbInformation, mb_Ok);
+  //MsgBox('Fonction InitializeSetup Début' , mbInformation, mb_Ok);
   if not Restarted then begin
     Result := not RegValueExists(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName);
-    MsgBox('Fonction InitializeSetup if not restarted' , mbInformation, mb_Ok);
+    //MsgBox('Fonction InitializeSetup if not restarted' , mbInformation, mb_Ok);
     if not Result then
-      MsgBox('Fonction InitializeSetup if not result' , mbInformation, mb_Ok);
+      //MsgBox('Fonction InitializeSetup if not result' , mbInformation, mb_Ok);
       MsgBox(QuitMessageReboot, mbInformation, mb_Ok);
       
   end else
@@ -109,7 +120,7 @@ begin
   (*** Return False if missing prerequisites were detected but their installation failed, else return True. ***)
 
   //<your code here>
-   MsgBox('Message dans la fonction DetectAndInstallPrerequisites', mbInformation, mb_Ok);
+  // MsgBox('Message dans la fonction DetectAndInstallPrerequisites', mbInformation, mb_Ok);
   Result:= true;
 end;
 
@@ -153,16 +164,10 @@ end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
-WasVisible: Boolean;
 ResultCodeHyperV: Integer;
 ResultCode: Integer;
-AdresseProxy: string;
-ProxyByPass: string;
-V: Cardinal;
 
 begin
-  
-  WasVisible := WizardForm.PreparingLabel.Visible;
   
   if DetectAndInstallPrerequisites then begin
 
@@ -179,17 +184,29 @@ begin
       NeedsRestart := True;
       Result := QuitMessage1Reboot;
       end;
+    end else
+    Result := QuitMessageError;
+end;
 
-     // Vérifie si Docker est installé et l'installe et le configure au cas où.
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+ResultCode: Integer;
+AdresseProxy: string;
+ProxyByPass: string;
+V: Cardinal;
+begin
+  if(CurStep=ssInstall) then begin
+   //MsgBox('Message avant verif docker' , mbInformation, mb_Ok);
+    // Vérifie si Docker est installé et l'installe et le configure au cas où.
      if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
        MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
        ExtractTemporaryFile('installDocker.ps1');
        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-       
+       MsgBox('Docker a été installé. '#13#13' Vous pouvez fermer sans crainte la fenêtre "Welcome" de bienvenue', mbInformation, mb_Ok);
        // Configuration de Docker
-       ExtractTemporaryFile('configDocker.ps1');
-       Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\configDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-       MsgBox('Message après configDocker' , mbInformation, mb_Ok);     
+       ExtractTemporaryFile('configProxyDocker.ps1');
+       Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\configProxyDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+       //MsgBox('Message après configDocker' , mbInformation, mb_Ok);     
 
        // Vérifie si un proxy est activé sur la machine et donne les informations le cas échéant
        RegQueryDWordValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings', 'ProxyEnable', V);
@@ -201,28 +218,20 @@ begin
          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) et attendre que le service redémarre, ce qu''il fait automatiquement :'#13#13' ' + AdresseProxy + ' '#13#10' ByPass : ' + ProxyByPass, mbInformation, mb_Ok);
          end;
         Log('Proxy Enable : ' +IntToStr(V) + 'Informations du proxy : ' + AdresseProxy + 'Proxy by pass : " ' + ProxyByPass);
-    end                    
-  end else
-    Result := QuitMessageError;
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
-var
-ResultCode: Integer;
-begin
-  if(CurStep=ssInstall) then begin
-   MsgBox('Message dans CurStepchanged' , mbInformation, mb_Ok);
-   
-   MsgBox('Message avant InstallGit' , mbInformation, mb_Ok);
+     end;                    
+   //MsgBox('Message avant InstallGit' , mbInformation, mb_Ok);
    ExtractTemporaryFile('installGit.ps1');
    Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   MsgBox('Message après InstallGit' , mbInformation, mb_Ok); 
-   ExtractTemporaryFile('installPortainer.ps1');
-   Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
-   ExtractTemporaryFile('installApplication.ps1');
-   Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   MsgBox('Message après installApplication' , mbInformation, mb_Ok);
+   //MsgBox('Message après InstallGit' , mbInformation, mb_Ok); 
+   //ExtractTemporaryFile('installPortainer.ps1');
+   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+   //MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
+   //ExtractTemporaryFile('startPortainer.ps1');
+   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\startPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+   //MsgBox('Message après startPortainer' , mbInformation, mb_Ok);
+   //ExtractTemporaryFile('installApplication.ps1');
+   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+   //MsgBox('Message après installApplication' , mbInformation, mb_Ok);
   end;
 end;
 
