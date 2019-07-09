@@ -65,6 +65,11 @@ Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; Str
 [UninstallDelete]
 Type: files; Name: "{app}\{#MyAppName}.url"
 
+[Components]
+Name: "HyperV"; Description: "Active Hyper V"; Types: full; Flags: fixed
+Name: "Docker"; Description: "Docker Dekstop CEE pour Windows 10"; Types: full; Flags: fixed
+Name: "Git"; Description: "Git pour Windows"; Types: full; Flags: fixed
+
 [Code]
 const
   RunOnceName = 'Redémarrage de la machine';

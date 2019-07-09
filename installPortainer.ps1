@@ -1,5 +1,5 @@
 ﻿# Détection et configuration d'un éventuel proxy pour Git
-Set-Location -Path C:\Users\$env:USERNAME
+Set-Location -Path $env:USERPROFILE
 
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 $settings = Get-ItemProperty -Path $reg
@@ -34,7 +34,7 @@ $docker_ip_host = "$docker_ip_host"
 $docker_ip_host = $docker_ip_host.Trim()
 
 # Mise à jour de l'adresse IP dans le fichier ".env"
-Set-Location -Path C:\Users\$env:USERNAME\e-comBox_portainer\
+Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
 
 @"
 DOCKER_IP_LOCALHOST=127.0.0.1
@@ -46,4 +46,3 @@ Set-Content .env -Encoding UTF8 -Value (Get-Content .env)
 # Lancement de Portainer (qui écoute sur le port 8000)
 # On peut y accèder avec l'URL : http://localhost:8000/portainer
 docker-compose up -d
-
