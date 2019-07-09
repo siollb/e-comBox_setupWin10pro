@@ -2,7 +2,11 @@
 #Set-Location -Path $env:USERPROFILE\
 #New-Item -Name ".docker" -ItemType directory -force
 
-Set-Location -Path $env:USERPROFILE\.docker\
+Set-Location -Path $env:USERPROFILE\.docker
+#Set-Location -Path C:\Users\Daniel\.docker
+
+New-Item -Name "fichierTemoinConfigProyx.txt" -ItemType file -Value "Deuxième passage."  -force
+
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 
 $settings = Get-ItemProperty -Path $reg
@@ -49,6 +53,8 @@ else {
 new-item "config.noproxy.json" –type file -force
  Write-Host "Rien à faire"
 }
+
+#cd $env:USERPROFILE\.docker\
 
 #[Environment]::SetEnvironmentVariable("HTTP_PROXY", "http://172.16.160.100:3130", [EnvironmentVariableTarget]::Machine)
 #[Environment]::SetEnvironmentVariable("HTTPS_PROXY", "https://172.16.160.100:3130", [EnvironmentVariableTarget]::Machine)

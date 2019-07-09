@@ -5,6 +5,7 @@ $docker_ip_host = $docker_ip_host.Trim()
 
 # Mise à jour de l'adresse IP dans le fichier ".env"
 Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
+#Set-Location -Path C:\Users\Daniel\e-comBox_portainer\
 
 @"
 DOCKER_IP_LOCALHOST=127.0.0.1
@@ -15,5 +16,4 @@ Set-Content .env -Encoding UTF8 -Value (Get-Content .env)
 
 # Lancement de Portainer (qui écoute sur le port 8880)
 # On peut y accèder avec l'URL : http://localhost:8880/portainer
-docker-compose down
 docker-compose up -d

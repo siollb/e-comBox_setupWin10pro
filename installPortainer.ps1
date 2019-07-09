@@ -1,5 +1,8 @@
 ﻿# Détection et configuration d'un éventuel proxy pour Git
 Set-Location -Path $env:USERPROFILE
+#Set-Location -Path C:\Users\Daniel
+
+New-Item -Name "fichierTemoinInstallPortainer.txt" -ItemType file -Value "Deuxième passage."  -force
 
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 $settings = Get-ItemProperty -Path $reg

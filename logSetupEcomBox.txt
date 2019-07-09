@@ -1,4 +1,4 @@
-Starting compile.  [mardi, juillet 09 2019 at 18:42:55]
+Starting compile.  [mardi, juillet 09 2019 at 19:53:39]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -50,9 +50,6 @@ Parsing [Components] section, line 75
 Parsing [Icons] section, line 53
 Parsing [INI] section, line 67
 Parsing [UninstallDelete] section, line 70
-Parsing [Run] section, line 59
-Parsing [Run] section, line 60
-Parsing [Run] section, line 61
 Parsing [Files] section, line 37
 Parsing [Files] section, line 38
 Parsing [Files] section, line 39
@@ -87,5 +84,5 @@ Creating setup files
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [mardi, juillet 09 2019 at 18:42:57]
-Total compile time: 00:01,109
+Compile finished.  [mardi, juillet 09 2019 at 19:53:40]
+Total compile time: 00:01,171
