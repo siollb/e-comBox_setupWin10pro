@@ -29,6 +29,9 @@ SolidCompression=yes
 WizardStyle=modern
 SetupLogging=yes
 ArchitecturesInstallIn64BitMode=x64 ia64
+AllowNoIcons=True
+AlwaysUsePersonalGroup=True
+UninstallLogMode=overwrite
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -38,8 +41,11 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 ; Les scripts qui vont permettre d'initialiser l'application
 Source: "lanceScriptPS_initialisationApplication.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "initialisationApplication.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "lanceScriptPS_installPortainer.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "lanceScriptPS_startPortainer.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "lanceScriptPS_startApplication.bat"; DestDir: "{app}"; Flags: ignoreversion
 
-; Les scripts bat qui vont être utlisés dans les shortcut
+; Les scripts bat supplémentaires qui vont être utlisés dans les shortcut
 Source: "lanceScriptPS_restartPortainer.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "lanceScriptPS_restartApplication.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "lanceScriptPS_restartDocker.bat"; DestDir: "{app}"; Flags: ignoreversion
@@ -64,9 +70,10 @@ Source: "startApplication.ps1"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_startApplication.bat";
-Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
-Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\lanceScriptPS_restartApplication.bat"; Tasks: quicklaunchicon
+Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_initialisationApplication.bat"
+Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
+Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
+Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\lanceScriptPS_restartApplication.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
@@ -96,7 +103,6 @@ Name: "Git"; Description: "Git pour Windows"; Types: full; Flags: fixed
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
-
 [ThirdParty]
 CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
 
@@ -104,6 +110,9 @@ CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
 french.SelectComponentsDesc=Pour que l'application e-comBox fonctionne, les composants ci-dessous doivent être installés. Vous devez disposer des droits d'administrateur.
 french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. Cliquez sur suivant pour continuer.
 french.FinishedLabel=L'assistant a terminé l'installation de [name] sur votre ordinateur. Vous devez maintenant l'initialiser à l'aide du lien correspondant que vous trouverez dans le menu [name] du programme de démarrage.
+
+[CustomMessages]
+cmIconForAllUser=Créer une icône sur le bureau
 
 [Code]
 const
@@ -117,30 +126,6 @@ const
 
 var
   Restarted: Boolean;
-
-
-var
-  cbIconForAllUser: TNewCheckBox;
- 
-procedure InitializeWizard();
-begin
-  cbIconForAllUser         := TNewCheckBox.Create(WizardForm);
-  cbIconForAllUser.Parent  := WizardForm.SelectTasksPage;
-  cbIconForAllUser.Left    := WizardForm.NoIconsCheck.Left; 
-  cbIconForAllUser.Top     := WizardForm.NoIconsCheck.Top;
-  cbIconForAllUser.Width   := 350;
-  cbIconForAllUser.Caption := ExpandConstant('{cm:cmIconForAllUser}');    
-//  cbIconForAllUser.Checked := True;
-end;
- 
-Function PathIcon(Path: String): String;
-begin
-  if cbIconForAllUser.Checked then
-    Result := ExpandConstant('{commondesktop}}')
-  else
-    Result := ExpandConstant('{{userdesktop}}');
-end;
-
 
 function InitializeSetup(): Boolean;
 begin
@@ -273,20 +258,20 @@ begin
      end;       
   end;
    
-  if(CurStep=ssPostInstall) then begin                
-   ExtractTemporaryFile('installPortainer.ps1');
-   Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
-   ExtractTemporaryFile('startPortainer.ps1');
-   Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\startPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+  //if(CurStep=ssPostInstall) then begin                
+   //ExtractTemporaryFile('installPortainer.ps1');
+   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+   //MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
+   //ExtractTemporaryFile('startPortainer.ps1');
+   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\startPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
    
    //ExtractTemporaryFile('lanceScriptPS_startPortainer.bat');
    //Exec(ExpandConstant('{app}\lanceScriptPS_startPortainer.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-   MsgBox('Message après startPortainer' , mbInformation, mb_Ok);
-   ExtractTemporaryFile('startApplication.ps1');
-   Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\startApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+   //MsgBox('Message après startPortainer' , mbInformation, mb_Ok);
+   //ExtractTemporaryFile('startApplication.ps1');
+   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\startApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
    //MsgBox('L''application e-comBox est installée et démarrée. Vous pouvez la lancer via son URL http://localhost:8888 ou via son icône de lancement' , mbInformation, mb_Ok);
-  end;
+  //end;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;

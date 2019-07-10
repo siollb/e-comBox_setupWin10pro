@@ -1,4 +1,4 @@
-Starting compile.  [mercredi, juillet 10 2019 at 14:38:30]
+Starting compile.  [mercredi, juillet 10 2019 at 17:08:40]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -25,6 +25,9 @@ Parsing [Setup] section, line 28
 Parsing [Setup] section, line 29
 Parsing [Setup] section, line 30
 Parsing [Setup] section, line 31
+Parsing [Setup] section, line 32
+Parsing [Setup] section, line 33
+Parsing [Setup] section, line 34
 Reading file (LicenseFile)
 Reading file (InfoBeforeFile)
 Reading file (WizardImageFile)
@@ -33,44 +36,56 @@ Reading file (WizardSmallImageFile)
    File: C:\Program Files (x86)\Inno Setup 6\WIZMODERNSMALLIMAGE.BMP
 Preparing Setup program executable
 Determining language code pages
-Parsing [Languages] section, line 34
+Parsing [Languages] section, line 37
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
    Messages in script file
 Reading default messages from Default.isl
-Parsing [Languages] section, line 34
+Parsing [Languages] section, line 37
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 86
-Parsing [Components] section, line 87
-Parsing [Components] section, line 88
-Parsing [Tasks] section, line 92
-Parsing [Tasks] section, line 93
-Parsing [Icons] section, line 63
-Parsing [Icons] section, line 64
-Parsing [Icons] section, line 65
-Parsing [INI] section, line 80
-Parsing [UninstallDelete] section, line 83
-Parsing [Files] section, line 38
-Parsing [Files] section, line 39
-Parsing [Files] section, line 40
-Parsing [Files] section, line 41
+Parsing [Components] section, line 98
+Parsing [Components] section, line 99
+Parsing [Components] section, line 100
+Parsing [Tasks] section, line 104
+Parsing [Tasks] section, line 105
+Parsing [Icons] section, line 73
+Parsing [Icons] section, line 74
+Parsing [Icons] section, line 75
+Parsing [Icons] section, line 76
+Parsing [Icons] section, line 77
+Parsing [INI] section, line 92
+Parsing [UninstallDelete] section, line 95
+Parsing [Files] section, line 42
+Parsing [Files] section, line 43
 Parsing [Files] section, line 44
 Parsing [Files] section, line 45
 Parsing [Files] section, line 46
-Parsing [Files] section, line 47
+Parsing [Files] section, line 49
+Parsing [Files] section, line 50
 Parsing [Files] section, line 51
-Parsing [Files] section, line 53
+Parsing [Files] section, line 52
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
 Parsing [Files] section, line 56
 Parsing [Files] section, line 57
-Parsing [Files] section, line 58
-Parsing [Files] section, line 59
+Parsing [Files] section, line 61
+Parsing [Files] section, line 63
+Parsing [Files] section, line 64
+Parsing [Files] section, line 65
+Parsing [Files] section, line 66
+Parsing [Files] section, line 67
+Parsing [Files] section, line 68
+Parsing [Files] section, line 69
 Compiling [Code] section
 Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
 Creating setup files
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_initialisationApplication.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\initialisationApplication.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_installPortainer.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_startPortainer.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_startApplication.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_restartPortainer.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_restartApplication.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_restartDocker.bat
@@ -84,15 +99,15 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installGit.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installPortainer.ps1
-   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_startPortainer.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startPortainer.ps1
-   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installApplication.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startApplication.ps1
    Compressing Setup program executable
    Updating version info
 
+Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [mercredi, juillet 10 2019 at 14:38:31]
-Total compile time: 00:00,922
+Compile finished.  [mercredi, juillet 10 2019 at 17:08:41]
+Total compile time: 00:01,703
