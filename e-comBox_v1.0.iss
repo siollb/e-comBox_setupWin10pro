@@ -32,6 +32,7 @@ ArchitecturesInstallIn64BitMode=x64 ia64
 AllowNoIcons=True
 AlwaysUsePersonalGroup=True
 UninstallLogMode=overwrite
+AlwaysRestart=True
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -73,6 +74,7 @@ Source: "startApplication.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_initialisationApplication.bat"
 Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
 Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\lanceScriptPS_restartApplication.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
@@ -109,10 +111,8 @@ CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
 [Messages]
 french.SelectComponentsDesc=Pour que l'application e-comBox fonctionne, les composants ci-dessous doivent être installés. Vous devez disposer des droits d'administrateur.
 french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. Cliquez sur suivant pour continuer.
-french.FinishedLabel=L'assistant a terminé l'installation de [name] sur votre ordinateur. Vous devez maintenant l'initialiser à l'aide du lien correspondant que vous trouverez dans le menu [name] du programme de démarrage.
-
-[CustomMessages]
-cmIconForAllUser=Créer une icône sur le bureau
+french.FinishedLabel=L'assistant a terminé l'installation de [name] sur votre ordinateur.
+french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous devez, au prochain redémarrage, initialiser [name] à l'aide du lien correspondant que vous trouverez dans le menu [name] du programme de démarrage.
 
 [Code]
 const
