@@ -16,4 +16,5 @@ Set-Content .env -Encoding UTF8 -Value (Get-Content .env)
 
 # Lancement de Portainer (qui écoute sur le port 8880)
 # On peut y accèder avec l'URL : http://localhost:8880/portainer
+
 docker-compose up -d

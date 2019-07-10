@@ -11,4 +11,4 @@ net start com.docker.service
 
 
 Start-Process "C:\Program Files\Docker\Docker\Docker for Windows.exe"
-sleep 120
+Start-Sleep -Seconds 90

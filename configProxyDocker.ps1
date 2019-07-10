@@ -5,8 +5,6 @@
 Set-Location -Path $env:USERPROFILE\.docker
 #Set-Location -Path C:\Users\Daniel\.docker
 
-New-Item -Name "fichierTemoinConfigProyx.txt" -ItemType file -Value "Deuxième passage."  -force
-
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 
 $settings = Get-ItemProperty -Path $reg
@@ -53,6 +51,8 @@ else {
 new-item "config.noproxy.json" –type file -force
  Write-Host "Rien à faire"
 }
+
+New-Item -Name "fichierTemoinConfigProyx.txt" -ItemType file -Value "Deuxième passage."  -force
 
 #cd $env:USERPROFILE\.docker\
 
