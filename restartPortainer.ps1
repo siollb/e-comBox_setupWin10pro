@@ -1,19 +1,13 @@
-﻿# Récupération et mise au bon format de l'adresse IP de l'hôte
-$docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPv4Address
-$docker_ip_host = "$docker_ip_host"
-$docker_ip_host = $docker_ip_host.Trim()
+﻿$Path = Test-Path $env:USERPROFILE\e-comBox_portainer\
 
-# Mise à jour de l'adresse IP dans le fichier ".env"
-Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
+If ($Path -eq $False) {
+    # Installation de Portainer sur Git
+    Write-host "    --> This folder does not exist." -Fore Red
+    Start-Process -wait lanceScriptPS_installPortainer.bat
+    else Set-Location -Path
+    Write-host "    --> This folder exist." -Fore blue
+    # Arrêt de Portainer
+    docker-compose down
+}
 
-@"
-DOCKER_IP_LOCALHOST=127.0.0.1
-DOCKER_IP_HOST=$docker_ip_host
-"@ > .env
-
-Set-Content .env -Encoding UTF8 -Value (Get-Content .env)
-
-# Lancement de Portainer (qui écoute sur le port 8880)
-# On peut y accèder avec l'URL : http://localhost:8880/portainer
-docker-compose down
-docker-compose up -d
+Start-Process -wait lanceScriptPS_startPortainer.bat

@@ -1,1 +1,1 @@
-powershell.exe -executionpolicy bypass -file "startPortainer.ps1"
+powershell.exe -executionpolicy bypass -file "restartPortainer.ps1"

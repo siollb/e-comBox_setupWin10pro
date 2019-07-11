@@ -43,7 +43,6 @@ new-item "config.json" –type file -force
 }
 "@ > config.json
 
-#Set-Content config.json -Encoding UTF8 -Value (Get-Content config.json)
 Set-Content config.json -Encoding ASCII -Value (Get-Content config.json)
 
 }
@@ -51,8 +50,6 @@ else {
 new-item "config.noproxy.json" –type file -force
  Write-Host "Rien à faire"
 }
-
-New-Item -Name "fichierTemoinConfigProyx.txt" -ItemType file -Value "Deuxième passage."  -force
 
 #cd $env:USERPROFILE\.docker\
 

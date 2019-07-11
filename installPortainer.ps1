@@ -1,6 +1,5 @@
 ﻿# Détection et configuration d'un éventuel proxy pour Git
 Set-Location -Path $env:USERPROFILE
-#Set-Location -Path C:\Users\Daniel
 
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 $settings = Get-ItemProperty -Path $reg
@@ -28,6 +27,3 @@ if ($settings.ProxyEnable -eq 1) {
 
 git clone https://github.com/siollb/e-comBox_portainer.git 2>$null
 
-#Start-Sleep -Seconds 45
-
-New-Item -Name "fichierTemoinInstallPortainer.txt" -ItemType file -Value "Deuxième passage."  -force
