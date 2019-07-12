@@ -1,4 +1,4 @@
-Starting compile.  [jeudi, juillet 11 2019 at 13:21:23]
+Starting compile.  [samedi, juillet 13 2019 at 01:13:51]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -45,33 +45,38 @@ Parsing [Languages] section, line 37
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 100
-Parsing [Components] section, line 101
-Parsing [Components] section, line 102
-Parsing [Tasks] section, line 106
-Parsing [Tasks] section, line 107
-Parsing [Icons] section, line 74
-Parsing [Icons] section, line 75
-Parsing [Icons] section, line 76
-Parsing [Icons] section, line 77
+Parsing [Components] section, line 104
+Parsing [Components] section, line 105
+Parsing [Components] section, line 106
+Parsing [Tasks] section, line 110
+Parsing [Tasks] section, line 111
+Parsing [Dirs] section, line 128
+Parsing [Dirs] section, line 129
 Parsing [Icons] section, line 78
-Parsing [INI] section, line 94
-Parsing [UninstallDelete] section, line 97
-Parsing [Run] section, line 88
+Parsing [Icons] section, line 79
+Parsing [Icons] section, line 81
+Parsing [Icons] section, line 82
+Parsing [INI] section, line 98
+Parsing [UninstallDelete] section, line 101
+Parsing [Run] section, line 92
+Parsing [UninstallRun] section, line 123
+Parsing [UninstallRun] section, line 124
+Parsing [UninstallRun] section, line 125
+Parsing [Files] section, line 41
 Parsing [Files] section, line 42
 Parsing [Files] section, line 43
 Parsing [Files] section, line 44
 Parsing [Files] section, line 45
-Parsing [Files] section, line 46
+Parsing [Files] section, line 48
 Parsing [Files] section, line 49
 Parsing [Files] section, line 50
 Parsing [Files] section, line 51
-Parsing [Files] section, line 52
+Parsing [Files] section, line 53
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
 Parsing [Files] section, line 56
-Parsing [Files] section, line 57
-Parsing [Files] section, line 61
+Parsing [Files] section, line 60
+Parsing [Files] section, line 62
 Parsing [Files] section, line 63
 Parsing [Files] section, line 64
 Parsing [Files] section, line 65
@@ -79,6 +84,13 @@ Parsing [Files] section, line 66
 Parsing [Files] section, line 67
 Parsing [Files] section, line 68
 Parsing [Files] section, line 69
+Parsing [Files] section, line 70
+Parsing [Files] section, line 72
+   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desinstallGit.ps1
+Parsing [Files] section, line 73
+   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desactiveHyperV.bat
+Parsing [Files] section, line 74
+   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desinstallDocker.ps1
 Compiling [Code] section
 Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
 Creating setup files
@@ -97,20 +109,23 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\configProxyDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\checkHyperV.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\activeHyperV.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\downloadDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installDocker.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installGit.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startApplication.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\desinstallGit.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\desactiveHyperV.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\desinstallDocker.ps1
    Compressing Setup program executable
    Updating version info
 
-Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userstartmenu) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 298, Column 3: [Hint] Variable 'FILENAME' never used
-Warning: Line 299, Column 3: [Hint] Variable 'RESULTCODE' never used
+Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [jeudi, juillet 11 2019 at 13:21:24]
-Total compile time: 00:01,078
+Compile finished.  [samedi, juillet 13 2019 at 01:13:52]
+Total compile time: 00:00,985
