@@ -4,9 +4,7 @@ Start-Process -wait lanceScriptPS_configProxyDocker.bat
 
 # Récupération et mise au bon format de l'adresse IP de l'hôte
 #$docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPv4Address
-$docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-WmiObject -Class Win32_IP4RouteTable |
-  where { $_.destination -eq '0.0.0.0' -and $_.mask -eq '0.0.0.0'} |
-  Sort-Object metric1).interfaceindex).IPv4Address
+$docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPv4Address
 $docker_ip_host = "$docker_ip_host"
 $docker_ip_host = $docker_ip_host.Trim()
 
