@@ -1,4 +1,4 @@
-Starting compile.  [samedi, juillet 13 2019 at 13:08:44]
+Starting compile.  [samedi, juillet 13 2019 at 14:02:56]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -45,23 +45,24 @@ Parsing [Languages] section, line 37
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 104
 Parsing [Components] section, line 105
 Parsing [Components] section, line 106
-Parsing [Tasks] section, line 110
+Parsing [Components] section, line 107
 Parsing [Tasks] section, line 111
-Parsing [Dirs] section, line 128
+Parsing [Tasks] section, line 112
 Parsing [Dirs] section, line 129
+Parsing [Dirs] section, line 130
 Parsing [Icons] section, line 78
 Parsing [Icons] section, line 79
 Parsing [Icons] section, line 81
 Parsing [Icons] section, line 82
 Parsing [INI] section, line 98
 Parsing [UninstallDelete] section, line 101
+Parsing [UninstallDelete] section, line 102
 Parsing [Run] section, line 92
-Parsing [UninstallRun] section, line 123
 Parsing [UninstallRun] section, line 124
 Parsing [UninstallRun] section, line 125
+Parsing [UninstallRun] section, line 126
 Parsing [Files] section, line 41
 Parsing [Files] section, line 42
 Parsing [Files] section, line 43
@@ -122,10 +123,10 @@ Creating setup files
    Compressing Setup program executable
    Updating version info
 
-Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
+Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,usercf,userdesktop) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [samedi, juillet 13 2019 at 13:08:46]
-Total compile time: 00:01,391
+Compile finished.  [samedi, juillet 13 2019 at 14:02:57]
+Total compile time: 00:01,047
