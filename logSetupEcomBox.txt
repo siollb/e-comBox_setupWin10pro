@@ -1,4 +1,4 @@
-Starting compile.  [samedi, juillet 13 2019 at 14:02:56]
+Starting compile.  [samedi, juillet 13 2019 at 14:28:26]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -123,10 +123,10 @@ Creating setup files
    Compressing Setup program executable
    Updating version info
 
-Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,usercf,userdesktop) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
+Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [samedi, juillet 13 2019 at 14:02:57]
-Total compile time: 00:01,047
+Compile finished.  [samedi, juillet 13 2019 at 14:28:27]
+Total compile time: 00:01,000

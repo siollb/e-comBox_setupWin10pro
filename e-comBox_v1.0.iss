@@ -99,7 +99,7 @@ Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; Str
 
 [UninstallDelete]
 Type: files; Name: "{app}\{#MyAppName}.url"
-Type: filesandordirs; Name: "{usercf}\e-comBox_portainer"
+Type: filesandordirs; Name: "{userdocs}\..\e-comBox_portainer"
 
 [Components]
 Name: "HyperV"; Description: "Active Hyper V"; Types: full; Flags: fixed
@@ -157,7 +157,8 @@ begin
   end else    
     Result := True;
 end;
-
+
+
 procedure InitializeWizard;
 var
   A: AnsiString;
@@ -253,7 +254,7 @@ begin
        MsgBox('L''assistant d''installation doit activer HyperV', mbInformation, mb_Ok);
        PrepareToInstallWithProgressPage.SetText(('Activation d''hyperV...'), '');
        ExtractTemporaryFile('activeHyperV.bat');
-       Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+       Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
        MsgBox('Le RESULT CODE est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
        PrepareToInstallWithProgressPage.SetProgress (4, 10);
        //Redémarrage de la machine
