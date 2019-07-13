@@ -254,7 +254,7 @@ begin
        MsgBox('L''assistant d''installation doit activer HyperV', mbInformation, mb_Ok);
        PrepareToInstallWithProgressPage.SetText(('Activation d''hyperV...'), '');
        ExtractTemporaryFile('activeHyperV.bat');
-       Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+       Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
        MsgBox('Le RESULT CODE est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
        PrepareToInstallWithProgressPage.SetProgress (4, 10);
        //Redémarrage de la machine
