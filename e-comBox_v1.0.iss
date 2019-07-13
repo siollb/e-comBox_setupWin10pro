@@ -255,7 +255,7 @@ begin
        PrepareToInstallWithProgressPage.SetText(('Activation d''hyperV...'), '');
        ExtractTemporaryFile('activeHyperV.bat');
        Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-       MsgBox('Le RESULT CODE est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
+       //MsgBox('Le RESULT CODE est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
        PrepareToInstallWithProgressPage.SetProgress (4, 10);
        //Redémarrage de la machine
        CreateRunOnceEntry;
@@ -306,13 +306,13 @@ begin
 Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
 
   if(CurStep=ssInstall) then begin
-     MsgBox('Merci de vérifier et d''attendre éventuellement que Docker ait démarré avant de continuer en cliquant sur OK : le statut de Docker dans la barre des tâches doit être sur running et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
+     MsgBox('Merci de vérifier et d''attendre éventuellement que Docker ait démarré avant de continuer en cliquant sur OK. Vous pouvez voir le statut de Docker dans la barre des tâches via son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran : ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
       // Configuration d'un éventuel proxy
-        MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
+        //MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');
         ExtractTemporaryFile('configProxyDocker.ps1');
         Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\scripts\configProxyDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-        MsgBox('Message après configDocker' , mbInformation, mb_Ok);     
+        //MsgBox('Message après configDocker' , mbInformation, mb_Ok);     
         PrepareToInstallWithProgressPage.SetProgress(9, 10);
 
         // Vérifie si un proxy est activé sur la machine et donne les informations le cas échéant
