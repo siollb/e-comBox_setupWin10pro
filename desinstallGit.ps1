@@ -8,7 +8,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 
 
-$installPath = "C:\Program Files\Git\bin\git.exe"
+$installPath = "C:\Program Files\Git\bin\"
 
 ## Some Git stuff might be running.. kill them.
 Stop-Process -processname Bash -erroraction 'silentlycontinue'
@@ -25,7 +25,8 @@ foreach ($uninstaller in $uninstallers)
 ### Invoke the uninstaller.
 #$uninstallerCommandLineOptions = "/SP- /VERYSILENT /SUPPRESSMSGBOXES /FORCECLOSEAPPLICATIONS"
 $uninstallerCommandLineOptions = "/FORCECLOSEAPPLICATIONS"
-Start-Process -Wait -FilePath $uninstaller -ArgumentList $uninstallerCommandLineOptions
+#Start-Process -Wait -FilePath $uninstaller -ArgumentList $uninstallerCommandLineOptions
+Start-Process -Wait -FilePath $uninstaller
 }
 
 ### Remove the folder if it didn't clean up properly.
