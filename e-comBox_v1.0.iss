@@ -306,7 +306,7 @@ begin
 Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
 
   if(CurStep=ssInstall) then begin
-     MsgBox('Merci de vérifier et d''attendre éventuellement que Docker ait démarré avant de continuer en cliquant sur OK. Vous pouvez voir le statut de Docker dans la barre des tâches via son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran : ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
+     MsgBox('Merci de vérifier et d''attendre éventuellement que Docker ait démarré avant de continuer en cliquant sur OK. '#13#13'Vous pouvez voir le statut de Docker dans la barre des tâches via son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13' Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
       // Configuration d'un éventuel proxy
         //MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');

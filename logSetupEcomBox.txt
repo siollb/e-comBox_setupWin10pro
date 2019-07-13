@@ -1,4 +1,4 @@
-Starting compile.  [samedi, juillet 13 2019 at 23:29:23]
+Starting compile.  [dimanche, juillet 14 2019 at 00:01:07]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -128,5 +128,5 @@ Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" bu
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [samedi, juillet 13 2019 at 23:29:25]
-Total compile time: 00:01,516
+Compile finished.  [dimanche, juillet 14 2019 at 00:01:08]
+Total compile time: 00:01,515
