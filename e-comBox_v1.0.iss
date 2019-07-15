@@ -82,6 +82,7 @@ Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
 Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 ;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
+Name: "{group}\Initiliser de nouveau e-comBox"; Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
@@ -123,9 +124,9 @@ french.FinishedLabel=L'assistant a terminé l'installation de e-comBox sur votre 
 french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous devez maintenant initialiser e-comBox en cochant la case ci-dessous ou à l'aide du lien correspondant que vous trouverez dans le menu e-comBox du programme de démarrage.
 
 [UninstallRun]
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallGit.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Git a été désinstallé"; Components: Git
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallDocker.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Docker a été désinstallé"; Components: Git
-Filename: "{tmp}\desactiveHyperV.bat"; Components: HyperV
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallGit.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Git a été désinstallé"; Components: Git
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallDocker.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Docker a été désinstallé"; Components: Docker
+;Filename: "{tmp}\desactiveHyperV.bat"; Components: HyperV
 
 [Dirs]
 Name: "{app}\uninstall"; Flags: uninsalwaysuninstall
@@ -371,33 +372,33 @@ begin
       MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;
 
-procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-var
-  ResultCode: Integer;
+//procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+//var
+//  ResultCode: Integer;
 
-begin
-  if CurUninstallStep = usAppMutexCheck then begin
+//begin
+  //if CurUninstallStep = usAppMutexCheck then begin
 
    // Désinstallation de Git
-   if MsgBox('Voulez-vous désinstaller GIT ?', mbConfirmation, MB_YESNO) = IDYES then begin
+   //if MsgBox('Voulez-vous désinstaller GIT ?', mbConfirmation, MB_YESNO) = IDYES then begin
      //ExtractTemporaryFile('desinstallGit.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\uninstall\desinstallGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   end;
+     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\uninstall\desinstallGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+   //end;
 
    // Désinstallation de Docker
-   if MsgBox('Voulez-vous désinstaller Docker ?', mbConfirmation, MB_YESNO) = IDYES then begin
+   //if MsgBox('Voulez-vous désinstaller Docker ?', mbConfirmation, MB_YESNO) = IDYES then begin
      //ExtractTemporaryFile('desinstallDocker.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\uninstall\desinstallDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   end;
+     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\uninstall\desinstallDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+   //end;
 
    // Déactivation d'hyperV
-   if MsgBox('Voulez-vous désactiver HyperV ', mbConfirmation, MB_YESNO) = IDYES then begin
+   //if MsgBox('Voulez-vous désactiver HyperV ', mbConfirmation, MB_YESNO) = IDYES then begin
      //ExtractTemporaryFile('desactiveHyperV.bat');
-     Exec(ExpandConstant('{app}\uninstall\desactiveHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-     Restarted := True;              
-   end;
-  end;
-end;
+     //Exec(ExpandConstant('{app}\uninstall\desactiveHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+     //Restarted := True;              
+   //end;
+  //end;
+//end;
 
 function UninstallNeedRestart(): Boolean;
 begin
