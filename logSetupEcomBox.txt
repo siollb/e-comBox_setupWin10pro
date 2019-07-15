@@ -1,4 +1,4 @@
-Starting compile.  [dimanche, juillet 14 2019 at 00:01:07]
+Starting compile.  [lundi, juillet 15 2019 at 14:54:47]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -28,6 +28,7 @@ Parsing [Setup] section, line 31
 Parsing [Setup] section, line 32
 Parsing [Setup] section, line 33
 Parsing [Setup] section, line 34
+Parsing [Setup] section, line 35
 Reading file (LicenseFile)
 Reading file (InfoBeforeFile)
 Reading file (WizardImageFile)
@@ -36,48 +37,47 @@ Reading file (WizardSmallImageFile)
    File: C:\Program Files (x86)\Inno Setup 6\WIZMODERNSMALLIMAGE.BMP
 Preparing Setup program executable
 Determining language code pages
-Parsing [Languages] section, line 37
+Parsing [Languages] section, line 38
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
    Messages in script file
 Reading default messages from Default.isl
-Parsing [Languages] section, line 37
+Parsing [Languages] section, line 38
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 105
 Parsing [Components] section, line 106
 Parsing [Components] section, line 107
+Parsing [Components] section, line 108
 Parsing [Tasks] section, line 111
 Parsing [Tasks] section, line 112
 Parsing [Dirs] section, line 129
 Parsing [Dirs] section, line 130
-Parsing [Icons] section, line 78
 Parsing [Icons] section, line 79
-Parsing [Icons] section, line 81
+Parsing [Icons] section, line 80
 Parsing [Icons] section, line 82
-Parsing [INI] section, line 98
-Parsing [UninstallDelete] section, line 101
+Parsing [Icons] section, line 83
+Parsing [INI] section, line 99
 Parsing [UninstallDelete] section, line 102
-Parsing [Run] section, line 92
+Parsing [UninstallDelete] section, line 103
+Parsing [Run] section, line 93
 Parsing [UninstallRun] section, line 124
 Parsing [UninstallRun] section, line 125
 Parsing [UninstallRun] section, line 126
-Parsing [Files] section, line 41
 Parsing [Files] section, line 42
 Parsing [Files] section, line 43
 Parsing [Files] section, line 44
 Parsing [Files] section, line 45
-Parsing [Files] section, line 48
+Parsing [Files] section, line 46
 Parsing [Files] section, line 49
 Parsing [Files] section, line 50
 Parsing [Files] section, line 51
-Parsing [Files] section, line 53
+Parsing [Files] section, line 52
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
 Parsing [Files] section, line 56
-Parsing [Files] section, line 60
-Parsing [Files] section, line 62
+Parsing [Files] section, line 57
+Parsing [Files] section, line 61
 Parsing [Files] section, line 63
 Parsing [Files] section, line 64
 Parsing [Files] section, line 65
@@ -86,11 +86,12 @@ Parsing [Files] section, line 67
 Parsing [Files] section, line 68
 Parsing [Files] section, line 69
 Parsing [Files] section, line 70
-Parsing [Files] section, line 72
-   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desinstallGit.ps1
+Parsing [Files] section, line 71
 Parsing [Files] section, line 73
-   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desactiveHyperV.bat
+   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desinstallGit.ps1
 Parsing [Files] section, line 74
+   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desactiveHyperV.bat
+Parsing [Files] section, line 75
    Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\desinstallDocker.ps1
 Compiling [Code] section
 Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
@@ -128,5 +129,5 @@ Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" bu
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [dimanche, juillet 14 2019 at 00:01:08]
-Total compile time: 00:01,515
+Compile finished.  [lundi, juillet 15 2019 at 14:54:48]
+Total compile time: 00:01,078

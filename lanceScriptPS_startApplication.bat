@@ -1,1 +1,1 @@
-powershell.exe -executionpolicy bypass -file "startApplication.ps1"
+powershell.exe -executionpolicy bypass -file "startApplication.ps1" -windowstyle:hidden

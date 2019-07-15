@@ -32,6 +32,7 @@ ArchitecturesInstallIn64BitMode=x64 ia64
 AllowNoIcons=True
 AlwaysUsePersonalGroup=True
 UninstallLogMode=overwrite
+AllowUNCPath=False
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -89,7 +90,7 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installApplication.ps1"""""; WorkingDir: "{app}"; Flags: waituntilidle
 ;Filename: "{app}\{#MyAppName}.url"; Flags: postinstall
-Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall runhidden; Description: "{cm:LaunchProgram,initialisation}"
+Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
 
 [LangOptions]
 ;LanguageID=$040C
@@ -102,10 +103,10 @@ Type: files; Name: "{app}\{#MyAppName}.url"
 Type: filesandordirs; Name: "{userdocs}\..\e-comBox_portainer"
 
 [Components]
-Name: "HyperV"; Description: "Active Hyper V"; Types: full; Flags: fixed
-Name: "Docker"; Description: "Docker Dekstop CEE pour Windows 10"; Types: full; Flags: fixed
-Name: "Git"; Description: "Git pour Windows"; Types: full; Flags: fixed
-
+Name: "HyperV"; Description: "Active Hyper V"; Types: full custom compact; Flags: fixed
+Name: "Docker"; Description: "Docker Dekstop CEE pour Windows 10"; Types: full compact custom; Flags: fixed
+Name: "Git"; Description: "Git pour Windows"; Types: full compact custom; Flags: fixed
+
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -132,9 +133,9 @@ Name: "{app}\scripts"; Flags: uninsalwaysuninstall
 const
   RunOnceName = 'Redémarrage de la machine';
 
-  QuitMessageReboot = 'L''installation de pré-requis sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
-  QuitMessage2Reboot = 'L''installation de Docker a été effectué. Vous pouvez fermer la fenêtre "Welcome" de bienvenue. '#13#13'Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera dès que vous vous connecterez.';
+  QuitMessageReboot = 'L''installation de pré-requis sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
+  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
+  QuitMessage2Reboot = 'L''installation de Docker a été effectuée. Vous pouvez fermer la fenêtre "Welcome" de bienvenue. '#13#13'Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
   QuitMessageInstallDocker = 'Docker a été installé. '#13#13' Vous pouvez fermer la fenêtre "Welcome" de bienvenue et poursuivre l''installation';
   QuitMessageError = 'Erreur. Il est impossible de continuer.';
 
@@ -241,13 +242,14 @@ begin
      PrepareToInstallWithProgressPage.SetProgress(1, 10);
      PrepareToInstallWithProgressPage.SetText(('Vérification et installation des pré-requis...'), '');
      ExtractTemporaryFile('installGit.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
      //MsgBox('La dernière version de Git a été installé, vous pouvez continuer' , mbInformation, mb_Ok);  
      PrepareToInstallWithProgressPage.SetProgress(2, 10);
      
      // Vérifie si HyperV est activé et l'active au cas où puis redémarre la machine     
      ExtractTemporaryFile('checkHyperV.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCodeHyperV);
+     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOW, ewWaitUntilTerminated, ResultCodeHyperV);
+     MsgBox('Le RESULT CODE est : ' + IntToStr(ResultCodeHyperV), mbInformation, mb_Ok);
      PrepareToInstallWithProgressPage.SetProgress (3, 10);
 
      if ResultCodeHyperV <> 0 then begin
@@ -266,13 +268,13 @@ begin
          if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
            MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
            PrepareToInstallWithProgressPage.SetText(('Installation de Docker...'), '');
-           PrepareToInstallWithProgressPage.SetProgress(5, 10);
+           PrepareToInstallWithProgressPage.SetProgress(4, 10);
            ExtractTemporaryFile('downloadDocker.ps1');
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\downloadDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-           PrepareToInstallWithProgressPage.SetProgress(7, 10);
+           PrepareToInstallWithProgressPage.SetProgress(6, 10);
            ExtractTemporaryFile('installDocker.ps1');
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-           PrepareToInstallWithProgressPage.SetProgress(9, 10);
+           PrepareToInstallWithProgressPage.SetProgress(8, 10);
            ExtractTemporaryFile('lanceDocker.ps1');
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\lanceDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(10, 10);
