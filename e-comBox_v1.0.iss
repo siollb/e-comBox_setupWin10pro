@@ -243,7 +243,7 @@ begin
      PrepareToInstallWithProgressPage.SetText(('Vérification et installation des pré-requis...'), '');
      ExtractTemporaryFile('installGit.ps1');
      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-     //MsgBox('La dernière version de Git a été installé, vous pouvez continuer' , mbInformation, mb_Ok);  
+     MsgBox('La dernière version de Git a été installé, vous pouvez continuer' , mbInformation, mb_Ok);  
      PrepareToInstallWithProgressPage.SetProgress(2, 10);
      
      // Vérifie si HyperV est activé et l'active au cas où puis redémarre la machine     
@@ -257,7 +257,7 @@ begin
        PrepareToInstallWithProgressPage.SetText(('Activation d''hyperV...'), '');
        ExtractTemporaryFile('activeHyperV.bat');
        Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-       //MsgBox('Le RESULT CODE est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
+       MsgBox('Le RESULT CODE est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
        PrepareToInstallWithProgressPage.SetProgress (4, 10);
        //Redémarrage de la machine
        CreateRunOnceEntry;
