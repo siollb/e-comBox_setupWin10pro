@@ -1,2 +1,1 @@
-REM -->  powershell.exe  -executionpolicy bypass -command "& start-process -filepath installPortainer.ps1" -windowstyle:hidden
-powershell.exe -executionpolicy bypass -file "installPortainer.ps1" -windowstyle:hidden
+powershell.exe -executionpolicy bypass -file "installPortainer.ps1"

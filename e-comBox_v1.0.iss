@@ -82,7 +82,7 @@ Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
 Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 ;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
-Name: "{group}\Initiliser de nouveau e-comBox"; Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"
+Name: "{group}\Initialiser de nouveau e-comBox"; Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
@@ -122,6 +122,7 @@ french.SelectComponentsDesc=Pour que l'application e-comBox fonctionne, les comp
 french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. Cliquez sur suivant pour continuer.
 french.FinishedLabel=L'assistant a terminé l'installation de e-comBox sur votre ordinateur.
 french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous devez maintenant initialiser e-comBox en cochant la case ci-dessous ou à l'aide du lien correspondant que vous trouverez dans le menu e-comBox du programme de démarrage.
+french.ConfirmUninstall=Vous vous apprêtez à  désinstaller %1. Si vous n'avez plus besoin des commposants installés (Git, Docker et HyperV), vous pourrez ensuite procéder à leur désinstallation en suivant la procédure mise à disposition. Cliquez sur oui pour continuer.
 
 [UninstallRun]
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallGit.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Git a été désinstallé"; Components: Git
