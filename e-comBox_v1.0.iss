@@ -34,7 +34,7 @@ AlwaysUsePersonalGroup=True
 UninstallLogMode=overwrite
 AllowUNCPath=False
 DisableDirPage=yes
-DisableProgramGroupPage=yes
+ShowComponentSizes=False
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -244,13 +244,13 @@ begin
      PrepareToInstallWithProgressPage.SetProgress(1, 10);
      PrepareToInstallWithProgressPage.SetText(('Vérification et installation des pré-requis...'), '');
      ExtractTemporaryFile('installGit.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
      MsgBox('La dernière version de Git a été installé, vous pouvez continuer' , mbInformation, mb_Ok);  
      PrepareToInstallWithProgressPage.SetProgress(2, 10);
      
      // Vérifie si HyperV est activé et l'active au cas où puis redémarre la machine     
      ExtractTemporaryFile('checkHyperV.ps1');
-     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_SHOW, ewWaitUntilTerminated, ResultCodeHyperV);
+     Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCodeHyperV);
      MsgBox('Le RESULT CODE HYPER V est : ' + IntToStr(ResultCodeHyperV), mbInformation, mb_Ok);
      PrepareToInstallWithProgressPage.SetProgress (3, 10);
 
@@ -270,11 +270,12 @@ begin
          // Vérifie si Docker est installé et l'installe et le configure au cas où.
          if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
            MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
-           PrepareToInstallWithProgressPage.SetText(('Installation de Docker...'), '');
-           PrepareToInstallWithProgressPage.SetProgress(4, 10);
-           ExtractTemporaryFile('downloadDocker.ps1');
-           Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\downloadDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-           PrepareToInstallWithProgressPage.SetProgress(6, 10);
+           PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker...'), '');
+           PrepareToInstallWithProgressPage.SetProgress(5, 10);
+           //ExtractTemporaryFile('downloadDocker.ps1');
+           //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\downloadDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+           //PrepareToInstallWithProgressPage.SetProgress(6, 10);
+           //PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker de Docker...'), '');
            ExtractTemporaryFile('installDocker.ps1');
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(8, 10);
