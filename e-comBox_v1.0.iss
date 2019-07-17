@@ -30,11 +30,16 @@ WizardStyle=modern
 SetupLogging=yes
 ArchitecturesInstallIn64BitMode=x64 ia64
 AllowNoIcons=True
-AlwaysUsePersonalGroup=True
 UninstallLogMode=overwrite
 AllowUNCPath=False
 DisableDirPage=yes
 ShowComponentSizes=False
+DisableProgramGroupPage=yes
+UninstallDisplayIcon={uninstallexe}
+VersionInfoVersion=1.0
+DisableWelcomePage=False
+AlwaysShowDirOnReadyPage=True
+AlwaysShowGroupOnReadyPage=True
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -78,11 +83,12 @@ Source: "desinstallDocker.ps1"; DestDir: "{app}\uninstall"
 
 [Icons]
 ;Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_initialisationApplication.bat"
-Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
-Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
+;Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
+;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 ;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
-Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
-Name: "{group}\Initialiser de nouveau e-comBox"; Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"
+Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
+Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
+;Name: "{group}\Initialiser de nouveau e-comBox"; Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
@@ -91,11 +97,14 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\configDocker.ps1"""""; WorkingDir: "{app}";
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installApplication.ps1"""""; WorkingDir: "{app}"; Flags: waituntilidle
 ;Filename: "{app}\{#MyAppName}.url"; Flags: postinstall
-Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
+Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,l'initialisation de e-comBox}"
+;Filename: "{app}\scripts\lanceScriptPS_installPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
+;Filename: "{app}\scripts\lanceScriptPS_startPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
+;Filename: "{app}\scripts\lanceScriptPS_startApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startApplication.ps1"""""; WorkingDir: "{app}"; Flags: waituntilidle; Description: "{cm:LaunchProgram,initialisation}"
 
-[LangOptions]
+ [LangOptions]
 ;LanguageID=$040C
 
 [INI]
@@ -111,8 +120,8 @@ Name: "Docker"; Description: "Docker Dekstop CEE pour Windows 10"; Types: full c
 Name: "Git"; Description: "Git pour Windows"; Types: full compact custom; Flags: fixed
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
+Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [ThirdParty]
 CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
@@ -122,7 +131,7 @@ french.SelectComponentsDesc=Pour que l'application e-comBox fonctionne, les comp
 french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. Cliquez sur suivant pour continuer.
 french.FinishedLabel=L'assistant a terminé l'installation de e-comBox sur votre ordinateur.
 french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous devez maintenant initialiser e-comBox en cochant la case ci-dessous ou à l'aide du lien correspondant que vous trouverez dans le menu e-comBox du programme de démarrage.
-french.ConfirmUninstall=Vous vous apprêtez à  désinstaller %1. Si vous n'avez plus besoin des commposants installés (Git, Docker et HyperV), vous pourrez ensuite procéder à leur désinstallation en suivant la procédure mise à disposition. Cliquez sur oui pour continuer.
+french.ConfirmUninstall=Vous vous apprêtez à  désinstaller %1. Si vous n'avez plus besoin des composants installés (Git, Docker et HyperV), vous pourrez ensuite procéder à leur désinstallation en suivant la procédure mise à disposition. Cliquez sur oui pour continuer.
 
 [UninstallRun]
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallGit.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Git a été désinstallé"; Components: Git
@@ -139,7 +148,7 @@ const
 
   QuitMessageReboot = 'L''installation de pré-requis sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
   QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
-  QuitMessage2Reboot = 'L''installation de Docker a été effectuée. Vous pouvez fermer la fenêtre "Welcome" de bienvenue. '#13#13'Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
+  QuitMessage2Reboot = 'Suite à l''installation de Docker, votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
   QuitMessageInstallDocker = 'Docker a été installé. '#13#13' Vous pouvez fermer la fenêtre "Welcome" de bienvenue et poursuivre l''installation';
   QuitMessageError = 'Erreur. Il est impossible de continuer.';
 
@@ -247,44 +256,45 @@ begin
      PrepareToInstallWithProgressPage.SetText(('Vérification et installation des pré-requis...'), '');
      ExtractTemporaryFile('installGit.ps1');
      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-     MsgBox('La dernière version de Git a été installé, vous pouvez continuer' , mbInformation, mb_Ok);  
+     //MsgBox('La dernière version de Git a été installé, vous pouvez continuer' , mbInformation, mb_Ok);  
      PrepareToInstallWithProgressPage.SetProgress(2, 10);
      
      // Vérifie si HyperV est activé et l'active au cas où puis redémarre la machine     
      ExtractTemporaryFile('checkHyperV.ps1');
      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\checkHyperV.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCodeHyperV);
-     MsgBox('Le RESULT CODE HYPER V est : ' + IntToStr(ResultCodeHyperV), mbInformation, mb_Ok);
+     //MsgBox('Le RESULT CODE HYPER V est : ' + IntToStr(ResultCodeHyperV), mbInformation, mb_Ok);
      PrepareToInstallWithProgressPage.SetProgress (3, 10);
 
      if ResultCodeHyperV <> 0 then begin
-       if MsgBox('L''assistant d''installation doit activer HyperV, merci de confirmer', mbConfirmation, MB_YESNO) = IDYES then begin
+       //if MsgBox('L''assistant d''installation doit activer HyperV, merci de confirmer', mbConfirmation, MB_YESNO) = IDYES then begin
         PrepareToInstallWithProgressPage.SetText(('Activation d''hyperV...'), '');
         ExtractTemporaryFile('activeHyperV.bat');
-        Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-        MsgBox('Le RESULT CODE de l''activation d''hyperV est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
+        Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+        //MsgBox('Le RESULT CODE de l''activation d''hyperV est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetProgress (4, 10);
         //Redémarrage de la machine
         CreateRunOnceEntry;
         NeedsRestart := True;
         Result := QuitMessage1Reboot;
-        end
+        //end
        end else begin
          // Vérifie si Docker est installé et l'installe et le configure au cas où.
          if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
            MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
            PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker...'), '');
            PrepareToInstallWithProgressPage.SetProgress(5, 10);
-           //ExtractTemporaryFile('downloadDocker.ps1');
-           //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\downloadDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-           //PrepareToInstallWithProgressPage.SetProgress(6, 10);
-           //PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker de Docker...'), '');
+           ExtractTemporaryFile('downloadDocker.ps1');
+           Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\downloadDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+           PrepareToInstallWithProgressPage.SetProgress(7, 10);
+           PrepareToInstallWithProgressPage.SetText(('Installation de Docker...'), '');
            ExtractTemporaryFile('installDocker.ps1');
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(8, 10);
+           PrepareToInstallWithProgressPage.SetText(('Démarrage de Docker...'), '');
            ExtractTemporaryFile('lanceDocker.ps1');
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\lanceDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(10, 10);
-           //MsgBox('Docker a été installé. '#13#13' Vous pouvez fermer la fenêtre "Welcome" de bienvenue et continuer l''installation', mbInformation, mb_Ok);
+           MsgBox('Docker a été installé. '#13#13' Vous pouvez fermer la fenêtre "Welcome" de bienvenue et continuer l''installation', mbInformation, mb_Ok);
            CreateRunOnceEntry;
            NeedsRestart := True;
            Result := QuitMessage2Reboot;
@@ -319,7 +329,7 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
         //MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');
         ExtractTemporaryFile('configProxyDocker.ps1');
-        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\scripts\configProxyDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\scripts\configProxyDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
         //MsgBox('Message après configDocker' , mbInformation, mb_Ok);     
         PrepareToInstallWithProgressPage.SetProgress(9, 10);
 
@@ -368,7 +378,7 @@ procedure DeinitializeSetup();
 begin
   Log('DeinitializeSetup called');
   if FinishedInstall then begin
-     MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox a été initialisée et est opérationnelle.' #13#13 'Vous pouvez la lancer via l''icône du bureau ou le lien du menu de démarrage ou tout simplement en saisissant l''URL suivante http://localhost:8888 dans un navigateur.', mbInformation, MB_OK);
+     MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox a été initialisée et est opérationnelle.' #13#13 'Vous pouvez la lancer en saisissant l''URL suivante http://localhost:8888 dans un navigateur mais il est conseillé d''utiliser l''icône du bureau ou le lien du menu de démarrage qui prennent en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy', mbInformation, MB_OK);
      end else
       MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;

@@ -15,7 +15,7 @@ if ($settings.ProxyEnable -eq 1) {
         {
             $adresseProxy = "http://" + $adresseProxy
         }
-    Write-Host "l'adresse du proxy est $adresseProxy"
+    #Write-Host "l'adresse du proxy est $adresseProxy"
     git config --global http.proxy $adresseProxy
     }
     else {

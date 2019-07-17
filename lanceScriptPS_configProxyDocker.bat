@@ -1,1 +1,1 @@
-powershell.exe -executionpolicy bypass -file "configProxyDocker.ps1"
+START /MIN /B powershell.exe -executionpolicy bypass -file "configProxyDocker.ps1"

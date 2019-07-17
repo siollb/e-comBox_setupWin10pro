@@ -1,1 +1,1 @@
-powershell.exe -executionpolicy bypass -file "startApplication.ps1"
+START /MIN /B powershell.exe -executionpolicy bypass -file "startApplication.ps1" 
