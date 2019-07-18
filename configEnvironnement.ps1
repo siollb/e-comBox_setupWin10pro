@@ -29,9 +29,12 @@ if ($adresseProxy -ilike "*=*")
     
      Write-host ""
      Write-Host "Le système a détecté que vous utilisez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"
-     Write-Host " Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
      Write-Host ""
+     Write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
      Write-host "By Pass : $noProxy"
+
+     Read-Host "Appuyez sur une touche pour continnuer"
+
 }
   else {
    Write-host ""
@@ -94,9 +97,34 @@ If ($docker_ip_host -eq $adressesIPvalides) {
      if ($confirmation -eq "oui") 
       {
       $docker_ip_host=$adresseIP
+
       Write-host ""
       Write-host "L'application e-comBox utilisera dorénavant la nouvelle adresse IP : $docker_ip_host."
-      }
+       # Mise à jour de l'adresse IP dans le fichier ".env"
+      Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
+
+@"
+DOCKER_IP_LOCALHOST=127.0.0.1
+DOCKER_IP_HOST=$docker_ip_host
+"@ > .env
+
+     Set-Content .env -Encoding ASCII -Value (Get-Content .env)
+
+    Write-host ""
+    Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut."
+    Write-host ""
+
+   # Redémarrage de Portainer
+   Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
+   docker-compose down
+   docker-compose up -d
+
+   # Redémarrage de l'application
+   docker rm -f e-combox
+   docker run -dit --name e-combox -v ecombox_data:/usr/local/apache2/htdocs/ --restart always -p 8888:80 aporaf/e-combox:1.0
+   Start-Process "C:\Program Files\e-comBox\e-comBox.url"
+   
+   }
       else {
        Write-host ""
        Write-Host "L'application e-comBox continuera à utiliser l'adresse ip $docker_ip_host."
@@ -104,30 +132,4 @@ If ($docker_ip_host -eq $adressesIPvalides) {
   #}
 }
 
- # Mise à jour de l'adresse IP dans le fichier ".env"
-Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
-
-@"
-DOCKER_IP_LOCALHOST=127.0.0.1
-DOCKER_IP_HOST=$docker_ip_host
-"@ > .env
-
-Set-Content .env -Encoding ASCII -Value (Get-Content .env)
-
-Write-host ""
-Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut."
-Write-host ""
-
-# Redémarrage de Portainer
-Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
-docker-compose down
-docker-compose up -d
-
-# Redémarrage de l'application
-docker rm -f e-combox
-docker run -dit --name e-combox -v ecombox_data:/usr/local/apache2/htdocs/ --restart always -p 8888:80 aporaf/e-combox:1.0
-Start-Process "C:\Program Files\e-comBox\e-comBox.url"
-
-# Lancement de l'application
-#Start-Process -wait lanceScriptPS_restartApplication.bat
 
