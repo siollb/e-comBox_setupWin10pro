@@ -1,5 +1,5 @@
 ﻿# Redémarrage de Portainer
-Start-Process -wait lanceScriptPS_restartPortainer.bat
+#Start-Process -wait lanceScriptPS_restartPortainer.bat
 
 # Redémarrage de l'application
 docker rm -f e-combox

@@ -28,14 +28,14 @@ if ($adresseProxy -ilike "*=*")
      $noProxy = $noProxy.Replace(';',',')
     
      Write-host ""
-     Write-Host "Le système a détecté que vous utilisiez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"
+     Write-Host "Le système a détecté que vous utilisez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"
      Write-Host " Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
      Write-Host ""
      Write-host "By Pass : $noProxy"
 }
   else {
    Write-host ""
-   Write-Host "Le système a détecté que vous n'utilisiez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker" 
+   Write-Host "Le système a détecté que vous n'utilisez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker." 
    Write-Host ""
    }
 
@@ -50,45 +50,84 @@ if ($adresseProxy -ilike "*=*")
  Write-host "====================================================================="
  Write-host ""
 
-# Récupération et mise au bon format de l'adresse IP de l'hôte
-$docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPv4Address
+# Récupération et mise au bon format de l'adresse IP de l'hôte utilisé par e-comBox
+$docker_ip_host = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPAddress  | Select-Object -first 1
 $docker_ip_host = "$docker_ip_host"
 $docker_ip_host = $docker_ip_host.Trim()
 
-Write-host "Le système a détecté que vous utilisiez cette adresse IP : $docker_ip_host"
-Write-host ""
-$changement=Read-Host "Voulez-vous changer l'adresse IP pour e-comBox ? : (répondre par oui pour changer l'adresse IP ou par tout autre caractère si vous ne voulez par opérer de changement au niveau de l'adresse IP)"
+# Récupération des adresses IP d'une interface physique même si elles ne sont pas associées à une passerelle par défaut
+$adressesIPvalides = (Get-NetIPAddress -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPv4Address
+$adressesIPvalides = "$adressesIPvalides"
+$adressesIPvalides = $adressesIPvalides.Trim()
 
-if ($changement -eq "oui") {
- Write-host ""
- $adresseIP=Read-Host "Saisissez une adresse IP valide :"
- $confirmation=Read-Host "Veuillez confirmer (yes) que vous désirez utiliser la nouvelle adresse IP $adresseIP pour rendre accessible vos sites dans e-comBox :"
- if ($confirmation -eq "yes") {
- $docker_ip_host=$adresseIP
- Write-host ""
- Write-host "L'application e-comBox utilisera dorénavant la nouvelle adresse IP : $docker_ip_host"
+
+If ($docker_ip_host -eq $adressesIPvalides) {
+ write-host ""
+ Write-host "Le système a détecté que vous utilisez cette adresse IP : $docker_ip_host et que vous ne disposez pas d'autres adresses IP valides susceptibles d'être configurées avec e-comBox."
  }
  else {
- Write-host ""
- Write-Host "L'application e-comBox continuera à utiliser l'adresse ip $docker_ip_host"
- }
+  Write-host ""
+  Write-host "Le système a détecté que vous utilisez cette adresse IP : $docker_ip_host et que vous disposez des adresses IP valides suivantes :"
+  write-host ""
+
+  #$changement=Read-Host "Voulez-vous changer l'adresse IP pour e-comBox ? : (répondre par oui pour changer l'adresse IP ou par tout autre caractère si vous ne voulez par opérer de changement au niveau de l'adresse IP)"
+
+  # Récupération des adresses IP pour formatage dans menu
+     $adressesIPformat = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPAddress 
+     $menu = @{}
+     for ($i=1;$i -le $adressesIPformat.count; $i++) 
+       {
+       Write-Host "$i. $($adressesIPformat[$i-1].Trim())" 
+       $menu.Add($i,($adressesIPformat[$i-1]))
+       }
+
+  #if ($changement -eq "oui") {
+     Write-host ""
+     [int]$num = Read-Host "Saisissez le numéro correspondant à l'adresse IP que vous voulez utiliser pour e-comBox"
+     Write-host "" 
+
+     $adresseIP = $menu.Item($num) 
+
+     Write-host ""
+     #$adresseIP=Read-Host "Saisissez une adresse IP valide :"
+     $confirmation=Read-Host "Veuillez confirmer que vous désirez utiliser la nouvelle adresse IP $adresseIP pour rendre accessible vos sites dans e-comBox (répondre par oui pour confirmer ou par n'importe quel autre caractère pour maintenir l'adresse IP actuelle)"
+     if ($confirmation -eq "oui") 
+      {
+      $docker_ip_host=$adresseIP
+      Write-host ""
+      Write-host "L'application e-comBox utilisera dorénavant la nouvelle adresse IP : $docker_ip_host."
+      }
+      else {
+       Write-host ""
+       Write-Host "L'application e-comBox continuera à utiliser l'adresse ip $docker_ip_host."
+     }
+  #}
 }
 
  # Mise à jour de l'adresse IP dans le fichier ".env"
-$Path="$env:USERPROFILE\e-comBox_portainer\"
-Write-Host "le chemin est $Path"
+Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
 
 @"
 DOCKER_IP_LOCALHOST=127.0.0.1
 DOCKER_IP_HOST=$docker_ip_host
-"@ > $Path\.env
+"@ > .env
 
-Set-Content $Path\.env -Encoding ASCII -Value (Get-Content $Path\.env)
+Set-Content .env -Encoding ASCII -Value (Get-Content .env)
 
 Write-host ""
-Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut"
+Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut."
 Write-host ""
 
+# Redémarrage de Portainer
+Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
+docker-compose down
+docker-compose up -d
 
-Start-Process -wait lanceScriptPS_restartApplication.bat
+# Redémarrage de l'application
+docker rm -f e-combox
+docker run -dit --name e-combox -v ecombox_data:/usr/local/apache2/htdocs/ --restart always -p 8888:80 aporaf/e-combox:1.0
+Start-Process "C:\Program Files\e-comBox\e-comBox.url"
+
+# Lancement de l'application
+#Start-Process -wait lanceScriptPS_restartApplication.bat
 
