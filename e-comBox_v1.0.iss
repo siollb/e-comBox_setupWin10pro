@@ -29,7 +29,6 @@ SolidCompression=yes
 WizardStyle=modern
 SetupLogging=yes
 ArchitecturesInstallIn64BitMode=x64 ia64
-AllowNoIcons=True
 UninstallLogMode=overwrite
 AllowUNCPath=False
 DisableDirPage=yes
@@ -40,6 +39,8 @@ VersionInfoVersion=1.0
 DisableWelcomePage=False
 AlwaysShowDirOnReadyPage=True
 AlwaysShowGroupOnReadyPage=True
+WizardImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetup.bmp
+WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupSmall.bmp
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -54,14 +55,17 @@ Source: "lanceScriptPS_startApplication.bat"; DestDir: "{app}\scripts"; Flags: i
 
 ; Les scripts bat supplémentaires qui vont être utlisés dans les shortcut
 Source: "lanceScriptPS_restartPortainer.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "lanceScriptPS_stopPortainer.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_restartApplication.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_restartDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_configProxyDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "lanceScriptPS_configEnvironnement.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 Source: "restartPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "stopPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "restartApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "restartDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
-Source: "configProxyDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "configProxyDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversionSource: "configEnvironnement.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 ; Les scripts pour installer les pré-requis
 
@@ -88,7 +92,7 @@ Source: "desinstallDocker.ps1"; DestDir: "{app}\uninstall"
 ;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
-;Name: "{group}\Initialiser de nouveau e-comBox"; Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"
+Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
@@ -340,7 +344,7 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyOverride', ProxyByPass);
           StringChangeEx(ProxyByPass,';',',',True);
           ProxyByPass:= ProxyByPass;
-          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) : '#13#13'Adresse IP du Proxy ' + AdresseProxy + ' '#13#10'ByPass : ' + ProxyByPass + ' '#13#10'Vous devez attendre que le service ait redémarré (ce qu''il fait automatiquement) avant de continuer.', mbInformation, mb_Ok);
+          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) : '#13#13'Adresse IP du Proxy : ' + AdresseProxy + ' '#13#10'ByPass : ' + ProxyByPass + ' '#13#10'Vous devez attendre que le service ait redémarré (ce qu''il fait automatiquement) avant de continuer.', mbInformation, mb_Ok);
           Log('Proxy Enable : ' +IntToStr(V) + 'Informations du proxy : ' + AdresseProxy + 'Proxy by pass : " ' + ProxyByPass);
         end;         
           PrepareToInstallWithProgressPage.SetProgress(10, 10);
@@ -378,7 +382,7 @@ procedure DeinitializeSetup();
 begin
   Log('DeinitializeSetup called');
   if FinishedInstall then begin
-     MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox a été initialisée et est opérationnelle.' #13#13 'Vous pouvez la lancer en saisissant l''URL suivante http://localhost:8888 dans un navigateur mais il est conseillé d''utiliser l''icône du bureau ou le lien du menu de démarrage qui prennent en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy', mbInformation, MB_OK);
+     MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox est en train d''être initialisée.' #13#13 'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13 'Par la suite, vous pouvez démarrer e-comBox en saisissant l''URL http://localhost:8888 dans un navigateur mais il est conseillé d''utiliser l''icône du bureau ou le lien du menu de démarrage qui prennent en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy', mbInformation, MB_OK);
      end else
       MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;

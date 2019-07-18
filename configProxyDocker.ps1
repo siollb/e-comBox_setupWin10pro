@@ -1,9 +1,6 @@
 ﻿# Détection et configuration d'un éventuel proxy pour Docker
-#Set-Location -Path $env:USERPROFILE\
-#New-Item -Name ".docker" -ItemType directory -force
 
 Set-Location -Path $env:USERPROFILE\.docker
-#Set-Location -Path C:\Users\Daniel\.docker
 
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 

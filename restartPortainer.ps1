@@ -1,13 +1,15 @@
-﻿$Path = Test-Path $env:USERPROFILE\e-comBox_portainer\
+﻿$Path="$env:USERPROFILE\e-comBox_portainer\"
+$TestPath=Test-Path $Path
 
-If ($Path -eq $False) {
+If ($TestPath -eq $False) {
     # Installation de Portainer sur Git
-    Write-host "    --> This folder does not exist." -Fore Red
+    Write-host "    --> Portainer n'est pas installé." -Fore Red
     Start-Process -wait lanceScriptPS_installPortainer.bat
-    else Set-Location -Path
-    Write-host "    --> This folder exist." -Fore blue
-    # Arrêt de Portainer
-    docker-compose down
-}
+    }
+    else {
+      # Arrêt de Portainer
+      Write-host "    --> Portainer est démarré." -Fore blue
+      Start-Process -wait lanceScriptPS_stopPortainer.bat       
+      }
 
 Start-Process -wait lanceScriptPS_startPortainer.bat

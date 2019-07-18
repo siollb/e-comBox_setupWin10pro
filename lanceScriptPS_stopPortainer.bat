@@ -1,0 +1,1 @@
+START /MIN /B powershell.exe -executionpolicy bypass -file "stopPortainer.ps1"
