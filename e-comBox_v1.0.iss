@@ -41,6 +41,7 @@ AlwaysShowDirOnReadyPage=True
 AlwaysShowGroupOnReadyPage=True
 WizardImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetup.bmp
 WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupSmall.bmp
+FlatComponentsList=False
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -112,7 +113,8 @@ Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: wa
 ;LanguageID=$040C
 
 [INI]
-Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry ; Tasks: quicklaunchicon
+;Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry ; Tasks: quicklaunchicon
+Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry
 
 [UninstallDelete]
 Type: files; Name: "{app}\{#MyAppName}.url"
@@ -126,8 +128,8 @@ Name: "Git"; Description: "Git pour Windows"; Types: full compact custom; Flags:
 [Tasks]
 ;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 ;Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"
-Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"
+;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"
+;Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"
 
 [ThirdParty]
 CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
@@ -343,12 +345,12 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
         // Vérifie si un proxy est activé sur la machine et donne les informations le cas échéant
         RegQueryDWordValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings', 'ProxyEnable', V);
         if IntToStr(V)='1' then begin
-          ShellExec('open', 'https://is.gd/jp8vXX', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+          ShellExec('open', 'https://docs.google.com/document/d/1qXXyaMNMtY24VgItIv0gdasyT2souVMLRdYkTMEIBeo/edit', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyServer', AdresseProxy);
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyOverride', ProxyByPass);
           StringChangeEx(ProxyByPass,';',',',True);
           ProxyByPass:= ProxyByPass;
-          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation fournie) : '#13#13'Adresse IP du Proxy : ' + AdresseProxy + ' '#13#10'ByPass : ' + ProxyByPass + ' '#13#10'Vous devez attendre que le service ait redémarré (ce qu''il fait automatiquement) avant de continuer.', mbInformation, mb_Ok);
+          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation qui a été lancée dans votre navigateur par défaut) : '#13#13'Adresse IP du Proxy : ' + AdresseProxy + ' '#13#10'ByPass : ' + ProxyByPass + ' '#13#10'Vous devez attendre que le service ait redémarré (ce qu''il fait automatiquement) avant de continuer.', mbInformation, mb_Ok);
           Log('Proxy Enable : ' +IntToStr(V) + 'Informations du proxy : ' + AdresseProxy + 'Proxy by pass : " ' + ProxyByPass);
         end;         
           PrepareToInstallWithProgressPage.SetProgress(10, 10);
