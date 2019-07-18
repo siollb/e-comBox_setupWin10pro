@@ -93,7 +93,7 @@ Source: "desinstallDocker.ps1"; DestDir: "{app}\uninstall"
 Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
+Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; WorkingDir: "{app}"
 
 [Run]
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
@@ -124,8 +124,10 @@ Name: "Docker"; Description: "Docker Dekstop CEE pour Windows 10"; Types: full c
 Name: "Git"; Description: "Git pour Windows"; Types: full compact custom; Flags: fixed
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
-Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"
+;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
+;Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"
+Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"
 
 [ThirdParty]
 CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt

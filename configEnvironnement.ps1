@@ -32,14 +32,15 @@ if ($adresseProxy -ilike "*=*")
      Write-Host ""
      Write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
      Write-host "By Pass : $noProxy"
-
-     Read-Host "Appuyez sur une touche pour continnuer"
+     Write-Host ""
+     Read-Host "Appuyez sur une touche pour continuer"
 
 }
   else {
    Write-host ""
    Write-Host "Le système a détecté que vous n'utilisez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker." 
    Write-Host ""
+   Read-Host "Appuyez sur une touche pour continuer"
    }
 
 
@@ -67,6 +68,8 @@ $adressesIPvalides = $adressesIPvalides.Trim()
 If ($docker_ip_host -eq $adressesIPvalides) {
  write-host ""
  Write-host "Le système a détecté que vous utilisez cette adresse IP : $docker_ip_host et que vous ne disposez pas d'autres adresses IP valides susceptibles d'être configurées avec e-comBox."
+ Write-Host ""
+ Read-Host "Appuyez sur une touche pour fermer ce programme"
  }
  else {
   Write-host ""
@@ -99,7 +102,7 @@ If ($docker_ip_host -eq $adressesIPvalides) {
       $docker_ip_host=$adresseIP
 
       Write-host ""
-      Write-host "L'application e-comBox utilisera dorénavant la nouvelle adresse IP : $docker_ip_host."
+      Write-host "L'application e-comBox utilisera dorénavant l'adresse IP : $docker_ip_host."
        # Mise à jour de l'adresse IP dans le fichier ".env"
       Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
 
@@ -113,6 +116,7 @@ DOCKER_IP_HOST=$docker_ip_host
     Write-host ""
     Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut."
     Write-host ""
+    sleep 5
 
    # Redémarrage de Portainer
    Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
@@ -128,6 +132,7 @@ DOCKER_IP_HOST=$docker_ip_host
       else {
        Write-host ""
        Write-Host "L'application e-comBox continuera à utiliser l'adresse ip $docker_ip_host."
+       sleep 5
      }
   #}
 }

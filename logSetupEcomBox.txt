@@ -1,4 +1,4 @@
-Starting compile.  [jeudi, juillet 18 2019 at 15:22:25]
+Starting compile.  [jeudi, juillet 18 2019 at 15:43:33]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -57,10 +57,10 @@ Reading [Code] section
 Parsing [Components] section, line 123
 Parsing [Components] section, line 124
 Parsing [Components] section, line 125
-Parsing [Tasks] section, line 128
-Parsing [Tasks] section, line 129
-Parsing [Dirs] section, line 147
-Parsing [Dirs] section, line 148
+Parsing [Tasks] section, line 131
+Parsing [Tasks] section, line 132
+Parsing [Dirs] section, line 150
+Parsing [Dirs] section, line 151
 Parsing [Icons] section, line 94
 Parsing [Icons] section, line 95
 Parsing [Icons] section, line 96
@@ -142,5 +142,5 @@ Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" bu
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [jeudi, juillet 18 2019 at 15:22:27]
-Total compile time: 00:01,906
+Compile finished.  [jeudi, juillet 18 2019 at 15:43:35]
+Total compile time: 00:01,688
