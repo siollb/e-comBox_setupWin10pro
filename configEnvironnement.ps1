@@ -60,9 +60,16 @@ $docker_ip_host = "$docker_ip_host"
 $docker_ip_host = $docker_ip_host.Trim()
 
 # Récupération des adresses IP d'une interface physique même si elles ne sont pas associées à une passerelle par défaut
-$adressesIPvalides = (Get-NetIPAddress -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPv4Address
+$adressesIPvalides = (Get-NetIPAddress -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPv4Address
 $adressesIPvalides = "$adressesIPvalides"
 $adressesIPvalides = $adressesIPvalides.Trim()
+
+if ($adressesIPvalides -eq $null) {
+ write-host ""
+ Write-host "Le système ne détecte aucune adresse IP valide pouvant être utilisée avec e-comBox. Vérifiez votre configuration IP et relancez le programme."
+ Write-Host ""
+ Read-Host "Appuyez sur une touche pour fermer ce programme"
+ }
 
 
 If ($docker_ip_host -eq $adressesIPvalides) {

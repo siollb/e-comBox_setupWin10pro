@@ -321,6 +321,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 
 var
 ResultCode: Integer;
+ErrorCode: Integer;
 AdresseProxy: string;
 ProxyByPass: string;
 V: Cardinal;
@@ -342,6 +343,7 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
         // Vérifie si un proxy est activé sur la machine et donne les informations le cas échéant
         RegQueryDWordValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings', 'ProxyEnable', V);
         if IntToStr(V)='1' then begin
+          ShellExec('open', 'https://is.gd/jp8vXX', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyServer', AdresseProxy);
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyOverride', ProxyByPass);
           StringChangeEx(ProxyByPass,';',',',True);
