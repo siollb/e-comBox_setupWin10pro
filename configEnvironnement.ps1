@@ -40,7 +40,7 @@ if ($adresseProxy -ilike "*=*")
    Write-host ""
    Write-Host "Le système a détecté que vous n'utilisez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker." 
    Write-Host ""
-   Read-Host "Appuyez sur une touche pour continuer"
+   Read-Host "Appuyez sur la touche Entrée pour continuer"
    }
 
 
@@ -68,7 +68,7 @@ if ($adressesIPvalides -eq $null) {
  write-host ""
  Write-host "Le système ne détecte aucune adresse IP valide pouvant être utilisée avec e-comBox. Vérifiez votre configuration IP et relancez le programme."
  Write-Host ""
- Read-Host "Appuyez sur une touche pour fermer ce programme"
+ Read-Host "Appuyez sur la touche Entrée pour fermer ce programme"
  }
 
 
@@ -76,7 +76,7 @@ If ($docker_ip_host -eq $adressesIPvalides) {
  write-host ""
  Write-host "Le système a détecté que vous utilisez cette adresse IP : $docker_ip_host et que vous ne disposez pas d'autres adresses IP valides susceptibles d'être configurées avec e-comBox."
  Write-Host ""
- Read-Host "Appuyez sur une touche pour fermer ce programme"
+ Read-Host "Appuyez sur la touche Entrée pour fermer ce programme"
  }
  else {
   Write-host ""
@@ -86,7 +86,7 @@ If ($docker_ip_host -eq $adressesIPvalides) {
   #$changement=Read-Host "Voulez-vous changer l'adresse IP pour e-comBox ? : (répondre par oui pour changer l'adresse IP ou par tout autre caractère si vous ne voulez par opérer de changement au niveau de l'adresse IP)"
 
   # Récupération des adresses IP pour formatage dans menu
-     $adressesIPformat = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPAddress 
+     $adressesIPformat = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPAddress 
      $menu = @{}
      for ($i=1;$i -le $adressesIPformat.count; $i++) 
        {

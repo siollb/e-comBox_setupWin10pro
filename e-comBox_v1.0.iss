@@ -333,7 +333,7 @@ begin
 Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
 
   if(CurStep=ssInstall) then begin
-     MsgBox('Merci de vérifier et d''attendre éventuellement que Docker ait démarré avant de continuer en cliquant sur OK. '#13#13'Vous pouvez voir le statut de Docker dans la barre des tâches via son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13' Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
+     MsgBox('Merci de vérifier et d''attendre éventuellement que Docker ait démarré avant de continuer en cliquant sur OK. '#13#13'Vous pouvez voir le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13' Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
       // Configuration d'un éventuel proxy
         //MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');
@@ -350,7 +350,7 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
           RegQueryStringValue(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Internet Settings','ProxyOverride', ProxyByPass);
           StringChangeEx(ProxyByPass,';',',',True);
           ProxyByPass:= ProxyByPass;
-          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation qui a été lancée dans votre navigateur par défaut) : '#13#13'Adresse IP du Proxy : ' + AdresseProxy + ' '#13#10'ByPass : ' + ProxyByPass + ' '#13#10'Vous devez attendre que le service ait redémarré (ce qu''il fait automatiquement) avant de continuer.', mbInformation, mb_Ok);
+          MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation qui a été lancée dans votre navigateur par défaut) : '#13#13'Adresse IP du Proxy : ' + AdresseProxy + ' '#13#10'ByPass : ' + ProxyByPass + ' '#13#13'Vous devez attendre que le service ait redémarré (ce qu''il fait automatiquement) avant de continuer.', mbInformation, mb_Ok);
           Log('Proxy Enable : ' +IntToStr(V) + 'Informations du proxy : ' + AdresseProxy + 'Proxy by pass : " ' + ProxyByPass);
         end;         
           PrepareToInstallWithProgressPage.SetProgress(10, 10);
@@ -388,7 +388,7 @@ procedure DeinitializeSetup();
 begin
   Log('DeinitializeSetup called');
   if FinishedInstall then begin
-     MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox est en train d''être initialisée.' #13#13 'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13 'Par la suite, vous pouvez démarrer e-comBox en saisissant l''URL http://localhost:8888 dans un navigateur mais il est conseillé d''utiliser l''icône du bureau ou le lien du menu de démarrage qui prennent en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy', mbInformation, MB_OK);
+     MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox est en train d''être initialisée. Veuillez patienter.' #13#13 'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13 'Par la suite, vous pouvez démarrer e-comBox en saisissant l''URL http://localhost:8888 dans un navigateur mais il est conseillé d''utiliser l''icône du bureau ou le lien du menu de démarrage qui prennent en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy.', mbInformation, MB_OK);
      end else
       MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;
@@ -421,9 +421,9 @@ begin
   //end;
 //end;
 
-function UninstallNeedRestart(): Boolean;
-begin
-  if Restarted then begin
-  Result := True;
-  end;
-end;
+//function UninstallNeedRestart(): Boolean;
+//begin
+  //if Restarted then begin
+  //Result := True;
+  //end;
+//end;
