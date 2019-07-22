@@ -176,10 +176,19 @@ var
   // Vérification de la version de Windows
   GetWindowsVersionEx(Version);
 
-  // Disallow installation on Home edition of Windows
+  // Désactivation de l'installation sur une version Home de Windows
   if Version.SuiteMask and VER_SUITE_PERSONAL <> 0 then
   begin
-    SuppressibleMsgBox('L''application e-comBox ne peut pas être installé sur Windows 10 Family mais nécessite une version de Windows 10 professionnel, éducation ou entreprise.',
+    SuppressibleMsgBox('L''application e-comBox ne peut pas être installée sur Windows 10 Famille mais nécessite une version de Windows 10 professionnel, éducation ou entreprise.',
+      mbCriticalError, MB_OK, IDOK);
+    Result := False;
+    Exit;
+  end;
+
+  // Désactivation de l'installation sur une version serveur de Windows
+  if Version.ProductType = VER_NT_DOMAIN_CONTROLLER then
+  begin
+    SuppressibleMsgBox('L''application e-comBox ne peut pas être installée sur Windows Serveur mais nécessite une version de Windows 10 professionnel, éducation ou entreprise.',
       mbCriticalError, MB_OK, IDOK);
     Result := False;
     Exit;
