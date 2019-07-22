@@ -136,10 +136,11 @@ CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
 
 [Messages]
 french.SelectComponentsDesc=Pour que l'application e-comBox fonctionne, les composants ci-dessous doivent être installés. Vous devez disposer des droits d'administrateur.
-french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. Cliquez sur suivant pour continuer.
+french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. %n%nCliquez sur suivant pour continuer.
 french.FinishedLabel=L'assistant a terminé l'installation de e-comBox sur votre ordinateur.
-french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous devez maintenant initialiser e-comBox en cochant la case ci-dessous ou à l'aide du lien correspondant que vous trouverez dans le menu e-comBox du programme de démarrage.
+french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous pouvez dès maintenant initialiser e-comBox en cochant la case ci-dessous. %n%nSi vous ne le faîtes pas tout de suite, cette dernière pourra se faire ultérieurement via le lien Démarrage de l'application.
 french.ConfirmUninstall=Vous vous apprêtez à  désinstaller %1. Si vous n'avez plus besoin des composants installés (Git, Docker et HyperV), vous pourrez ensuite procéder à leur désinstallation en suivant la procédure mise à disposition. Cliquez sur oui pour continuer.
+french.WelcomeLabel2=Cet assistant va vous guider dans l'installation de [name/ver] sur votre ordinateur.%n%nL'installation de pré-requis sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé (à deux reprises au maximum). ll est recommandé de fermer toutes les applications actives avant de continuer.%n%nPar ailleurs, le téléchargement et l'installation de ces pré-requis peuvent parfois être long, merci d'être patient.
 
 [UninstallRun]
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallGit.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Git a été désinstallé"; Components: Git
@@ -155,7 +156,7 @@ const
   RunOnceName = 'Redémarrage de la machine';
 
   QuitMessageReboot = 'L''installation de pré-requis sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
-  QuitMessage1Reboot = 'L''activation d''HyperV a été réalisée. Votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
+  QuitMessage1Reboot = 'Suite à l''activation d''HyperV, votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
   QuitMessage2Reboot = 'Suite à l''installation de Docker, votre ordinateur va redémarrer. '#13#13'Après ce redémarrage, le programme d''installation continuera.';
   QuitMessageInstallDocker = 'Docker a été installé. '#13#13' Vous pouvez fermer la fenêtre "Welcome" de bienvenue et poursuivre l''installation';
   QuitMessageError = 'Erreur. Il est impossible de continuer.';
@@ -278,7 +279,7 @@ begin
         PrepareToInstallWithProgressPage.SetText(('Activation d''hyperV...'), '');
         ExtractTemporaryFile('activeHyperV.bat');
         Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-        //MsgBox('Le RESULT CODE de l''activation d''hyperV est : ' + IntToStr(ResultCode), mbInformation, mb_Ok);
+        MsgBox('L''activation d''hyperV a été réalisée', mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetProgress (4, 10);
         //Redémarrage de la machine
         CreateRunOnceEntry;
@@ -298,11 +299,11 @@ begin
            ExtractTemporaryFile('installDocker.ps1');
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(8, 10);
-           PrepareToInstallWithProgressPage.SetText(('Démarrage de Docker...'), '');
-           ExtractTemporaryFile('lanceDocker.ps1');
-           Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\lanceDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+           PrepareToInstallWithProgressPage.SetText(('Préparation du redémarrage...'), '');
+           //ExtractTemporaryFile('lanceDocker.ps1');
+           //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\lanceDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(10, 10);
-           MsgBox('Docker a été installé. '#13#13' Vous pouvez fermer la fenêtre "Welcome" de bienvenue et continuer l''installation', mbInformation, mb_Ok);
+           MsgBox('Docker a été installé.', mbInformation, mb_Ok);
            CreateRunOnceEntry;
            NeedsRestart := True;
            Result := QuitMessage2Reboot;
@@ -333,7 +334,7 @@ begin
 Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
 
   if(CurStep=ssInstall) then begin
-     MsgBox('Merci de vérifier et d''attendre éventuellement que Docker ait démarré avant de continuer en cliquant sur OK. '#13#13'Vous pouvez voir le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13' Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
+     MsgBox('Merci d''attendre la fenêtre "Welcome" de bienvenue de Docker avant de continuer l''installation, signe que Docker a démarré.'#13#13' Vous pouvez ensuite fermer cette fenêtre qui n''apparaît qu''une fois au premier démarrage de Docker. '#13#13'Vous pouvez suivre le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13' Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
       // Configuration d'un éventuel proxy
         //MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');
@@ -385,12 +386,19 @@ end;
 
 procedure DeinitializeSetup();
 
+var
+NeedsRestart: Boolean;
+
 begin
   Log('DeinitializeSetup called');
+  if NeedsRestart then begin
+     MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
+     end ;
   if FinishedInstall then begin
      MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox est en train d''être initialisée. Veuillez patienter.' #13#13 'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13 'Par la suite, vous pouvez démarrer e-comBox en saisissant l''URL http://localhost:8888 dans un navigateur mais il est conseillé d''utiliser l''icône du bureau ou le lien du menu de démarrage qui prennent en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy.', mbInformation, MB_OK);
-     end else
-      MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
+     end ;
+     // else
+     //MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;
 
 //procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);

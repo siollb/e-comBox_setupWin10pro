@@ -33,7 +33,7 @@ if ($adresseProxy -ilike "*=*")
      Write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
      Write-host "By Pass : $noProxy"
      Write-Host ""
-     Read-Host "Appuyez sur une touche pour continuer"
+     Read-Host "Appuyez sur la touche Entrée pour continuer"
 
 }
   else {

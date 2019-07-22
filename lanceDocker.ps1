@@ -1,7 +1,7 @@
 ﻿#Requires -RunAsAdministrator
 
 # Lancement de docker
-Start-Process "C:\Program Files\Docker\Docker\Docker for Windows.exe"
+# Start-Process "C:\Program Files\Docker\Docker\Docker for Windows.exe"
 
-# write-host "Docker et docker-compose sont installés."
+# Attente pendant le lancement de Docker
 Start-Sleep -Seconds 120
