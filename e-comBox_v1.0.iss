@@ -167,14 +167,27 @@ var
   PrepareToInstallWithProgressPage: TOutputProgressWizardPage;
 
 function InitializeSetup(): Boolean;
-begin
-  Restarted := ExpandConstant('{param:restart|0}') = '1';
-  //MsgBox('Fonction InitializeSetup Début' , mbInformation, mb_Ok);
+
+var
+  Version: TWindowsVersion;
+  S: String;
+
+  begin
+  // Vérification de la version de Windows
+  GetWindowsVersionEx(Version);
+
+  // Disallow installation on Home edition of Windows
+  if Version.SuiteMask and VER_SUITE_PERSONAL <> 0 then
+  begin
+    SuppressibleMsgBox('L''application e-comBox ne peut pas être installé sur Windows 10 Family mais nécessite une version de Windows 10 professionnel, éducation ou entreprise.',
+      mbCriticalError, MB_OK, IDOK);
+    Result := False;
+    Exit;
+  end;
+  
   if not Restarted then begin
     Result := not RegValueExists(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName);
-    //MsgBox('Fonction InitializeSetup if not restarted' , mbInformation, mb_Ok);
     if not Result then
-      //MsgBox('Fonction InitializeSetup if not result' , mbInformation, mb_Ok);
       MsgBox(QuitMessageReboot, mbInformation, mb_Ok);
       
   end else    
@@ -289,7 +302,7 @@ begin
        end else begin
          // Vérifie si Docker est installé et l'installe et le configure au cas où.
          if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
-           MsgBox('Docker n''est pas installé. '#13#13' Le programme va procéder à son installation. '#13#10' Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
+           MsgBox('Docker n''est pas installé. '#13#13'Le programme va procéder à son installation. '#13#10'Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
            PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker...'), '');
            PrepareToInstallWithProgressPage.SetProgress(5, 10);
            ExtractTemporaryFile('downloadDocker.ps1');
@@ -334,7 +347,7 @@ begin
 Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
 
   if(CurStep=ssInstall) then begin
-     MsgBox('Merci d''attendre la fenêtre "Welcome" de bienvenue de Docker avant de continuer l''installation, signe que Docker a démarré.'#13#13' Vous pouvez ensuite fermer cette fenêtre qui n''apparaît qu''une fois au premier démarrage de Docker. '#13#13'Vous pouvez suivre le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13' Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
+     MsgBox('Merci d''attendre la fenêtre "Welcome" de bienvenue de Docker avant de continuer l''installation, signe que Docker a démarré. '#13#13'Vous pouvez ensuite fermer cette fenêtre qui n''apparaît qu''une fois au premier démarrage de Docker.'#13#13'Vous pouvez suivre le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13'Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
       // Configuration d'un éventuel proxy
         //MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');

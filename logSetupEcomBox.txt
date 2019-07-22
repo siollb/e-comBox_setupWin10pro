@@ -1,4 +1,4 @@
-Starting compile.  [lundi, juillet 22 2019 at 13:46:58]
+Starting compile.  [lundi, juillet 22 2019 at 15:54:09]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -137,9 +137,10 @@ Creating setup files
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
+Warning: Line 175, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [lundi, juillet 22 2019 at 13:47:00]
-Total compile time: 00:02,344
+Compile finished.  [lundi, juillet 22 2019 at 15:54:11]
+Total compile time: 00:01,672
