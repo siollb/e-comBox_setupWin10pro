@@ -1,4 +1,5 @@
 ﻿# Détection et configuration d'un éventuel proxy pour Git
+
 Set-Location -Path $env:USERPROFILE
 
 $reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"

@@ -1,4 +1,4 @@
-﻿# Détection du proxy sur le système
+﻿# Détection du proxy sur le système pour le configurer sur Docker
 
  Write-host ""
  Write-host "============================================"
@@ -83,8 +83,6 @@ If ($docker_ip_host -eq $adressesIPvalides) {
   Write-host "Le système a détecté que vous utilisez cette adresse IP : $docker_ip_host et que vous disposez des adresses IP valides suivantes :"
   write-host ""
 
-  #$changement=Read-Host "Voulez-vous changer l'adresse IP pour e-comBox ? : (répondre par oui pour changer l'adresse IP ou par tout autre caractère si vous ne voulez par opérer de changement au niveau de l'adresse IP)"
-
   # Récupération des adresses IP pour formatage dans menu
      $adressesIPformat = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPAddress 
      $menu = @{}
@@ -94,7 +92,6 @@ If ($docker_ip_host -eq $adressesIPvalides) {
        $menu.Add($i,($adressesIPformat[$i-1]))
        }
 
-  #if ($changement -eq "oui") {
      Write-host ""
      [int]$num = Read-Host "Saisissez le numéro correspondant à l'adresse IP que vous voulez utiliser pour e-comBox"
      Write-host "" 
@@ -102,7 +99,7 @@ If ($docker_ip_host -eq $adressesIPvalides) {
      $adresseIP = $menu.Item($num) 
 
      Write-host ""
-     #$adresseIP=Read-Host "Saisissez une adresse IP valide :"
+
      $confirmation=Read-Host "Veuillez confirmer que vous désirez utiliser la nouvelle adresse IP $adresseIP pour rendre accessible vos sites dans e-comBox (répondre par oui pour confirmer ou par n'importe quel autre caractère pour maintenir l'adresse IP actuelle)"
      if ($confirmation -eq "oui") 
       {
@@ -114,16 +111,15 @@ If ($docker_ip_host -eq $adressesIPvalides) {
       Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
 
 @"
-DOCKER_IP_LOCALHOST=127.0.0.1
-DOCKER_IP_HOST=$docker_ip_host
+URL_UTILE=$docker_ip_host
 "@ > .env
 
      Set-Content .env -Encoding ASCII -Value (Get-Content .env)
 
-    Write-host ""
-    Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut."
-    Write-host ""
-    sleep 5
+     Write-host ""
+     Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut."
+     Write-host ""
+     sleep 5
 
    # Redémarrage de Portainer
    Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
@@ -143,5 +139,3 @@ DOCKER_IP_HOST=$docker_ip_host
      }
   #}
 }
-
-

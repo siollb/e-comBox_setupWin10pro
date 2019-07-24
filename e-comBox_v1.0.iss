@@ -12,7 +12,6 @@ AppId={{AE3F5FEF-D723-417C-B5F3-9D491655D7DB}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 MinVersion=10.0.15063
-;OnlyBelowVersion=6.0
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
@@ -39,8 +38,8 @@ VersionInfoVersion=1.0
 DisableWelcomePage=False
 AlwaysShowDirOnReadyPage=True
 AlwaysShowGroupOnReadyPage=True
-WizardImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetup.bmp
-WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupSmall.bmp
+WizardImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupGrande.bmp
+WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
 FlatComponentsList=False
 
 [Languages]
@@ -71,20 +70,15 @@ Source: "configProxyDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 ; Les scripts pour installer les pré-requis
 
 Source: "checkHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-;Source: "activeHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "downloadDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "lanceDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installGit.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "installPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_startPortainer.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "startPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "startApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "desinstallGit.ps1"; DestDir: "{app}\uninstall"
-Source: "desactiveHyperV.bat"; DestDir: "{app}\uninstall"
-Source: "desinstallDocker.ps1"; DestDir: "{app}\uninstall"
 
 [Icons]
 ;Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_initialisationApplication.bat"
@@ -97,20 +91,14 @@ Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; WorkingDir: "{app}"
 
 [Run]
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\fichierTemoinBis.ps1"""""; WorkingDir: "{app}"; Flags: 64bit; StatusMsg: "Le fichier temoinBis.txt a été créé"
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\installGit.ps1"""""; WorkingDir: "{app}";
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\configDocker.ps1"""""; WorkingDir: "{app}";
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
-;Filename: "{app}\{#MyAppName}.url"; Flags: postinstall
 Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,l'initialisation de e-comBox}"
 ;Filename: "{app}\scripts\lanceScriptPS_installPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
 ;Filename: "{app}\scripts\lanceScriptPS_startPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
 ;Filename: "{app}\scripts\lanceScriptPS_startApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startApplication.ps1"""""; WorkingDir: "{app}"; Flags: waituntilidle; Description: "{cm:LaunchProgram,initialisation}"
 
- [LangOptions]
-;LanguageID=$040C
 
 [INI]
 ;Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry ; Tasks: quicklaunchicon
@@ -209,7 +197,6 @@ var
   A: AnsiString;
   S: String;
 begin
-  // The string msgWizardPreparing has the macro '[name]' inside that I have to replace with the name of my app, stored in a define constant of my script.
   S := SetupMessage(msgPreparingDesc); 
   StringChange(S, '[name]', '{#MyAppName}');
   A := S;
@@ -221,11 +208,6 @@ end;
 function DetectAndInstallPrerequisites: Boolean;
 
 begin
-  (*** Place your prerequisite detection and installation code below. ***)
-  (*** Return False if missing prerequisites were detected but their installation failed, else return True. ***)
-
-  //<your code here>
-  // MsgBox('Message dans la fonction DetectAndInstallPrerequisites', mbInformation, mb_Ok);
   Result:= true;
 end;
 
@@ -258,11 +240,7 @@ begin
     RunOnceData := AddParam(RunOnceData, 'TYPE', Quote(WizardSetupType(False)));
     RunOnceData := AddParam(RunOnceData, 'COMPONENTS', Quote(WizardSelectedComponents(False)));
     RunOnceData := AddParam(RunOnceData, 'TASKS', Quote(WizardSelectedTasks(False)));
-
-  (*** Place any custom user selection you want to remember below. ***)
-
-  //<your code here>
-  
+ 
   RegWriteStringValue(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName, RunOnceData);
 end;
 
@@ -297,11 +275,10 @@ begin
      PrepareToInstallWithProgressPage.SetProgress (3, 10);
 
      if ResultCodeHyperV <> 0 then begin
-       //if MsgBox('L''assistant d''installation doit activer HyperV, merci de confirmer', mbConfirmation, MB_YESNO) = IDYES then begin
         PrepareToInstallWithProgressPage.SetText(('Activation d''hyperV...'), '');
         ExtractTemporaryFile('activeHyperV.bat');
         Exec(ExpandConstant('{tmp}\activeHyperV.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-        MsgBox('L''activation d''hyperV a été réalisée', mbInformation, mb_Ok);
+        MsgBox('L''activation d''hyperV a été réalisée, vous pouvez continuer', mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetProgress (4, 10);
         //Redémarrage de la machine
         CreateRunOnceEntry;
@@ -325,7 +302,7 @@ begin
            //ExtractTemporaryFile('lanceDocker.ps1');
            //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\lanceDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(10, 10);
-           MsgBox('Docker a été installé.', mbInformation, mb_Ok);
+           MsgBox('Docker a été installé, vous pouvez continuer.', mbInformation, mb_Ok);
            CreateRunOnceEntry;
            NeedsRestart := True;
            Result := QuitMessage2Reboot;
@@ -358,11 +335,9 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
   if(CurStep=ssInstall) then begin
      MsgBox('Merci d''attendre la fenêtre "Welcome" de bienvenue de Docker avant de continuer l''installation, signe que Docker a démarré. '#13#13'Vous pouvez ensuite fermer cette fenêtre qui n''apparaît qu''une fois au premier démarrage de Docker.'#13#13'Vous pouvez suivre le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13'Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
       // Configuration d'un éventuel proxy
-        //MsgBox('Message AVANT configDocker' , mbInformation, mb_Ok);
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');
         ExtractTemporaryFile('configProxyDocker.ps1');
-        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\scripts\configProxyDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-        //MsgBox('Message après configDocker' , mbInformation, mb_Ok);     
+        Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\scripts\configProxyDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);  
         PrepareToInstallWithProgressPage.SetProgress(9, 10);
 
         // Vérifie si un proxy est activé sur la machine et donne les informations le cas échéant
@@ -380,25 +355,6 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
          
      FinishedInstall := True
   end;  
-     
-  //if CurStep = ssPostInstall then
-    //FinishedInstall := True;       
-  //end;
-   
-  //if(CurStep=ssPostInstall) then begin                
-   //ExtractTemporaryFile('installPortainer.ps1');
-   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\installPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   //MsgBox('Message après InstallPortainer' , mbInformation, mb_Ok);
-   //ExtractTemporaryFile('startPortainer.ps1');
-   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\startPortainer.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   
-   //ExtractTemporaryFile('lanceScriptPS_startPortainer.bat');
-   //Exec(ExpandConstant('{app}\lanceScriptPS_startPortainer.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-   //MsgBox('Message après startPortainer' , mbInformation, mb_Ok);
-   //ExtractTemporaryFile('startApplication.ps1');
-   //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\startApplication.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   //MsgBox('L''application e-comBox est installée et démarrée. Vous pouvez la lancer via son URL http://localhost:8888 ou via son icône de lancement' , mbInformation, mb_Ok);
-  //end;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
@@ -423,37 +379,14 @@ begin
      //MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;
 
-//procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-//var
-//  ResultCode: Integer;
 
-//begin
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  ErrorCode: Integer;
+
+begin
   //if CurUninstallStep = usAppMutexCheck then begin
-
-   // Désinstallation de Git
-   //if MsgBox('Voulez-vous désinstaller GIT ?', mbConfirmation, MB_YESNO) = IDYES then begin
-     //ExtractTemporaryFile('desinstallGit.ps1');
-     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\uninstall\desinstallGit.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   //end;
-
-   // Désinstallation de Docker
-   //if MsgBox('Voulez-vous désinstaller Docker ?', mbConfirmation, MB_YESNO) = IDYES then begin
-     //ExtractTemporaryFile('desinstallDocker.ps1');
-     //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{app}\uninstall\desinstallDocker.ps1"'), '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
-   //end;
-
-   // Déactivation d'hyperV
-   //if MsgBox('Voulez-vous désactiver HyperV ', mbConfirmation, MB_YESNO) = IDYES then begin
-     //ExtractTemporaryFile('desactiveHyperV.bat');
-     //Exec(ExpandConstant('{app}\uninstall\desactiveHyperV.bat'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-     //Restarted := True;              
-   //end;
+ShellExec('open', 'https://docs.google.com/document/d/11RxyTEsPuGdWgp5C3ZNbglBpxfSsMQS2UvazFqZdVSo/edit?usp=sharing', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);   
   //end;
-//end;
+end;
 
-//function UninstallNeedRestart(): Boolean;
-//begin
-  //if Restarted then begin
-  //Result := True;
-  //end;
-//end;

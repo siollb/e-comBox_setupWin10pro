@@ -6,7 +6,7 @@
 # Installation en mode silentieux avec les options par défaut
 start-process -wait docker-installer.exe " install --quiet"
 
-# Lancement de docker
+# Lancement de docker (le lancement se fait au redémarrage de la machine)
 #Start-Process "C:\Program Files\Docker\Docker\Docker for Windows.exe"
 
 # Suppression de l'exécutable

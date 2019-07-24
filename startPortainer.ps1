@@ -2,7 +2,7 @@
 Start-Process -wait lanceScriptPS_configProxyDocker.bat
 
 
-# Récupération et mise au bon format de l'adresse IP de l'hôte (l'adresse IP récupérée est forcément associée à une passerelle par défaut)
+# Récupération et mise au bon format de l'adresse IP de l'hôte (l'adresse IP récupérée est associée à une passerelle par défaut)
 #$docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetAdapter -Physical).InterfaceIndex).IPv4Address
 $docker_ip_host = (Get-NetIPAddress -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPv4Address  | Select-Object -first 1
 $docker_ip_host = "$docker_ip_host"
@@ -12,8 +12,7 @@ $docker_ip_host = $docker_ip_host.Trim()
 Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
 
 @"
-DOCKER_IP_LOCALHOST=127.0.0.1
-DOCKER_IP_HOST=$docker_ip_host
+URL_UTILE=$docker_ip_host
 "@ > .env
 
 Set-Content .env -Encoding ASCII -Value (Get-Content .env)
