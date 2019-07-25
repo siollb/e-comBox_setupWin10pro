@@ -82,13 +82,13 @@ Source: "startApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 [Icons]
 ;Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_initialisationApplication.bat"
-;Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
-;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
+Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
+Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"
 ;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
-Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
-Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
+Name: "{group}\Réinitialiser l'environnement"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
+;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; WorkingDir: "{app}"
+Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
 Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,l'initialisation de e-comBox}"
@@ -373,20 +373,28 @@ begin
      MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
      end ;
   if FinishedInstall then begin
-     MsgBox('Fin de l''installation:' #13#13 'L''application e-comBox est en train d''être initialisée. Veuillez patienter.' #13#13 'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13 'Par la suite, vous pouvez démarrer e-comBox en saisissant l''URL http://localhost:8888 dans un navigateur mais il est conseillé d''utiliser l''icône du bureau ou le lien du menu de démarrage qui prennent en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy.', mbInformation, MB_OK);
+     MsgBox('Fin de l''installation:' #13#13'L''application e-comBox est en train d''être initialisée. Veuillez patienter.' #13#13'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13'Par la suite, vous pouvez démarrer e-comBox en saisissant l''URL http://localhost:8888 dans un navigateur ou via l''icône du bureau ou bien via le lien du menu de démarrage.'#13#13'Pour prendre en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy, il est nécessaire de réinitialiser e-comBox avec le lien correspondant.', mbInformation, MB_OK);
      end ;
      // else
      //MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;
 
 
-procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+//procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+//var
+  //ErrorCode: Integer;
+
+//begin
+  //if CurUninstallStep = usDone then begin
+    // ShellExec('open', 'https://docs.google.com/document/d/11RxyTEsPuGdWgp5C3ZNbglBpxfSsMQS2UvazFqZdVSo/edit?usp=sharing', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);   
+ // end;
+//end;
+
+procedure DeinitializeUninstall;
 var
   ErrorCode: Integer;
 
 begin
-  //if CurUninstallStep = usAppMutexCheck then begin
-ShellExec('open', 'https://docs.google.com/document/d/11RxyTEsPuGdWgp5C3ZNbglBpxfSsMQS2UvazFqZdVSo/edit?usp=sharing', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);   
-  //end;
+     ShellExec('open', 'https://docs.google.com/document/d/11RxyTEsPuGdWgp5C3ZNbglBpxfSsMQS2UvazFqZdVSo/edit?usp=sharing', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);   
 end;
 
