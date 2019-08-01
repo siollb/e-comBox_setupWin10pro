@@ -287,7 +287,7 @@ begin
         //end
        end else begin
          // Vérifie si Docker est installé et l'installe et le configure au cas où.
-         if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker for Windows') = false then begin
+         if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker Desktop') = false then begin
            MsgBox('Docker n''est pas installé. '#13#13'Le programme va procéder à son installation. '#13#10'Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
            PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker...'), '');
            PrepareToInstallWithProgressPage.SetProgress(5, 10);
@@ -389,7 +389,8 @@ begin
     // ShellExec('open', 'https://docs.google.com/document/d/11RxyTEsPuGdWgp5C3ZNbglBpxfSsMQS2UvazFqZdVSo/edit?usp=sharing', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);   
  // end;
 //end;
-
+
+
 procedure DeinitializeUninstall;
 var
   ErrorCode: Integer;
@@ -397,4 +398,3 @@ var
 begin
      ShellExec('open', 'https://docs.google.com/document/d/11RxyTEsPuGdWgp5C3ZNbglBpxfSsMQS2UvazFqZdVSo/edit?usp=sharing', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);   
 end;
-

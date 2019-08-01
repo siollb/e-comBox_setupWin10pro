@@ -1,4 +1,4 @@
-Starting compile.  [lundi, juillet 29 2019 at 14:08:20]
+Starting compile.  [jeudi, août 01 2019 at 17:40:21]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -55,21 +55,20 @@ Parsing [Languages] section, line 46
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
+Parsing [Components] section, line 113
 Parsing [Components] section, line 114
 Parsing [Components] section, line 115
-Parsing [Components] section, line 116
+Parsing [Dirs] section, line 141
 Parsing [Dirs] section, line 142
-Parsing [Dirs] section, line 143
-Parsing [Dirs] section, line 144
+Parsing [Icons] section, line 86
 Parsing [Icons] section, line 87
-Parsing [Icons] section, line 88
-Parsing [Icons] section, line 90
+Parsing [Icons] section, line 89
+Parsing [Icons] section, line 91
 Parsing [Icons] section, line 92
-Parsing [Icons] section, line 93
-Parsing [INI] section, line 107
+Parsing [INI] section, line 106
+Parsing [UninstallDelete] section, line 109
 Parsing [UninstallDelete] section, line 110
-Parsing [UninstallDelete] section, line 111
-Parsing [Run] section, line 96
+Parsing [Run] section, line 95
 Parsing [Files] section, line 50
 Parsing [Files] section, line 51
 Parsing [Files] section, line 52
@@ -96,8 +95,6 @@ Parsing [Files] section, line 78
 Parsing [Files] section, line 79
 Parsing [Files] section, line 80
 Parsing [Files] section, line 81
-Parsing [Files] section, line 83
-   Reading version info: C:\Users\daniel\e-comBox_setupWin10pro\e-comBox_identifiants_acces_applications.pdf
 Compiling [Code] section
 Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
 Creating setup files
@@ -126,15 +123,14 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startApplication.ps1
-   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\e-comBox_identifiants_acces_applications.pdf
    Compressing Setup program executable
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 165, Column 3: [Hint] Variable 'S' never used
+Warning: Line 163, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [lundi, juillet 29 2019 at 14:08:22]
-Total compile time: 00:01,421
+Compile finished.  [jeudi, août 01 2019 at 17:40:23]
+Total compile time: 00:01,641
