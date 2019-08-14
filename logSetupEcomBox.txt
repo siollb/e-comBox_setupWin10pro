@@ -1,4 +1,4 @@
-Starting compile.  [jeudi, août 01 2019 at 17:40:21]
+Starting compile.  [mercredi, août 14 2019 at 18:20:40]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -46,47 +46,46 @@ Reading file (WizardSmallImageFile)
    File: C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
 Preparing Setup program executable
 Determining language code pages
-Parsing [Languages] section, line 46
+Parsing [Languages] section, line 47
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
    Messages in script file
 Reading default messages from Default.isl
-Parsing [Languages] section, line 46
+Parsing [Languages] section, line 47
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 113
 Parsing [Components] section, line 114
 Parsing [Components] section, line 115
-Parsing [Dirs] section, line 141
+Parsing [Components] section, line 116
 Parsing [Dirs] section, line 142
-Parsing [Icons] section, line 86
+Parsing [Dirs] section, line 143
 Parsing [Icons] section, line 87
-Parsing [Icons] section, line 89
-Parsing [Icons] section, line 91
+Parsing [Icons] section, line 88
+Parsing [Icons] section, line 90
 Parsing [Icons] section, line 92
-Parsing [INI] section, line 106
-Parsing [UninstallDelete] section, line 109
+Parsing [Icons] section, line 93
+Parsing [INI] section, line 107
 Parsing [UninstallDelete] section, line 110
-Parsing [Run] section, line 95
-Parsing [Files] section, line 50
+Parsing [UninstallDelete] section, line 111
+Parsing [Run] section, line 96
 Parsing [Files] section, line 51
 Parsing [Files] section, line 52
 Parsing [Files] section, line 53
 Parsing [Files] section, line 54
-Parsing [Files] section, line 57
+Parsing [Files] section, line 55
 Parsing [Files] section, line 58
 Parsing [Files] section, line 59
 Parsing [Files] section, line 60
 Parsing [Files] section, line 61
 Parsing [Files] section, line 62
-Parsing [Files] section, line 64
+Parsing [Files] section, line 63
 Parsing [Files] section, line 65
 Parsing [Files] section, line 66
 Parsing [Files] section, line 67
 Parsing [Files] section, line 68
 Parsing [Files] section, line 69
-Parsing [Files] section, line 73
+Parsing [Files] section, line 70
 Parsing [Files] section, line 74
 Parsing [Files] section, line 75
 Parsing [Files] section, line 76
@@ -95,6 +94,7 @@ Parsing [Files] section, line 78
 Parsing [Files] section, line 79
 Parsing [Files] section, line 80
 Parsing [Files] section, line 81
+Parsing [Files] section, line 82
 Compiling [Code] section
 Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
 Creating setup files
@@ -127,10 +127,10 @@ Creating setup files
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 163, Column 3: [Hint] Variable 'S' never used
+Warning: Line 164, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [jeudi, août 01 2019 at 17:40:23]
-Total compile time: 00:01,641
+Compile finished.  [mercredi, août 14 2019 at 18:20:42]
+Total compile time: 00:02,406

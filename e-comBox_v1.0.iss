@@ -41,6 +41,7 @@ AlwaysShowGroupOnReadyPage=True
 WizardImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupGrande.bmp
 WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
 FlatComponentsList=False
+;SignTool=SignatureCode
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -181,7 +182,9 @@ var
     Result := False;
     Exit;
   end;
-  
+
+  Restarted := ExpandConstant('{param:restart|0}') = '1';
+
   if not Restarted then begin
     Result := not RegValueExists(HKA, 'Software\Microsoft\Windows\CurrentVersion\RunOnce', RunOnceName);
     if not Result then
