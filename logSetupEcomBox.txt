@@ -1,4 +1,4 @@
-Starting compile.  [lundi, septembre 02 2019 at 22:29:31]
+Starting compile.  [lundi, septembre 02 2019 at 23:17:05]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -63,7 +63,7 @@ Parsing [Dirs] section, line 143
 Parsing [Icons] section, line 87
 Parsing [Icons] section, line 88
 Parsing [Icons] section, line 90
-Parsing [Icons] section, line 92
+Parsing [Icons] section, line 91
 Parsing [Icons] section, line 93
 Parsing [INI] section, line 107
 Parsing [UninstallDelete] section, line 110
@@ -132,5 +132,5 @@ Warning: Line 164, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [lundi, septembre 02 2019 at 22:29:33]
-Total compile time: 00:01,641
+Compile finished.  [lundi, septembre 02 2019 at 23:17:06]
+Total compile time: 00:01,109
