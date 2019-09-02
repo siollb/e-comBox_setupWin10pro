@@ -42,6 +42,7 @@ WizardImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupGrande.bmp
 WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
 FlatComponentsList=False
 ;SignTool=SignatureCode
+AlwaysUsePersonalGroup=True
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
@@ -86,10 +87,10 @@ Source: "startApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Name: "{group}\Lancer e-comBox"; Filename: "{app}\{#MyAppName}.url"
 Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"
 ;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{group}\Réinitialiser l'environnement"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 ;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
+Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
 Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,l'initialisation de e-comBox}"
