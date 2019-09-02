@@ -23,8 +23,21 @@ if ($adresseProxy -ilike "*=*")
             $adresseProxy = "http://" + $adresseProxy
         }
     Write-Host "l'adresse du proxy est $adresseProxy"
+
 $noProxy = $settings.ProxyOverride
-$noProxy = $noProxy.Replace(';',',')
+
+if ($noProxy)
+       { 
+             $noProxy = $noProxy.Replace(';',',')
+       }
+       else
+       {     
+             $noProxy = "localhost"
+       }
+
+    Write-Host "le no proxy est $noProxy"
+
+
 new-item "config.json" –type file -force 
 @"
 {
@@ -44,8 +57,9 @@ Set-Content config.json -Encoding ASCII -Value (Get-Content config.json)
 
 }
 else {
-new-item "config.noproxy.json" –type file -force
- Write-Host "Rien à faire"
+ 
+remove-item "config.json"
+
 }
 
 #cd $env:USERPROFILE\.docker\
