@@ -1,14 +1,6 @@
-﻿#Requires -RunAsAdministrator
-$processes = Get-Process "*docker for windows*"
-if ($processes.Count -gt 0)
-{
-    $processes[0].Kill()
-    $processes[0].WaitForExit()
-}
+﻿
+#Set-ExecutionPolicy -Scope CurrentUser Unrestricted
 
-net stop com.docker.service
-net start com.docker.service
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"restartDockerBis.ps1`"" -Verb RunAs; exit }
+#Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"restartDockerBis.ps1`"" -Verb RunAs
 
-
-Start-Process "C:\Program Files\Docker\Docker\Docker for Windows.exe"
-Start-Sleep -Seconds 90

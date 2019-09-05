@@ -25,7 +25,17 @@ if ($adresseProxy -ilike "*=*")
             $adresseProxy = "http://" + $adresseProxy
         }
      $noProxy = $settings.ProxyOverride
-     $noProxy = $noProxy.Replace(';',',')
+
+     if ($noProxy)
+       { 
+             $noProxy = $noProxy.Replace(';',',')
+       }
+       else
+       {     
+             $noProxy = "localhost"
+       }
+
+    Write-Host "le no proxy est $noProxy"
     
      Write-host ""
      Write-Host "Le système a détecté que vous utilisez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"

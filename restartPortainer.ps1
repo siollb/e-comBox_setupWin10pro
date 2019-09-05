@@ -8,7 +8,7 @@ If ($TestPath -eq $False) {
     }
     else {
       # Arrêt de Portainer
-      Write-host "    --> Portainer est démarré." -Fore blue
+      Write-host "    --> Portainer est démarré, il faut le stopper." -Fore blue
       Start-Process -wait lanceScriptPS_stopPortainer.bat       
       }
 

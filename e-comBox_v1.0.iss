@@ -68,6 +68,9 @@ Source: "stopPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "restartApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "restartDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "configProxyDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversionSource: "configEnvironnement.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "restartDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "restartDockerBis.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+
 
 ; Les scripts pour installer les pré-requis
 
