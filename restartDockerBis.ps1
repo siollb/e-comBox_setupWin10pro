@@ -2,6 +2,8 @@
 
 #if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 
+# Mettre les messages en français et enlever la référence à une "erreur".
+
 Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Restarting docker"
 Write-host "$((Get-Date).ToString("HH:mm:ss")) - Restarting docker"
 

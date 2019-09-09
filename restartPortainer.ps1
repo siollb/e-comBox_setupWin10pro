@@ -3,7 +3,7 @@ $TestPath=Test-Path $Path
 
 If ($TestPath -eq $False) {
     # Installation de Portainer sur Git
-    Write-host "    --> Portainer n'est pas installé." -Fore Red
+    Write-host "    --> Portainer n'est pas installé, il faut l'installer." -Fore Red
     Start-Process -wait lanceScriptPS_installPortainer.bat
     }
     else {

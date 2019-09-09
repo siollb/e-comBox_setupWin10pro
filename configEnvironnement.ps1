@@ -120,6 +120,7 @@ If ($docker_ip_host -eq $adressesIPvalides) {
        # Mise à jour de l'adresse IP dans le fichier ".env"
       Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
 
+New-Item -Name ".env" -ItemType file -force
 @"
 URL_UTILE=$docker_ip_host
 "@ > .env
