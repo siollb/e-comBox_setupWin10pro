@@ -7,14 +7,13 @@
 Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Restarting docker"
 Write-host "$((Get-Date).ToString("HH:mm:ss")) - Restarting docker"
 
-New-Item -Name "fichierTemoin.txt" -ItemType file -force
+# New-Item -Name "fichierTemoin.txt" -ItemType file -force
 
 $process = Get-Process "com.docker.backend"
 if ($process.Count -gt 0)
 {
     $process[0].Kill()
 }
-
 
 
 net stop com.docker.service
