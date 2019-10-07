@@ -232,11 +232,11 @@ write-host ""
 
 #Détection et configuration de l'adresse IP
 
- Write-host ""
- Write-host "============================================================="
- Write-host "Vérification et configuration d'une adresse IP pour les sites"
- Write-host "============================================================="
- Write-host ""
+Write-host ""
+Write-host "============================================================="
+Write-host "Vérification et configuration d'une adresse IP pour les sites"
+Write-host "============================================================="
+Write-host ""
 
 # Récupération et mise au bon format de l'adresse IP de l'hôte utilisé par e-comBox
 $docker_ip_host = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex (Get-NetIPConfiguration | Foreach IPv4DefaultGateway).ifIndex).IPAddress  | Select-Object -first 1
@@ -330,13 +330,15 @@ URL_UTILE=$docker_ip_host
      Write-Output "Téléchargement et lancement d'e-combox :" >> $env:USERPROFILE\configEnvEcombox.log
      docker pull aporaf/e-combox:1.0 *>> $env:USERPROFILE\configEnvEcombox.log
      docker run -dit --name e-combox -v ecombox_data:/usr/local/apache2/htdocs/ --restart always -p 8888:80 --network bridge_e-combox aporaf/e-combox:1.0 *>> $env:USERPROFILE\configEnvEcombox.log
+     Write-host "Téléchargement d'e-combox après suppression FAIT"
    }
     else {
        Write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
-        Write-Output "Pas d'application e-combox trouvée." >> $env:USERPROFILE\configEnvEcombox.log
+       Write-Output "Pas d'application e-combox trouvée." >> $env:USERPROFILE\configEnvEcombox.log
        Write-Output "Téléchargement et lancement d'e-combox :" >> $env:USERPROFILE\configEnvEcombox.log
        docker pull aporaf/e-combox:1.0 *>> $env:USERPROFILE\configEnvEcombox.log
        docker run -dit --name e-combox -v ecombox_data:/usr/local/apache2/htdocs/ --restart always -p 8888:80 --network bridge_e-combox aporaf/e-combox:1.0 *>> $env:USERPROFILE\configEnvEcombox.log
+       Write-host "Téléchargement d'e-combox FAIT"
     } 
 
 # Nettoyage des anciennes images si elles ne sont associées à aucun site
