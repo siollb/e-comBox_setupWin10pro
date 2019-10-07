@@ -1,6 +1,12 @@
 ﻿# Les logs sont dans $env:USERPROFILE\initialisationEcombox.log
 
 # Vérification que Docker fonctionne correctement sinon ce n'est pas la peine de continuer
+
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Initialisation de l'application" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
+Write-host "$((Get-Date).ToString("HH:mm:ss")) - Initialisation de l'application"
+write-host ""
+
 Write-Output "Vérification du bon fonctionnement de Docker" >> $env:USERPROFILE\initialisationEcombox.log
 Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
 

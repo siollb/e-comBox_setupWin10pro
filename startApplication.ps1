@@ -14,7 +14,7 @@
    }
     else {
        Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
-        Write-Output "Pas d'application e-combox trouvée." >> $env:USERPROFILE\initialisationEcombox.log
+       Write-Output "Pas d'application e-combox trouvée." >> $env:USERPROFILE\initialisationEcombox.log
        Write-Output "Téléchargement et lancement d'e-combox :" >> $env:USERPROFILE\initialisationEcombox.log
        # Téléchargement d'e-comBox
        docker pull aporaf/e-combox:1.0 *>> $env:USERPROFILE\initialisationEcombox.log
