@@ -321,7 +321,7 @@ URL_UTILE=$docker_ip_host
    docker-compose up -d *>> $env:USERPROFILE\configEnvEcombox.log
 
 # Téléchargement éventuel d'une nouvelle version de e-comBox et démarrage de l'application
-   if (docker ps -a | grep e-combox){
+   if ((docker ps -a |  Select-String e-combox)) {
      Write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
      Write-Output "Suppression d'e-combox avec son volume :" >> $env:USERPROFILE\configEnvEcombox.log
      docker rm -f e-combox *>> $env:USERPROFILE\configEnvEcombox.log
