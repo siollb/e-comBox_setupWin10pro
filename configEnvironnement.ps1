@@ -12,8 +12,8 @@ New-Item -Name "configEnvEcombox.log" -ItemType file -force
 write-host ""
 Write-host "Le fichier de log configEnvEcombox.log a été créé à la racine du dossier $env:USERPROFILE."
 
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Configuration de l'environnement" >> $env:USERPROFILE\configEnvEcombox.log
-Write-host "$((Get-Date).ToString("HH:mm:ss")) - Configuration de l'environnement"
+Write-Output "$(Get-Date) - Configuration de l'environnement" >> $env:USERPROFILE\configEnvEcombox.log
+Write-host "$(Get-Date) - Configuration de l'environnement"
 
 # Vérification que Docker fonctionne correctement sinon ce n'est pas la peine de continuer
 
