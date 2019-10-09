@@ -342,13 +342,13 @@ URL_UTILE=$docker_ip_host
     } 
 
 # Nettoyage des anciennes images si elles ne sont associées à aucun site
-if (docker images -q) {
+if (docker image ls -q) {
   Write-host ""      
   Write-host "Suppression des images qui ne sont associées à aucun site."
   Write-host ""
   Write-Output "" >> $env:USERPROFILE\configEnvEcombox.log     
   Write-Output "Suppression des images qui ne sont associées à aucun site :" >> $env:USERPROFILE\configEnvEcombox.log
-  docker rmi $(docker images -q) *>> $env:USERPROFILE\configEnvEcombox.log
+  docker image rm -f $(docker image ls -q) *>> $env:USERPROFILE\configEnvEcombox.log
 }
   else {
        Write-host ""
@@ -359,11 +359,6 @@ if (docker images -q) {
        Write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
   }
 
-# Suppression des éventuels images dangling
-if (docker images -q -f dangling=true) {
-   docker rmi $(docker images -q -f dangling=true) *>> $env:USERPROFILE\configEnvEcombox.log
-   }
-   
 Read-Host "Appuyez sur la touche Entrée pour lancer l'application"
 
 Start-Process "C:\Program Files\e-comBox\e-comBox.url"
