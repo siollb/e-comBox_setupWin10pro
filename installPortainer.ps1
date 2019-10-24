@@ -64,6 +64,15 @@ if ($settings.ProxyEnable -eq 1) {
         {
             $adresseProxy = "http://" + $adresseProxy
         }
+    $noProxy = $settings.ProxyOverride
+    if ($noProxy)
+       { 
+             $noProxy = $noProxy.Replace(';',',')
+       }
+       else
+       {     
+             $noProxy = "localhost"
+       }
     Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
     Write-Output "le proxy est $adresseProxy et le noProxy est $noProxy" >> $env:USERPROFILE\initialisationEcombox.log
     Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
