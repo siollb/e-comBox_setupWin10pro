@@ -11,9 +11,13 @@ Set-Location -Path $env:USERPROFILE
 New-Item -Name "configEnvEcombox.log" -ItemType file -force
 write-host ""
 Write-host "Le fichier de log configEnvEcombox.log a été créé à la racine du dossier $env:USERPROFILE."
-
-Write-Output "$(Get-Date) - Configuration de l'environnement" >> $env:USERPROFILE\configEnvEcombox.log
 Write-host "$(Get-Date) - Configuration de l'environnement"
+
+Write-Output "==========================================================================================" >> $env:USERPROFILE\configEnvEcombox.log
+Write-Output "$(Get-Date) -  Vérification et configuration de l'environnement" >> $env:USERPROFILE\configEnvEcombox.log
+Write-Output "==========================================================================================" >> $env:USERPROFILE\configEnvEcombox.log
+Write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
+
 
 # Vérification que Docker fonctionne correctement sinon ce n'est pas la peine de continuer
 
