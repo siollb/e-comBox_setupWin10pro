@@ -18,7 +18,6 @@ Write-Output "$(Get-Date) -  Vérification et configuration de l'environnement" 
 Write-Output "==========================================================================================" >> $env:USERPROFILE\configEnvEcombox.log
 Write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
 
-
 # Vérification que Docker fonctionne correctement sinon ce n'est pas la peine de continuer
 
 Write-host ""
