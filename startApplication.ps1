@@ -1,4 +1,10 @@
 
+Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "=============================================================" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "Installation et lancement dans un navigateur de l'application" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "=============================================================" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
+ 
  #Téléchargement d'une éventuelle nouvelle version de e-comBox et démarrage de l'application
    if ((docker ps -a |  Select-String e-combox)) {
      Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
@@ -26,3 +32,6 @@
 
 # Lancement de l'URL
 Start-Process "C:\Program Files\e-comBox\e-comBox.url" *>> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "L'application e-comBox a été lancée dans le navigateur." >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log

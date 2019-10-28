@@ -4,8 +4,8 @@
 
 # Mettre les messages en français et enlever la référence à une "erreur".
 
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Restarting docker"
-Write-host "$((Get-Date).ToString("HH:mm:ss")) - Restarting docker"
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Redémarrage de Docker"
+Write-host "$((Get-Date).ToString("HH:mm:ss")) - Redémarrage de Docker"
 
 # New-Item -Name "fichierTemoin.txt" -ItemType file -force
 
@@ -31,7 +31,7 @@ foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.S
     $svc.WaitForStatus('Running','00:00:20')
 }
 
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Starting Docker Desktop"
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Redémarrage de Docker Desktop"
 & "C:\Program Files\Docker\Docker\Docker Desktop.exe"
 $startTimeout = [DateTime]::Now.AddSeconds(90)
 $timeoutHit = $true
@@ -59,7 +59,7 @@ while ((Get-Date) -le $startTimeout)
 
         if (($_ -ilike "*error during connect*") -or ($_ -ilike "*errors pretty printing info*")  -or ($_ -ilike "*Error running info command*"))
         {
-            Write-Output "$((Get-Date).ToString("HH:mm:ss")) -`t Docker Desktop startup not yet completed, waiting and checking again"
+            Write-Output "$((Get-Date).ToString("HH:mm:ss")) -`t Docker Desktop startup n'a pas encore complètement démarré, il faut attendre"
         }
         else
         {
@@ -74,4 +74,4 @@ if ($timeoutHit -eq $true)
     throw "Timeout hit waiting for docker to startup"
 }
 
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Docker restarted"
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Docker a redémarré"

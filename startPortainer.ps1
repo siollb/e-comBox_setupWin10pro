@@ -1,5 +1,5 @@
 ﻿# Détection et configuration d'un éventuel proxy pour Docker
-Start-Process -wait lanceScriptPS_configProxyDocker.bat
+Start-Process -wait -NoNewWindow "lanceScriptPS_configProxyDocker.bat"
 Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
 
 # Récupération et mise au bon format de l'adresse IP de l'hôte (l'adresse IP récupérée est associée à une passerelle par défaut)
@@ -26,7 +26,7 @@ Write-Output "le fichier .env a été mis à jour avec l'adresse IP $docker_ip_h
 Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
 
 
-# Création du réseau 192.168.97.0/24 utilisé par e-comBox
+# Création éventuel du réseau 192.168.97.0/24 utilisé par e-comBox
 
 Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
 Write-Output "Création du réseau des sites" >> $env:USERPROFILE\initialisationEcombox.log
@@ -50,7 +50,7 @@ else {
 
 Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
 Write-Output "Lancement de Portainer :" >> $env:USERPROFILE\initialisationEcombox.log 
-docker-compose up -d *>> $env:USERPROFILE\initialisationEcombox.log
+docker-compose up --build --force-recreate -d *>> $env:USERPROFILE\initialisationEcombox.log
 
 
 If ($? -eq 0) {

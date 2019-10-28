@@ -1,4 +1,4 @@
-Starting compile.  [jeudi, octobre 24 2019 at 11:34:39]
+Starting compile.  [lundi, octobre 28 2019 at 13:33:20]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -39,6 +39,7 @@ Parsing [Setup] section, line 41
 Parsing [Setup] section, line 42
 Parsing [Setup] section, line 43
 Parsing [Setup] section, line 45
+Parsing [Setup] section, line 46
 Reading file (LicenseFile)
 Reading file (InfoBeforeFile)
 Reading file (WizardImageFile)
@@ -47,41 +48,40 @@ Reading file (WizardSmallImageFile)
    File: C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
 Preparing Setup program executable
 Determining language code pages
-Parsing [Languages] section, line 48
+Parsing [Languages] section, line 49
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
    Messages in script file
 Reading default messages from Default.isl
-Parsing [Languages] section, line 48
+Parsing [Languages] section, line 49
    File: C:\Program Files (x86)\Inno Setup 6\Languages\French.isl
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 118
 Parsing [Components] section, line 119
 Parsing [Components] section, line 120
-Parsing [Dirs] section, line 146
+Parsing [Components] section, line 121
 Parsing [Dirs] section, line 147
-Parsing [Icons] section, line 91
+Parsing [Dirs] section, line 148
 Parsing [Icons] section, line 92
-Parsing [Icons] section, line 94
-Parsing [Icons] section, line 96
+Parsing [Icons] section, line 93
+Parsing [Icons] section, line 95
 Parsing [Icons] section, line 97
-Parsing [INI] section, line 111
-Parsing [UninstallDelete] section, line 114
+Parsing [Icons] section, line 98
+Parsing [INI] section, line 112
 Parsing [UninstallDelete] section, line 115
-Parsing [Run] section, line 100
-Parsing [Files] section, line 52
+Parsing [UninstallDelete] section, line 116
+Parsing [Run] section, line 101
 Parsing [Files] section, line 53
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
 Parsing [Files] section, line 56
-Parsing [Files] section, line 59
+Parsing [Files] section, line 57
 Parsing [Files] section, line 60
 Parsing [Files] section, line 61
 Parsing [Files] section, line 62
 Parsing [Files] section, line 63
 Parsing [Files] section, line 64
-Parsing [Files] section, line 66
+Parsing [Files] section, line 65
 Parsing [Files] section, line 67
 Parsing [Files] section, line 68
 Parsing [Files] section, line 69
@@ -89,7 +89,7 @@ Parsing [Files] section, line 70
 Parsing [Files] section, line 71
 Parsing [Files] section, line 72
 Parsing [Files] section, line 73
-Parsing [Files] section, line 78
+Parsing [Files] section, line 74
 Parsing [Files] section, line 79
 Parsing [Files] section, line 80
 Parsing [Files] section, line 81
@@ -98,6 +98,7 @@ Parsing [Files] section, line 83
 Parsing [Files] section, line 84
 Parsing [Files] section, line 85
 Parsing [Files] section, line 86
+Parsing [Files] section, line 87
 Compiling [Code] section
 Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
 Creating setup files
@@ -131,10 +132,10 @@ Creating setup files
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 168, Column 3: [Hint] Variable 'S' never used
+Warning: Line 169, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [jeudi, octobre 24 2019 at 11:34:42]
-Total compile time: 00:02,750
+Compile finished.  [lundi, octobre 28 2019 at 13:33:22]
+Total compile time: 00:01,578

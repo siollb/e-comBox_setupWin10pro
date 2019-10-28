@@ -202,7 +202,7 @@ If ($TestPath -eq $False) {
     #Write-Host ""
     }
     else {
-      # Arrêt de Portainer
+      # Arrêt et suppression de Portainer
       write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
       Write-Output "Portainer est démarré, il faut le stopper et le supprimer pour le réinstaller." >> $env:USERPROFILE\configEnvEcombox.log
       write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
@@ -217,16 +217,22 @@ If ($TestPath -eq $False) {
       } 
 
 If ($? -eq 0) {
-write-host ""
-write-host "Success..."
-write-host ""
+  write-host ""
+  write-host "Success... Portainer a été téléchargé."
+  write-host ""
+  write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
+  write-Output "Success... Portainer a été téléchargé." >> $env:USERPROFILE\configEnvEcombox.log
+  write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
+
 }
     else {
        write-host ""
-       write-host "Portainer n'a pas pu être téléchargé, consultez le fichier de log pour plus d'informations"
+       write-host "Portainer n'a pas pu être téléchargé, consultez le fichier de log pour plus d'informations."
        Write-Host ""
-    }
-
+       write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
+       write-Output "Portainer n'a pas pu être téléchargé, consultez le fichier de log pour plus d'informations." >> $env:USERPROFILE\configEnvEcombox.log
+       write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
+    }           
 
 
 
@@ -318,7 +324,7 @@ URL_UTILE=$docker_ip_host
 
 
 # Démarrage de Portainer
-   docker-compose up -d *>> $env:USERPROFILE\configEnvEcombox.log
+   docker-compose up --build --force-recreate -d *>> $env:USERPROFILE\configEnvEcombox.log
 
 # Téléchargement éventuel d'une nouvelle version de e-comBox et démarrage de l'application
    if ((docker ps -a |  Select-String e-combox)) {
@@ -362,3 +368,5 @@ if (docker image ls -q) {
 Read-Host "Appuyez sur la touche Entrée pour lancer l'application"
 
 Start-Process "C:\Program Files\e-comBox\e-comBox.url"
+write-Output "" >> $env:USERPROFILE\configEnvEcombox.log
+Write-Output "L'application a été lancée dans le navigateur le $(Get-Date)." >> $env:USERPROFILE\configEnvEcombox.log

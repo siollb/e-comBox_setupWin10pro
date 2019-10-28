@@ -43,6 +43,7 @@ WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
 FlatComponentsList=False
 ;SignTool=SignatureCode
 AlwaysUsePersonalGroup=True
+Uninstallable=yes
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"

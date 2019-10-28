@@ -1,20 +1,19 @@
-﻿$Path="$env:USERPROFILE\e-comBox_portainer\"
-$TestPath=Test-Path $Path
+﻿Write-host ""
+Write-host "    --> Réinstallation et redémarrage de Portainer"
+Write-host ""
+Write-Output ""  >> $env:USERPROFILE\reinitialiseEnvEcombox.log
+Write-Output "    --> Réinstallation et redémarrage de Portainer. Voir détail des logs dans initialisationEcombox.log"  >> $env:USERPROFILE\reinitialiseEnvEcombox.log
+Write-Output ""  >> $env:USERPROFILE\reinitialiseEnvEcombox.log
 
-If ($TestPath -eq $False) {
-    # Installation de Portainer sur Git
-    Write-host ""
-    Write-host "    --> Portainer n'est pas installé, il faut l'installer."
-    Write-host ""
-    Start-Process -wait lanceScriptPS_installPortainer.bat
-    }
-    else {
-      # Arrêt de Portainer
-      Write-host ""
-      Write-host "    --> Portainer est démarré, il faut le stopper."
-      Write-host ""
-      Start-Process -wait lanceScriptPS_stopPortainer.bat       
-      }
+Write-Output "--------------------------------------------------------------------------------------------" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "    --> Une réinitialisation de l'environnement a été lancée le $(Get-Date)."  >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
 
+Start-Process -wait -NoNewWindow "lanceScriptPS_installPortainer.bat"
+Start-Process -wait -NoNewWindow "lanceScriptPS_startPortainer.bat"
 
-Start-Process -wait lanceScriptPS_startPortainer.bat
+Write-Output "--------------------------------------------------------------------------------------------" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output "" >> $env:USERPROFILE\initialisationEcombox.log
+Write-Output ""  >> $env:USERPROFILE\reinitialiseEnvEcombox.log
+Write-Output "Fin de la réinitialisation de Portainer du $(Get-Date)."  >> $env:USERPROFILE\reinitialiseEnvEcombox.log
+Write-Output ""  >> $env:USERPROFILE\reinitialiseEnvEcombox.log
