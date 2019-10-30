@@ -1,4 +1,4 @@
-Starting compile.  [lundi, octobre 28 2019 at 16:28:01]
+Starting compile.  [mercredi, octobre 30 2019 at 17:39:11]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -57,20 +57,22 @@ Parsing [Languages] section, line 49
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 119
-Parsing [Components] section, line 120
 Parsing [Components] section, line 121
-Parsing [Dirs] section, line 147
-Parsing [Dirs] section, line 148
+Parsing [Components] section, line 122
+Parsing [Components] section, line 123
+Parsing [Dirs] section, line 149
+Parsing [Dirs] section, line 150
 Parsing [Icons] section, line 92
 Parsing [Icons] section, line 93
 Parsing [Icons] section, line 95
 Parsing [Icons] section, line 97
 Parsing [Icons] section, line 98
-Parsing [INI] section, line 112
-Parsing [UninstallDelete] section, line 115
+Parsing [Icons] section, line 99
+Parsing [INI] section, line 113
 Parsing [UninstallDelete] section, line 116
-Parsing [Run] section, line 101
+Parsing [UninstallDelete] section, line 117
+Parsing [UninstallDelete] section, line 118
+Parsing [Run] section, line 102
 Parsing [Files] section, line 53
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
@@ -82,7 +84,7 @@ Parsing [Files] section, line 62
 Parsing [Files] section, line 63
 Parsing [Files] section, line 64
 Parsing [Files] section, line 65
-Parsing [Files] section, line 67
+Parsing [Files] section, line 66
 Parsing [Files] section, line 68
 Parsing [Files] section, line 69
 Parsing [Files] section, line 70
@@ -113,13 +115,14 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_restartDocker.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_configProxyDocker.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_configEnvironnement.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_verifDocker.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\stopPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartApplication.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\configProxyDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\configEnvironnement.ps1
-   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartDockerBis.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\verifDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\checkHyperV.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\activeHyperV.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\downloadDocker.ps1
@@ -132,10 +135,10 @@ Creating setup files
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 169, Column 3: [Hint] Variable 'S' never used
+Warning: Line 171, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [lundi, octobre 28 2019 at 16:28:03]
-Total compile time: 00:01,672
+Compile finished.  [mercredi, octobre 30 2019 at 17:39:12]
+Total compile time: 00:01,219

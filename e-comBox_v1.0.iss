@@ -63,14 +63,14 @@ Source: "lanceScriptPS_restartApplication.bat"; DestDir: "{app}\scripts"; Flags:
 Source: "lanceScriptPS_restartDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_configProxyDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_configEnvironnement.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "lanceScriptPS_verifDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 Source: "restartPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "stopPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "restartApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "restartDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "configProxyDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversionSource: "configEnvironnement.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
-Source: "restartDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
-Source: "restartDockerBis.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "verifDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 
 ; Les scripts pour installer les pré-requis
@@ -94,6 +94,7 @@ Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"
 Name: "{group}\Réinitialiser l'environnement"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 ;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
+Name: "{group}\Redémarrer Docker"; Filename: "{app}\scripts\lanceScriptPS_restartDocker.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
@@ -113,6 +114,7 @@ Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; Str
 [UninstallDelete]
 Type: files; Name: "{app}\{#MyAppName}.url"
 Type: filesandordirs; Name: "{userdocs}\..\e-comBox_portainer"
+Type: filesandordirs; Name: "{userdocs}\..\.docker\logEcombox"
 
 [Components]
 Name: "HyperV"; Description: "Active Hyper V"; Types: full custom compact; Flags: fixed

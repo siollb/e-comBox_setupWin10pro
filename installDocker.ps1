@@ -12,3 +12,7 @@ start-process -wait docker-installer.exe " install --quiet"
 # Suppression de l'exécutable
 rm docker-installer.exe
 
+# Ajout du dossier qui va accueillir les logs
+If (-not (Test-Path "$env:USERPROFILE\.docker")) { New-Item -ItemType Directory -Path "$env:USERPROFILE\.docker" }
+New-Item -Path "$env:USERPROFILE\.docker\logEcombox" -ItemType Directory -force
+

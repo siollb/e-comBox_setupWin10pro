@@ -1,2 +1,2 @@
-powershell.exe -executionpolicy bypass -file "restartDockerBis.ps1"
+START /MIN /B powershell.exe -executionpolicy bypass -file "restartDocker.ps1"
 
