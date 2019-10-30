@@ -133,7 +133,7 @@ if ($adresseProxy -ilike "*=*")
 }
 "@ > config.json
 
-Set-Content $env:USERPROFILE\.docker\config.json\config.json -Encoding ASCII -Value (Get-Content $env:USERPROFILE\.docker\config.json\config.json) *>> $pathlog\configEnvEcombox.log
+Set-Content $env:USERPROFILE\.docker\config.json -Encoding ASCII -Value (Get-Content $env:USERPROFILE\.docker\config.json) *>> $pathlog\configEnvEcombox.log
 
 }
   else {
@@ -149,7 +149,7 @@ Set-Content $env:USERPROFILE\.docker\config.json\config.json -Encoding ASCII -Va
    git config --global --unset http.proxy *>> $pathlog\configEnvEcombox.log
    
    #Configuration de Docker
-   remove-item "$env:USERPROFILE\.docker\config.json\config.json" *>> $pathlog\configEnvEcombox.log 
+   remove-item "$env:USERPROFILE\.docker\config.json" *>> $pathlog\configEnvEcombox.log 
    }
 
    
@@ -177,7 +177,7 @@ Set-Content $env:USERPROFILE\.docker\config.json\config.json -Encoding ASCII -Va
    Write-Output "" >> $pathlog\configEnvEcombox.log
    }
  else {
-   Write-Output "" >> $pathlog\configEnvEcombox.logg
+   Write-Output "" >> $pathlog\configEnvEcombox.log
    Write-Output "Le réseau des sites 192.168.97.0/24 n'existe pas, il faut le créer :" >> $pathlog\configEnvEcombox.log
    Write-Output "" >> $pathlog\initialisationEcombox.log
    docker network create --subnet 192.168.97.0/24 --gateway=192.168.97.1 bridge_e-combox *>> $pathlog\configEnvEcombox.log
