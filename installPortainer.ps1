@@ -27,6 +27,7 @@ Write-Host $info_docker
 if ($info_docker -ilike "*error*") {      
      Write-Output "Docker n'est pas démarré" >> $pathlog\initialisationEcombox.log 
      Write-Output "" >> $pathlog\initialisationEcombox.log
+     write-Output "S'il s'agit d'une initialisation silencieuse, le script va s'arrêter automatiquement." >> $pathlog\initialisationEcombox.log
      Write-host "Docker ne semble pas démarré, Si vous venez d'allumer votre ordinateur, c'est normal. Merci d'attendre avant de continuer."
      write-host ""
      write-host "Si la situation ne vous parait pas normal, fermez la fenêtre et lancer le raccourci 'Redémarrer Docker'."
@@ -34,7 +35,8 @@ if ($info_docker -ilike "*error*") {
      write-host ""
      $confirmStart=Read-Host "Saisissez oui pour fermer la fenêtre ou sur n'importe quel touche pour continuer"
      if ($confirmStart -eq "oui") {
-     exit          
+       write-Output "L'utilisateur a demandé l'arrêt du script." >> $pathlog\initialisationEcombox.log
+       exit          
      }
         else {
             Write-Output "L'utilisateur a continué le processus d'initialisation" >> $pathlog\initialisationEcombox.log 

@@ -1,4 +1,4 @@
-Starting compile.  [mercredi, octobre 30 2019 at 17:39:11]
+Starting compile.  [jeudi, octobre 31 2019 at 00:43:54]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -140,5 +140,5 @@ Warning: Line 171, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [mercredi, octobre 30 2019 at 17:39:12]
-Total compile time: 00:01,219
+Compile finished.  [jeudi, octobre 31 2019 at 00:43:56]
+Total compile time: 00:01,578

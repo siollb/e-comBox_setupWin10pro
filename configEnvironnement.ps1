@@ -38,7 +38,7 @@ $info_docker = (docker info)
 
 if ($info_docker -ilike "*error*") {      
      Write-Output "Docker n'est pas démarré" >> $pathlog\configEnvEcombox.log 
-     Write-Output "" >> $pathlog\configEnvEcombox.log
+     Write-Output "" >> $pathlog\configEnvEcombox.log    
      Write-host "Docker ne semble pas démarré, Si vous venez d'allumer votre ordinateur, c'est normal. Merci d'attendre avant de continuer."
      write-host ""
      write-host "Si la situation ne vous parait pas normal, fermez la fenêtre et lancer le raccourci 'Redémarrer Docker'."
@@ -118,7 +118,7 @@ if ($adresseProxy -ilike "*=*")
      Write-host ""
 
      # Configuration de Docker
-     new-item "config.json" –type file -force *>> $pathlog\configEnvEcombox.log
+     new-item "$env:USERPROFILE\.docker\config.json" –type file -force *>> $pathlog\configEnvEcombox.log
 @"
 {
  "proxies":
@@ -133,7 +133,7 @@ if ($adresseProxy -ilike "*=*")
 }
 "@ > config.json
 
-Set-Content config.json -Encoding ASCII -Value (Get-Content config.json) *>> $pathlog\configEnvEcombox.log
+Set-Content $env:USERPROFILE\.docker\config.json\config.json -Encoding ASCII -Value (Get-Content $env:USERPROFILE\.docker\config.json\config.json) *>> $pathlog\configEnvEcombox.log
 
 }
   else {
@@ -149,7 +149,7 @@ Set-Content config.json -Encoding ASCII -Value (Get-Content config.json) *>> $pa
    git config --global --unset http.proxy *>> $pathlog\configEnvEcombox.log
    
    #Configuration de Docker
-   remove-item "config.json" *>> $pathlog\initialisationEcombox.log 
+   remove-item "$env:USERPROFILE\.docker\config.json\config.json" *>> $pathlog\configEnvEcombox.log 
    }
 
    
@@ -164,6 +164,24 @@ Set-Content config.json -Encoding ASCII -Value (Get-Content config.json) *>> $pa
 
  Write-Host "L'application utilise par défaut le réseau 192.168.97.0/24." 
  Write-host ""
+
+ # Création éventuel du réseau 192.168.97.0/24 utilisé par e-comBox
+
+ Write-Output "" >> $pathlog\configEnvEcombox.log
+ Write-Output "Création éventuel du réseau des sites" >> $pathlog\configEnvEcombox.log
+ Write-Output "" >> $pathlog\configEnvEcombox.log
+
+ if ((docker network ls) | Select-String bridge_e-combox) {
+   Write-Output "" >> $pathlog\configEnvEcombox.log
+   Write-Output "Le réseau des sites existe déjà." >> $pathlog\configEnvEcombox.log
+   Write-Output "" >> $pathlog\configEnvEcombox.log
+   }
+ else {
+   Write-Output "" >> $pathlog\configEnvEcombox.logg
+   Write-Output "Le réseau des sites 192.168.97.0/24 n'existe pas, il faut le créer :" >> $pathlog\configEnvEcombox.log
+   Write-Output "" >> $pathlog\initialisationEcombox.log
+   docker network create --subnet 192.168.97.0/24 --gateway=192.168.97.1 bridge_e-combox *>> $pathlog\configEnvEcombox.log
+}
 
  if ((docker network ls) | Select-String bridge_e-combox) {
       $NET_ECB = docker network inspect --format='{{range .IPAM.Config}}{{.Subnet}}{{end}}' bridge_e-combox
