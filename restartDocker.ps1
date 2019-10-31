@@ -1,28 +1,45 @@
 ﻿# Gestion des logs
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
 
-if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -WindowStyle Normal -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+
+Write-Output "" >> $pathlog\verifDocker.log
+Write-Output "=============================================================" >> $pathlog\verifDocker.log
+Write-Output "$(Get-Date) -  Le script restartDocker a été lancé" >> $pathlog\verifDocker.log
+Write-Output "=============================================================" >> $pathlog\verifDocker.log
+Write-Output "" >> $pathlog\verifDocker.log
 
 
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker s'il est démarré." >> $pathlog\verifDocker.log
+Write-host "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker s'il est démarré."
 
-# Mettre les messages en français et enlever la référence à une "erreur".
-
-
-# Run your code that needs to be elevated here
-#Write-Host -NoNewLine "Press any key to continue..."
-#$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Redémarrage de Docker" >> $pathlog\verifDocker.log
-Write-host "$((Get-Date).ToString("HH:mm:ss")) - Redémarrage de Docker"
-
-$process = Get-Process "com.docker.backend"
+$process = Get-Process "com.docker.backend" -ErrorAction SilentlyContinue
 if ($process.Count -gt 0)
 {
-    #$process[0].Kill()
-    Stop-Process -Name "com.docker.backend" -Force
+    Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend existe et va être stoppé" >> $pathlog\verifDocker.log
+    Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend existe et va être stoppé"
+    Stop-Process -Name "com.docker.backend" -Force  >> $pathlog\verifDocker.log
 }
+    else {
+      Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend n'existe pas" >> $pathlog\verifDocker.log
+      Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend n'existe pas"
+     }
 
-net stop com.docker.service
+
+$service = get-service com.docker.service
+if ($service.status -eq "Stopped")
+{
+
+    Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Rien à faire car Docker est arrêté." >> $pathlog\verifDocker.log
+    Write-host "$((Get-Date).ToString("HH:mm:ss")) - Rien à faire car Docker est arrêté."
+}
+    else
+    {
+      Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le service Docker va être stoppé." >> $pathlog\verifDocker.log
+      Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le service Docker va être stoppé."
+      net stop com.docker.service >> $pathlog\verifDocker.log
+    }
+
 
 foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Running"}))
 {
@@ -38,7 +55,7 @@ foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.S
     $svc.WaitForStatus('Running','00:00:20')
 }
 
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Redémarrage de Docker"
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Démarrage de Docker"
 & "C:\Program Files\Docker\Docker\Docker Desktop.exe"
 $startTimeout = [DateTime]::Now.AddSeconds(90)
 $timeoutHit = $true
@@ -51,10 +68,10 @@ while ((Get-Date) -le $startTimeout)
  try
     {
         $info = (docker info)
-        Write-Verbose "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info executed. Is Error?: $($info -ilike "*error*"). Result was: $info"
+        Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info executed. Is Error?: $($info -ilike "*error*"). Result was: $info" >> $pathlog\verifDocker.log
         if ($info -ilike "*error*")
         {
-            Write-Verbose "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info had an error. throwing..."
+            Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info had an error. throwing..." >> $pathlog\verifDocker.log
             throw "Error running info command $info"
         }
         $timeoutHit = $false
@@ -83,5 +100,5 @@ if ($timeoutHit -eq $true)
     throw "Délai d'attente en attente du démarrage de docker"
 }
 
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Docker a redémarré." >> $pathlog\verifDocker.log
-Write-host "$((Get-Date).ToString("HH:mm:ss")) - Docker a redémarré."
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `t Docker a redémarré." >> $pathlog\verifDocker.log
+Write-host "$((Get-Date).ToString("HH:mm:ss")) - `t Docker a redémarré."
