@@ -149,7 +149,7 @@ Set-Content $env:USERPROFILE\.docker\config.json -Encoding ASCII -Value (Get-Con
    git config --global --unset http.proxy *>> $pathlog\configEnvEcombox.log
    
    #Configuration de Docker
-   remove-item "$env:USERPROFILE\.docker\config.json" *>> $pathlog\configEnvEcombox.log 
+   remove-item "$env:USERPROFILE\.docker\config.json" -force *>> $pathlog\configEnvEcombox.log 
    }
 
    
