@@ -15,8 +15,8 @@ $settings = Get-ItemProperty -Path $reg
 $adresseProxy = $settings.ProxyServer
 $proxyEnable = $settings.ProxyEnable
 
-Write-Host "l'adresse du proxy est $adresseProxy"
-Write-Output "le proxy est enable à $proxyEnable et est $adresseProxy" >> $pathlog\initialisationEcombox.log
+#Write-Host "l'adresse du proxy est $adresseProxy"
+#Write-Output "le proxy est enable à $proxyEnable et est $adresseProxy" >> $pathlog\initialisationEcombox.log
 
 if ($settings.ProxyEnable -eq 1) {
 $adresseProxy = $settings.ProxyServer
@@ -29,7 +29,7 @@ if ($adresseProxy -ilike "*=*")
         {
             $adresseProxy = "http://" + $adresseProxy
         }
-    Write-Output "le proxy est bien configuré à $adresseProxy" >> $pathlog\initialisationEcombox.log
+    Write-Output "le proxy est activé et est configuré à $adresseProxy" >> $pathlog\initialisationEcombox.log
 
 $noProxy = $settings.ProxyOverride
 
@@ -42,7 +42,7 @@ if ($noProxy)
              $noProxy = "localhost"
        }
 
-    Write-Output "le no proxy est bien configuré à $noProxy"  >> $pathlog\initialisationEcombox.log
+    Write-Output "le no proxy est configuré à $noProxy"  >> $pathlog\initialisationEcombox.log
 
 
 new-item "config.json" –type file -force *>> $pathlog\initialisationEcombox.log
@@ -63,15 +63,15 @@ new-item "config.json" –type file -force *>> $pathlog\initialisationEcombox.lo
 Set-Content config.json -Encoding ASCII -Value (Get-Content config.json) *>> $pathlog\initialisationEcombox.log
 
 Write-Output ""  >> $pathlog\initialisationEcombox.log
-Write-Output "le fichier config.json a été créé et complété"  >> $pathlog\initialisationEcombox.log
+Write-Output "Le fichier config.json a été créé et complété."  >> $pathlog\initialisationEcombox.log
 Write-Output ""  >> $pathlog\initialisationEcombox.log
 
 }
      else {
          remove-item "config.json" *>> $pathlog\initialisationEcombox.log
          Write-Output ""  >> $pathlog\initialisationEcombox.log
-         Write-Output "le fichier config.json a été supprimé"  >> $pathlog\initialisationEcombox.log
-         Write-Output ""  >> $pathlog\initialisationEcombox.log
+         Write-Output "Le proxy est désactivé et le fichier config.json a été supprimé"  >> $pathlog\initialisationEcombox.log
+         Write-Output ""  >> $pathlog\initialisationEcombox.log         
       }
 
 #cd $env:USERPROFILE\.docker\
