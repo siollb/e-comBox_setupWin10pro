@@ -28,38 +28,119 @@ Write-host "Vérification de l'état de Docker"
 Write-host "================================"
 Write-host ""
 
-Write-Output "Vérification du bon fonctionnement de Docker" >> $pathlog\configEnvEcombox.log
-Write-Output "" >> $pathlog\configEnvEcombox.log
-
 docker info *>> $pathlog\configEnvEcombox.log
 Write-Output "" >> $pathlog\configEnvEcombox.log
 
 $info_docker = (docker info)
 
 if ($info_docker -ilike "*error*") {      
-     Write-Output "Docker n'est pas démarré" >> $pathlog\configEnvEcombox.log 
-     Write-Output "" >> $pathlog\configEnvEcombox.log    
-     Write-host "Docker ne semble pas démarré, Si vous venez d'allumer votre ordinateur, c'est normal. Merci d'attendre avant de continuer."
+     Write-Output "Docker n'est pas démarré. Le processus doit démarrer Docker avant de continuer..." >> $pathlog\configEnvEcombox.log 
+     Write-Output "" >> $pathlog\configEnvEcombox.log
+     Write-host "Le processus doit démarrer Docker avant de continuer..."
      write-host ""
-     write-host "Si la situation ne vous parait pas normal, fermez la fenêtre et lancer le raccourci 'Redémarrer Docker'."
-     write-host "Lorsque Docker est démarré, voous pourrez relancer de nouveau le raccourci 'Vérifier et configurer l'environnement'."
-     write-host ""
-     $confirmStart=Read-Host "Saisissez oui pour fermer la fenêtre ou sur n'importe quel touche pour continuer"
-     if ($confirmStart -eq "oui") {
-     exit          
+     
+     #Lancement de Docker en super admin
+     
+     if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -WindowStyle Normal -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+         Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Arrêt des processus résiduels." >> $pathlog\configEnvEcombox.log
+         #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker s'il est démarré."
+
+         $process = Get-Process "com.docker.backend" -ErrorAction SilentlyContinue
+         if ($process.Count -gt 0)
+         {
+            Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend existe et va être stoppé" >> $pathlog\configEnvEcombox.log
+            #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend existe et va être stoppé"
+            Stop-Process -Name "com.docker.backend" -Force  >> $pathlog\configEnvEcombox.log
+         }
+            else {
+                Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend n'existe pas" >> $pathlog\configEnvEcombox.log
+                #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend n'existe pas"
+            }
+
+
+         $service = get-service com.docker.service
+         if ($service.status -eq "Stopped")
+         {
+            Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Rien à faire car Docker est arrêté." >> $pathlog\configEnvEcombox.log
+            #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Rien à faire car Docker est arrêté."
+         }
+            else
+            {
+               Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le service Docker va être stoppé." >> $pathlog\configEnvEcombox.log
+               #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le service Docker va être stoppé."
+               net stop com.docker.service >> $pathlog\configEnvEcombox.log
+            }
+
+
+           foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Running"}))
+           {
+              $svc | Stop-Service -ErrorAction Continue -Confirm:$false -Force
+              $svc.WaitForStatus('Stopped','00:00:20')
+           }
+
+           Get-Process | Where-Object {$_.Name -ilike "*docker*"} | Stop-Process -ErrorAction Continue -Confirm:$false -Force
+
+          foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Stopped"} ))
+          {
+             $svc | Start-Service 
+             $svc.WaitForStatus('Running','00:00:20')
+          }
+
+          Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Démarrage de Docker"
+          & "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+          $startTimeout = [DateTime]::Now.AddSeconds(90)
+          $timeoutHit = $true
+          while ((Get-Date) -le $startTimeout)
+          {
+
+          Start-Sleep -Seconds 10
+          $ErrorActionPreference = 'Continue'
+
+          try
+         {
+            $info = (docker info)
+            Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info executed. Is Error?: $($info -ilike "*error*"). Result was: $info" >> $pathlog\configEnvEcombox.log
+            if ($info -ilike "*error*")
+            {
+               Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info had an error. throwing..." >> $pathlog\configEnvEcombox.log
+               throw "Error running info command $info"
+            }
+            $timeoutHit = $false
+            break
+         }
+         catch 
+         {
+
+             if (($_ -ilike "*error during connect*") -or ($_ -ilike "*errors pretty printing info*")  -or ($_ -ilike "*Error running info command*"))
+             {
+                 Write-Output "$((Get-Date).ToString("HH:mm:ss")) -`t Docker Desktop n'a pas encore complètement démarré, il faut attendre." >> $pathlog\configEnvEcombox.log
+                 Write-host "$((Get-Date).ToString("HH:mm:ss")) -`t Docker Desktop n'a pas encore complètement démarré, il faut attendre."
+             }
+             else
+            {
+                write-host ""
+                write-host "Unexpected Error: `n $_"
+                Write-Output "Unexpected Error: `n $_" >> $pathlog\configEnvEcombox.log
+                return
+            }
+         }
+         $ErrorActionPreference = 'Stop'
      }
-        else {
-            Write-Output "L'utilisateur a continué le processus d'initialisation" >> $pathlog\initialisationEcombox.log 
-            Write-Output "" >> $pathlog\initialisationEcombox.log
-        }
-}
-     else {
-         Write-Output "Docker est démarré" >> $pathlog\configEnvEcombox.log
-         Write-Output "" >> $pathlog\configEnvEcombox.log
-         Write-host "Docker est démarré, on peut continuer..."
-         Write-host ""
-    }       
-       
+     if ($timeoutHit -eq $true)
+     {
+         throw "Délai d'attente en attente du démarrage de docker"
+     }
+        
+     Write-host "$((Get-Date).ToString("HH:mm:ss")) - `t Docker a démarré."
+     Write-host "$((Get-Date).ToString("HH:mm:ss")) - `t  Le processus peut continuer."
+     Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `t Docker a démarré." >> $pathlog\configEnvEcombox.log
+     Write-Output " $((Get-Date).ToString("HH:mm:ss")) - `t Le processus peut continuer." >> $pathlog\configEnvEcombox.log
+     Write-Output "" >> $pathlog\configEnvEcombox.log 
+   }
+   else {
+            Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Docker est démarré. Le processus peut continuer..." >> $pathlog\configEnvEcombox.log 
+            Write-Output "" >> $pathlog\configEnvEcombox.log           
+            }
 
 # Détection du proxy système
 
@@ -101,14 +182,12 @@ if ($adresseProxy -ilike "*=*")
              $noProxy = "localhost"
        }
 
-    Write-Output "" >> $pathlog\configEnvEcombox.log
     Write-Output "le proxy est $adresseProxy et le noProxy est $noProxy" >> $pathlog\configEnvEcombox.log
     Write-Output "" >> $pathlog\configEnvEcombox.log
 
     # Configuration de Git pour récupérer éventuellement un nouveau Portainer
     git config --global http.proxy $adresseProxy *>> $pathlog\configEnvEcombox.log
     
-     Write-host ""
      Write-Host "Le système a détecté que vous utilisez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"
      Write-Host ""
      Write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
@@ -179,7 +258,7 @@ Set-Content $env:USERPROFILE\.docker\config.json -Encoding ASCII -Value (Get-Con
  else {
    Write-Output "" >> $pathlog\configEnvEcombox.log
    Write-Output "Le réseau des sites 192.168.97.0/24 n'existe pas, il faut le créer :" >> $pathlog\configEnvEcombox.log
-   Write-Output "" >> $pathlog\initialisationEcombox.log
+   Write-Output "" >> $pathlog\configEnvEcombox.log
    docker network create --subnet 192.168.97.0/24 --gateway=192.168.97.1 bridge_e-combox *>> $pathlog\configEnvEcombox.log
 }
 
@@ -233,7 +312,7 @@ Set-Content $env:USERPROFILE\.docker\config.json -Encoding ASCII -Value (Get-Con
 # Récupération de portainer
 
 write-host ""
-write-host "Le re-initialisation continue avec la configuration de Portainer..."
+write-host "Le processus continue avec la configuration de Portainer..."
 write-host ""
 
 $Path="$env:USERPROFILE\e-comBox_portainer\"
@@ -258,13 +337,12 @@ If ($TestPath -eq $False) {
       Set-Location -Path $env:USERPROFILE\
       Remove-Item "e-comBox_portainer" -Recurse -Force *>> $pathlog\configEnvEcombox.log
       Write-Output "" >> $pathlog\configEnvEcombox.log   
-      git clone https://github.com/siollb/e-comBox_portainer.git *>> $pathlog\configEnvEcombox.log
-      #Write-Host "" >> $pathlog\configEnvEcombox.log      
+      git clone https://github.com/siollb/e-comBox_portainer.git *>> $pathlog\configEnvEcombox.log      
       } 
 
 If ($? -eq 0) {
   write-host ""
-  write-host "Success... Portainer a été téléchargé."
+  write-host "Succès... Portainer a été téléchargé."
   write-host ""
   write-Output "" >> $pathlog\configEnvEcombox.log
   write-Output "Success... Portainer a été téléchargé." >> $pathlog\configEnvEcombox.log
@@ -371,6 +449,161 @@ URL_UTILE=$docker_ip_host
 
 # Démarrage de Portainer
    docker-compose up --build --force-recreate -d *>> $pathlog\configEnvEcombox.log
+
+
+if ((docker ps -a |  Select-String portainer-proxy)) {
+    write-host ""
+    write-host "Portainer est UP, on peut continuer."
+    write-host ""
+    Write-Output "" >> $pathlog\configEnvEcombox.log
+    Write-Output "Portainer est UP, on peut continuer." >> $pathlog\initialisationEcombox.lo
+    write-Output "" >> $pathlog\configEnvEcombox.log    
+   }
+    else {
+       # Le redémarrage de Portainer peut entraîner un dysfonctionnement au niveau des processus 
+       # On vérifie de nouveau que Docker fonctionne correctement sinon on le redémarre
+
+       docker info *>> $pathlog\configEnvEcombox.log
+       Write-Output "" >> $pathlog\configEnvEcombox.log
+
+       $info_docker = (docker info)
+
+       if ($info_docker -ilike "*error*") {      
+           Write-Output "Docker n'est pas démarré. Le processus doit démarrer Docker avant de continuer..." >> $pathlog\configEnvEcombox.log 
+           Write-Output "" >> $pathlog\configEnvEcombox.log
+           Write-host "Le processus doit démarrer Docker avant de continuer..."
+           write-host ""
+     
+           #Lancement de Docker en super admin
+     
+           if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -WindowStyle Normal -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+              Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Arrêt des processus résiduels." >> $pathlog\configEnvEcombox.log
+              #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker s'il est démarré."
+
+              $process = Get-Process "com.docker.backend" -ErrorAction SilentlyContinue
+              if ($process.Count -gt 0)
+              {
+                 Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend existe et va être stoppé" >> $pathlog\configEnvEcombox.log
+                 #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend existe et va être stoppé"
+                 Stop-Process -Name "com.docker.backend" -Force  >> $pathlog\configEnvEcombox.log
+              }
+                 else {
+                      Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend n'existe pas" >> $pathlog\configEnvEcombox.log
+                      #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le processus com.docker.backend n'existe pas"
+                 }
+
+
+                $service = get-service com.docker.service
+                if ($service.status -eq "Stopped")
+                {
+                   Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Rien à faire car Docker est arrêté." >> $pathlog\configEnvEcombox.log
+                   #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Rien à faire car Docker est arrêté."
+                }
+                   else
+                   {
+                      Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Le service Docker va être stoppé." >> $pathlog\configEnvEcombox.log
+                      #Write-host "$((Get-Date).ToString("HH:mm:ss")) - Le service Docker va être stoppé."
+                     net stop com.docker.service >> $pathlog\configEnvEcombox.log
+                   }
+
+
+                  foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Running"}))
+                  {
+                     $svc | Stop-Service -ErrorAction Continue -Confirm:$false -Force
+                     $svc.WaitForStatus('Stopped','00:00:20')
+                  }
+
+                  Get-Process | Where-Object {$_.Name -ilike "*docker*"} | Stop-Process -ErrorAction Continue -Confirm:$false -Force
+
+                  foreach($svc in (Get-Service | Where-Object {$_.name -ilike "*docker*" -and $_.Status -ieq "Stopped"} ))
+                  {
+                    $svc | Start-Service 
+                    $svc.WaitForStatus('Running','00:00:20')
+                  }
+
+                  Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Démarrage de Docker"
+                  & "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+                  $startTimeout = [DateTime]::Now.AddSeconds(90)
+                  $timeoutHit = $true
+                  while ((Get-Date) -le $startTimeout)
+                  {
+
+                      Start-Sleep -Seconds 10
+                      $ErrorActionPreference = 'Continue'
+
+                  try
+                  {
+                      $info = (docker info)
+                      Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info executed. Is Error?: $($info -ilike "*error*"). Result was: $info" >> $pathlog\configEnvEcombox.log
+                      if ($info -ilike "*error*")
+                      {
+                           Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `tDocker info had an error. throwing..." >> $pathlog\configEnvEcombox.log
+                           throw "Error running info command $info"
+                      }
+                      $timeoutHit = $false
+                      break
+                      }
+                      catch 
+                     {
+
+                        if (($_ -ilike "*error during connect*") -or ($_ -ilike "*errors pretty printing info*")  -or ($_ -ilike "*Error running info command*"))
+                        {
+                            Write-Output "$((Get-Date).ToString("HH:mm:ss")) -`t Docker Desktop n'a pas encore complètement démarré, il faut attendre." >> $pathlog\configEnvEcombox.log
+                            Write-host "$((Get-Date).ToString("HH:mm:ss")) -`t Docker Desktop n'a pas encore complètement démarré, il faut attendre."
+                        }
+                        else
+                           {
+                              write-host ""
+                              write-host "Unexpected Error: `n $_"
+                              Write-Output "Unexpected Error: `n $_" >> $pathlog\configEnvEcombox.log
+                              return
+                            }
+                         }
+                         $ErrorActionPreference = 'Stop'
+                     }
+                    if ($timeoutHit -eq $true)
+                    {
+                       throw "Délai d'attente en attente du démarrage de docker"
+                    }
+        
+                     Write-host "$((Get-Date).ToString("HH:mm:ss")) - `t Docker a démarré."
+                     Write-host "$((Get-Date).ToString("HH:mm:ss")) - `t  Le processus peut continuer."
+                     Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `t Docker a démarré." >> $pathlog\configEnvEcombox.log
+                     Write-Output " $((Get-Date).ToString("HH:mm:ss")) - `t Le processus peut continuer." >> $pathlog\configEnvEcombox.log
+                     Write-Output "" >> $pathlog\configEnvEcombox.log
+
+                     # On retente de démarrer Portainer                     
+                     Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `t On retente de redémarrer Portainer." >> $pathlog\configEnvEcombox.log                   
+                     Write-Output "" >> $pathlog\configEnvEcombox.log
+                     docker-compose up --build --force-recreate - t 20 -d *>> $pathlog\configEnvEcombox.log      
+               }
+
+    }
+
+    # On vérifie de nouveau
+
+    if ((docker ps -a |  Select-String portainer-proxy)) {
+    write-host ""
+    write-host "Portainer est UP, on peut continuer."
+    write-host ""
+    }
+          else {
+               write-host ""
+               write-host "Toutes les tentatives pour démarrer Portainer ont échoué, consultez le fichier de log pour plus d'informations"
+               Write-Host ""
+               # Ce n'est pas la peine de continuer
+               Read-Host "Appuyez sur la touche Entrée pour arrêter le processus"
+               Write-host ""
+               exit
+               }
+
+
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `t Fin du processus de démarrage de Portainer." >> $pathlog\configEnvEcombox.log
+Write-Host "$((Get-Date).ToString("HH:mm:ss")) - `t Fin du processus de démarrage de Portainer."
+
+
+
+
 
 # Téléchargement éventuel d'une nouvelle version de e-comBox et démarrage de l'application
    if ((docker ps -a |  Select-String e-combox)) {

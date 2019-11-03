@@ -29,7 +29,7 @@ Write-Output "le fichier .env a été mis à jour avec l'adresse IP $docker_ip_h
 Write-Output "" >> $pathlog\initialisationEcombox.log
 
 
-# Création éventuel du réseau 192.168.97.0/24 utilisé par e-comBox
+# Création éventuelle du réseau 192.168.97.0/24 utilisé par e-comBox
 
 Write-Output "" >> $pathlog\initialisationEcombox.log
 Write-Output "Création du réseau des sites" >> $pathlog\initialisationEcombox.log
@@ -53,19 +53,6 @@ else {
 
 Write-Output "" >> $pathlog\initialisationEcombox.log
 Write-Output "Lancement de Portainer :" >> $pathlog\initialisationEcombox.log 
-docker-compose up --build --force-recreate -d *>> $pathlog\initialisationEcombox.log
+docker-compose up --build --force-recreate -t 20 -d *>> $pathlog\initialisationEcombox.log
 
-
-If ($? -eq 0) {
-write-host ""
-write-host "Portainer est UP, on peut continuer."
-write-host ""
-}
-    else {
-       write-host ""
-       write-host "Portainer n'a pas pu être lancé correctement, consultez le fichier de log pour plus d'informations"
-       Write-Host ""
-    }
-
-
-# Si problème il faut lancer le restartDocker (non fait car nécessite d'être super utilisateur et je n'y arrive toujours pas)
+# La vérification se fait au niveau du script "initialisatioApplication"

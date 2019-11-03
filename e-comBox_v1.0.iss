@@ -55,6 +55,8 @@ Source: "initialisationApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignore
 Source: "lanceScriptPS_installPortainer.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_startPortainer.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_startApplication.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "lanceScriptPS_lanceURL.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "lanceURL.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 ; Les scripts bat supplémentaires qui vont être utlisés dans les shortcut
 Source: "lanceScriptPS_restartPortainer.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
@@ -65,6 +67,7 @@ Source: "lanceScriptPS_configProxyDocker.bat"; DestDir: "{app}\scripts"; Flags: 
 Source: "lanceScriptPS_configEnvironnement.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_verifDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_stopDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
+
 
 
 Source: "restartPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
@@ -92,14 +95,16 @@ Source: "startApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 [Icons]
 ;Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_initialisationApplication.bat"
-Name: "{group}\Ouvrir e-comBox"; Filename: "{app}\{#MyAppName}.url"
-Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"
+;Name: "{group}\Ouvrir e-comBox"; Filename: "{app}\{#MyAppName}.url"
+;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"
+Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"
+
 ;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 Name: "{group}\Réinitialiser l'environnement"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 ;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
 Name: "{group}\Stopper e-comBox"; Filename: "{app}\scripts\lanceScriptPS_stopDocker.bat"
-Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartDocker.bat"
+
 Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartDocker.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 

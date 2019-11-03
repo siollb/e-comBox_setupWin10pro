@@ -1,0 +1,1 @@
+START /MIN /B powershell.exe -executionpolicy bypass -file "lanceURL.ps1" 

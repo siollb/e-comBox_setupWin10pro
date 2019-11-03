@@ -14,43 +14,7 @@ write-host ""
 Write-Output "" >> $pathlog\initialisationEcombox.log
 Write-Output "Vérification du bon fonctionnement de Docker" >> $pathlog\initialisationEcombox.log
 Write-Output "" >> $pathlog\initialisationEcombox.log
-
-
-# Vérification que Docker fonctionne correctement sinon ce n'est pas la peine de continuer
-
-docker info *>> $pathlog\initialisationEcombox.log
-Write-Output "" >> $pathlog\initialisationEcombox.log
-
-$info_docker = (docker info)
-Write-Host $info_docker
-
-if ($info_docker -ilike "*error*") {      
-     Write-Output "Docker n'est pas démarré" >> $pathlog\initialisationEcombox.log 
-     Write-Output "" >> $pathlog\initialisationEcombox.log
-     write-Output "S'il s'agit d'une initialisation silencieuse, le script va s'arrêter automatiquement." >> $pathlog\initialisationEcombox.log
-     Write-host "Docker ne semble pas démarré, Si vous venez d'allumer votre ordinateur, c'est normal. Merci d'attendre avant de continuer."
-     write-host ""
-     write-host "Si la situation ne vous parait pas normal, fermez la fenêtre et lancer le raccourci 'Redémarrer Docker'."
-     write-host "Lorsque Docker est démarré, voous pourrez relancer de nouveau le raccourci 'Vérifier et configurer l'environnement'."
-     write-host ""
-     $confirmStart=Read-Host "Saisissez oui pour fermer la fenêtre ou sur n'importe quel touche pour continuer"
-     if ($confirmStart -eq "oui") {
-       write-Output "L'utilisateur a demandé l'arrêt du script." >> $pathlog\initialisationEcombox.log
-       exit          
-     }
-        else {
-            Write-Output "L'utilisateur a continué le processus d'initialisation" >> $pathlog\initialisationEcombox.log 
-            Write-Output "" >> $pathlog\initialisationEcombox.log
-        }
-}
-     else {
-         Write-Output "Docker est démarré" >> $pathlog\initialisationEcombox.log
-         Write-Output "" >> $pathlog\initialisationEcombox.log
-         Write-host "Docker est démarré, on peut continuer..."
-         Write-host ""
-    }       
-       
-       
+     
 
 # Détection et configuration d'un éventuel proxy pour Git
 
@@ -106,7 +70,8 @@ $TestPath=Test-Path $Path
 If ($TestPath -eq $False) {
     # Récupération de Portainer sur Git
     Write-host ""
-    Write-host "    --> Portainer n'existe pas."
+    Write-host "    --> Portainer n'existe pas, il faut le récupérer."
+    Write-host "Téléchargement de Portainer."
     Write-host ""
     Write-Output ""  >> $pathlog\initialisationEcombox.log
     Write-Output "Téléchargement de Portainer" >> $pathlog\initialisationEcombox.log
