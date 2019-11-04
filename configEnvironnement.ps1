@@ -1,4 +1,7 @@
-﻿
+﻿# Déclaration des chemins
+$pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts\"
+
 # Création d'un fichier de log et écriture de la date
 
 Write-host ""
@@ -7,10 +10,19 @@ Write-host "Création d'un fichier de log"
 Write-host "============================"
 Write-host ""
 
-$pathlog="$env:USERPROFILE\.docker\logEcombox"
-
 Set-Location -Path $env:USERPROFILE
 New-Item -Path "$pathlog\configEnvEcombox.log" -ItemType file -force
+
+If ($? -eq 0) {
+  $allProcesses = Get-Process
+  foreach ($process in $allProcesses) { 
+    $process.Modules | where {$_.FileName -eq "$pathlog\configEnvEcombox.log"} | Stop-Process -Force -ErrorAction SilentlyContinue
+  }
+Remove-Item "$pathlog\configEnvEcombox.log"
+New-Item -Path "$pathlog\configEnvEcombox.log" -ItemType file -force
+}
+
+
 write-host ""
 Write-host "Le fichier de log configEnvEcombox.log a été créé à la racine du dossier $pathlog."
 Write-host "$(Get-Date) - Configuration de l'environnement"
@@ -139,9 +151,13 @@ if ($info_docker -ilike "*error*") {
    }
    else {
             Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Docker est démarré. Le processus peut continuer..." >> $pathlog\configEnvEcombox.log 
-            Write-Output "" >> $pathlog\configEnvEcombox.log           
+            Write-Output "" >> $pathlog\configEnvEcombox.log
+            Write-Host "$((Get-Date).ToString("HH:mm:ss")) - Docker est démarré. Le processus peut continuer..." 
+            Write-Host ""          
             }
 
+
+Set-Location -Path $env:USERPROFILE
 # Détection du proxy système
 
 Write-host ""
@@ -198,6 +214,16 @@ if ($adresseProxy -ilike "*=*")
 
      # Configuration de Docker
      new-item "$env:USERPROFILE\.docker\config.json" –type file -force *>> $pathlog\configEnvEcombox.log
+
+     If ($? -eq 0) {
+     $allProcesses = Get-Process
+     foreach ($process in $allProcesses) { 
+       $process.Modules | where {$_.FileName -eq "$env:USERPROFILE\.docker\config.json"} | Stop-Process -Force -ErrorAction SilentlyContinue
+     }
+     Remove-Item "config.json" *>> $pathlog\configEnvEcombox.log
+     New-Item -Path "$env:USERPROFILE\.docker\config.json" -ItemType file -force *>> $pathlog\configEnvEcombox.log
+     }
+
 @"
 {
  "proxies":
@@ -210,7 +236,7 @@ if ($adresseProxy -ilike "*=*")
    }
  }
 }
-"@ > config.json
+"@ > $env:USERPROFILE\.docker\config.json
 
 Set-Content $env:USERPROFILE\.docker\config.json -Encoding ASCII -Value (Get-Content $env:USERPROFILE\.docker\config.json) *>> $pathlog\configEnvEcombox.log
 
@@ -340,7 +366,7 @@ If ($TestPath -eq $False) {
       git clone https://github.com/siollb/e-comBox_portainer.git *>> $pathlog\configEnvEcombox.log      
       } 
 
-If ($? -eq 0) {
+If ($TestPath) {
   write-host ""
   write-host "Succès... Portainer a été téléchargé."
   write-host ""
@@ -433,14 +459,24 @@ If ($docker_ip_host -eq $adressesIPvalides) {
 # Mise à jour de l'adresse IP dans le fichier ".env" préalablement créé
 
 Set-Location -Path $env:USERPROFILE\e-comBox_portainer\
+Get-Location *>> $pathlog\configEnvEcombox.log
 
-New-Item -Name ".env" -ItemType file -force *>> $pathlog\configEnvEcombox.log
+New-Item -Path "$env:USERPROFILE\e-comBox_portainer\.env" -ItemType file -force *>> $pathlog\configEnvEcombox.log
+
+If ($? -eq 0) {
+  $allProcesses = Get-Process
+  foreach ($process in $allProcesses) { 
+    $process.Modules | where {$_.FileName -eq "$env:USERPROFILE\e-comBox_portainer\.env"} | Stop-Process -Force -ErrorAction SilentlyContinue
+  }
+Remove-Item "$env:USERPROFILE\e-comBox_portainer\.env"  *>> $pathlog\configEnvEcombox.log
+New-Item -Path "$env:USERPROFILE\e-comBox_portainer\.env" -ItemType file -force  *>> $pathlog\configEnvEcombox.log
+}
 
 @"
 URL_UTILE=$docker_ip_host
-"@ > .env
+"@ > $env:USERPROFILE\e-comBox_portainer\.env
 
-     Set-Content .env -Encoding ASCII -Value (Get-Content .env) *>> $pathlog\configEnvEcombox.log
+     Set-Content $env:USERPROFILE\e-comBox_portainer\.env -Encoding ASCII -Value (Get-Content $env:USERPROFILE\e-comBox_portainer\.env) *>> $pathlog\configEnvEcombox.log
 
      Write-host ""      
      Write-host "Le système va maintenant configurer e-comBox avec l'adresse IP : $docker_ip_host et lancer l'application dans votre navigateur par défaut."
@@ -600,9 +636,6 @@ if ((docker ps -a |  Select-String portainer-proxy)) {
 
 Write-Output "$((Get-Date).ToString("HH:mm:ss")) - `t Fin du processus de démarrage de Portainer." >> $pathlog\configEnvEcombox.log
 Write-Host "$((Get-Date).ToString("HH:mm:ss")) - `t Fin du processus de démarrage de Portainer."
-
-
-
 
 
 # Téléchargement éventuel d'une nouvelle version de e-comBox et démarrage de l'application

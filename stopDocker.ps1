@@ -1,5 +1,6 @@
-﻿# Gestion des logs
+﻿# Déclaration des chemins
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts\"
 
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -WindowStyle Normal -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 
@@ -10,8 +11,8 @@ Write-Output "=============================================================" >> 
 Write-Output "" >> $pathlog\verifDocker.log
 
 
-Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker s'il est démarré." >> $pathlog\verifDocker.log
-Write-host "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker s'il est démarré."
+Write-Output "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker." >> $pathlog\verifDocker.log
+Write-host "$((Get-Date).ToString("HH:mm:ss")) - Arrêt de Docker."
 
 $process = Get-Process "com.docker.backend" -ErrorAction SilentlyContinue
 if ($process.Count -gt 0)

@@ -1,5 +1,6 @@
-﻿# Gestion des logs
+﻿# Déclaration des chemins
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts\"
 
 Write-Output "" >> $pathlog\initialisationEcombox.log
 Write-Output "======================================" >> $pathlog\initialisationEcombox.log
@@ -91,9 +92,10 @@ If ($TestPath -eq $False) {
       Write-Output "Téléchargement de Portainer" >> $pathlog\initialisationEcombox.log
       git clone https://github.com/siollb/e-comBox_portainer.git *>> $pathlog\initialisationEcombox.log 
     }
-
-      
-If ($? -eq 0) {
+$Path="$env:USERPROFILE\e-comBox_portainer\"
+$TestPath=Test-Path $Path
+     
+If ($TestPath) {
   write-host ""
   write-host "Succès... Portainer a été téléchargé."
   write-host ""

@@ -1,5 +1,6 @@
-# Gestion des logs
+# Déclaration des chemins
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts"
 
 Write-Output "" >> $pathlog\initialisationEcombox.log
 Write-Output "=============================================================" >> $pathlog\initialisationEcombox.log

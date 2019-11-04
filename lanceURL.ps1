@@ -1,7 +1,8 @@
 ﻿# lancement de l'URL avec un éventuel démarrage de Docker
 
-# gestion des logs
+# Déclaration des chemins
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts\"
 
 Write-Output "" >> $pathlog\initialiserEcombox.log
 Write-Output "=======================================================================" >> $pathlog\initialiserEcombox.log
@@ -10,6 +11,14 @@ Write-Output "==================================================================
 Write-Output "" >> $pathlog\initialiserEcombox.log
 
 New-Item -Path "$pathlog\demarrerEcombox.log" -ItemType file -force >> $pathlog\initialiserEcombox.log
+If ($? -eq 0) {
+  $allProcesses = Get-Process
+  foreach ($process in $allProcesses) { 
+    $process.Modules | where {$_.FileName -eq "$pathlog\demarrerEcombox.log"} | Stop-Process -Force -ErrorAction SilentlyContinue
+  }
+Remove-Item "$pathlog\demarrerEcombox.log"
+New-Item -Path "$pathlog\demarrerEcombox.log" -ItemType file -force
+}
 
 
 Write-Output "=======================================================================" >> $pathlog\demarrerEcombox.log

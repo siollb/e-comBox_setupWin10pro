@@ -1,5 +1,6 @@
-﻿# Gestion des logs
+﻿# Déclaration des chemins
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts\"
 
 # Détection et configuration d'un éventuel proxy pour Docker
 
@@ -46,6 +47,16 @@ if ($noProxy)
 
 
 new-item "config.json" –type file -force *>> $pathlog\initialisationEcombox.log
+
+If ($? -eq 0) {
+  $allProcesses = Get-Process
+  foreach ($process in $allProcesses) { 
+    $process.Modules | where {$_.FileName -eq "C:\Users\daniel\.docker\config.json"} | Stop-Process -Force -ErrorAction SilentlyContinue
+  }
+Remove-Item "config.json" *>> $pathlog\initialisationEcombox.log
+New-Item -Path "config.json" -ItemType file -force *>> $pathlog\initialisationEcombox.log
+}
+
 @"
 {
  "proxies":

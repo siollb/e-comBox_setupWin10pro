@@ -1,7 +1,8 @@
 ﻿# Vérification que Docker fonctionne correctement sinon ce n'est pas la peine de continuer
 
-# Gestion des logs
+# Déclaration des chemins
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts\"
 
 Write-host ""
 Write-host "============================"
@@ -10,6 +11,17 @@ Write-host "============================"
 Write-host ""
 
 New-Item -Path "$pathlog\verifDocker.log" -ItemType file -force
+
+If ($? -eq 0) {
+  $allProcesses = Get-Process
+  foreach ($process in $allProcesses) { 
+    $process.Modules | where {$_.FileName -eq "$pathlog\verifDocker.log"} | Stop-Process -Force -ErrorAction SilentlyContinue
+  }
+Remove-Item "$pathlog\verifDocker.log"
+New-Item -Path "$pathlog\verifDocker.log" -ItemType file -force
+}
+
+
 write-host ""
 Write-host "Le fichier de log verifDocker.log a été créé à la racine du dossier $env:USERPROFILE."
 

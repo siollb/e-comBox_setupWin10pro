@@ -1,5 +1,6 @@
-﻿# Gestion des logs
+﻿# Déclaration des chemins
 $pathlog="$env:USERPROFILE\.docker\logEcombox"
+$pathscripts="C:\Program Files\e-comBox\scripts"
 
 Write-host ""
 Write-host "    --> Réinstallation et redémarrage de Portainer"
@@ -12,8 +13,8 @@ Write-Output "------------------------------------------------------------------
 Write-Output "    --> Une réinitialisation de l'environnement a été lancée le $(Get-Date)."  >> $pathlog\initialisationEcombox.log
 Write-Output "" >> $pathlog\initialisationEcombox.log
 
-Start-Process -wait -NoNewWindow "lanceScriptPS_installPortainer.bat"
-Start-Process -wait -NoNewWindow "lanceScriptPS_startPortainer.bat"
+Start-Process "$pathscripts\lanceScriptPS_installPortainer.bat" -wait -NoNewWindow 
+Start-Process "$pathscripts\lanceScriptPS_startPortainer.bat" -wait -NoNewWindow 
 
 Write-Output "--------------------------------------------------------------------------------------------" >> $pathlog\initialisationEcombox.log
 Write-Output "" >> $pathlog\initialisationEcombox.log

@@ -1,4 +1,4 @@
-Starting compile.  [dimanche, novembre 03 2019 at 22:41:07]
+Starting compile.  [lundi, novembre 04 2019 at 03:45:54]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -57,23 +57,22 @@ Parsing [Languages] section, line 49
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 132
-Parsing [Components] section, line 133
-Parsing [Components] section, line 134
-Parsing [Dirs] section, line 160
-Parsing [Dirs] section, line 161
+Parsing [Components] section, line 129
+Parsing [Components] section, line 130
+Parsing [Components] section, line 131
+Parsing [Dirs] section, line 157
+Parsing [Dirs] section, line 158
 Parsing [Icons] section, line 100
 Parsing [Icons] section, line 101
-Parsing [Icons] section, line 104
+Parsing [Icons] section, line 103
+Parsing [Icons] section, line 105
 Parsing [Icons] section, line 106
-Parsing [Icons] section, line 107
-Parsing [Icons] section, line 109
-Parsing [Icons] section, line 110
-Parsing [INI] section, line 124
-Parsing [UninstallDelete] section, line 127
-Parsing [UninstallDelete] section, line 128
-Parsing [UninstallDelete] section, line 129
-Parsing [Run] section, line 113
+Parsing [Icons] section, line 108
+Parsing [INI] section, line 121
+Parsing [UninstallDelete] section, line 124
+Parsing [UninstallDelete] section, line 125
+Parsing [UninstallDelete] section, line 126
+Parsing [Run] section, line 111
 Parsing [Files] section, line 53
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
@@ -144,10 +143,10 @@ Creating setup files
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 182, Column 3: [Hint] Variable 'S' never used
+Warning: Line 179, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [dimanche, novembre 03 2019 at 22:41:09]
-Total compile time: 00:01,609
+Compile finished.  [lundi, novembre 04 2019 at 03:45:56]
+Total compile time: 00:01,719
