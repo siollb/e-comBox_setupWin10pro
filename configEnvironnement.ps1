@@ -241,8 +241,10 @@ Write-Host ""
 Write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
 Write-host "By Pass : $noProxy"
 Write-Host ""
-Read-Host "Appuyez sur la touche Entrée pour continuer. Si vous venez de procéder à la configuration, il faut attendre que Docker ait redémarré avant de continuer."
- Write-host ""
+whrite-Host "Si vous venez de procéder à la configuration, il faut attendre que Docker ait redémarré avant de continuer."
+Write-Host ""
+Read-Host "Appuyez sur la touche Entrée pour continuer."
+Write-host ""
 
 
 }
@@ -251,9 +253,10 @@ Read-Host "Appuyez sur la touche Entrée pour continuer. Si vous venez de procé
    Write-Output "Pas de proxy système." >> $pathlog\configEnvEcombox.log
    Write-Output ""
    Write-Host "Le système a détecté que vous n'utilisez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker." 
+   whrite-Host "Si vous venez de procéder à la désactivation, il faut attendre que Docker ait redémarré avant de continuer."
    Write-Host ""
-   Read-Host "Appuyez sur la touche Entrée pour continuer. Si vous venez de procéder à la désactivation, il faut attendre que Docker ait redémarré avant de continuer."
-   Write-host ""
+   Read-Host "Appuyez sur la touche Entrée pour continuer."
+   Write-host "" 
 
    # Configuration de Git
    git config --global --unset http.proxy *>> $pathlog\configEnvEcombox.log
