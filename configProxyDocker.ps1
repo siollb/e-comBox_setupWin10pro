@@ -76,7 +76,6 @@ Set-Content config.json -Encoding ASCII -Value (Get-Content config.json) *>> $pa
 Write-Output ""  >> $pathlog\initialisationEcombox.log
 Write-Output "Le fichier config.json a été créé et complété."  >> $pathlog\initialisationEcombox.log
 Write-Output ""  >> $pathlog\initialisationEcombox.log
-
 }
      else {
          remove-item "config.json" *>> $pathlog\initialisationEcombox.log

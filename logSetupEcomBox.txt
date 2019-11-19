@@ -1,4 +1,4 @@
-Starting compile.  [lundi, novembre 04 2019 at 03:45:54]
+Starting compile.  [mardi, novembre 19 2019 at 17:17:30]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -57,22 +57,23 @@ Parsing [Languages] section, line 49
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 129
-Parsing [Components] section, line 130
-Parsing [Components] section, line 131
-Parsing [Dirs] section, line 157
-Parsing [Dirs] section, line 158
+Parsing [Components] section, line 132
+Parsing [Components] section, line 133
+Parsing [Components] section, line 134
+Parsing [Dirs] section, line 160
+Parsing [Dirs] section, line 161
 Parsing [Icons] section, line 100
 Parsing [Icons] section, line 101
 Parsing [Icons] section, line 103
 Parsing [Icons] section, line 105
 Parsing [Icons] section, line 106
 Parsing [Icons] section, line 108
-Parsing [INI] section, line 121
-Parsing [UninstallDelete] section, line 124
-Parsing [UninstallDelete] section, line 125
-Parsing [UninstallDelete] section, line 126
-Parsing [Run] section, line 111
+Parsing [INI] section, line 123
+Parsing [UninstallDelete] section, line 127
+Parsing [UninstallDelete] section, line 128
+Parsing [UninstallDelete] section, line 129
+Parsing [Run] section, line 112
+Parsing [Run] section, line 113
 Parsing [Files] section, line 53
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
@@ -80,14 +81,16 @@ Parsing [Files] section, line 56
 Parsing [Files] section, line 57
 Parsing [Files] section, line 58
 Parsing [Files] section, line 59
-Parsing [Files] section, line 62
-Parsing [Files] section, line 63
+Parsing [Files] section, line 60
+Parsing [Files] section, line 61
 Parsing [Files] section, line 64
 Parsing [Files] section, line 65
 Parsing [Files] section, line 66
 Parsing [Files] section, line 67
 Parsing [Files] section, line 68
 Parsing [Files] section, line 69
+Parsing [Files] section, line 70
+Parsing [Files] section, line 71
 Parsing [Files] section, line 73
 Parsing [Files] section, line 74
 Parsing [Files] section, line 75
@@ -115,6 +118,8 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_startApplication.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_lanceURL.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceURL.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_desactiveStartAutomatiqueDocker.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\desactiveStartAutomatiqueDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_restartPortainer.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_stopPortainer.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_restartApplication.bat
@@ -143,10 +148,10 @@ Creating setup files
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 179, Column 3: [Hint] Variable 'S' never used
+Warning: Line 182, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [lundi, novembre 04 2019 at 03:45:56]
-Total compile time: 00:01,719
+Compile finished.  [mardi, novembre 19 2019 at 17:17:31]
+Total compile time: 00:01,656

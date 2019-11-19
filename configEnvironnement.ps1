@@ -201,16 +201,10 @@ if ($adresseProxy -ilike "*=*")
     Write-Output "le proxy est $adresseProxy et le noProxy est $noProxy" >> $pathlog\configEnvEcombox.log
     Write-Output "" >> $pathlog\configEnvEcombox.log
 
+
     # Configuration de Git pour récupérer éventuellement un nouveau Portainer
     git config --global http.proxy $adresseProxy *>> $pathlog\configEnvEcombox.log
-    
-     Write-Host "Le système a détecté que vous utilisez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"
-     Write-Host ""
-     Write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
-     Write-host "By Pass : $noProxy"
-     Write-Host ""
-     Read-Host "Appuyez sur la touche Entrée pour continuer"
-     Write-host ""
+
 
      # Configuration de Docker
      new-item "$env:USERPROFILE\.docker\config.json" –type file -force *>> $pathlog\configEnvEcombox.log
@@ -240,6 +234,17 @@ if ($adresseProxy -ilike "*=*")
 
 Set-Content $env:USERPROFILE\.docker\config.json -Encoding ASCII -Value (Get-Content $env:USERPROFILE\.docker\config.json) *>> $pathlog\configEnvEcombox.log
 
+# Ajout d'une pause pour que l'utilisateur puisse vérifier que le proxy soit bien configuré sur Docker
+    
+Write-Host "Le système a détecté que vous utilisez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"
+Write-Host ""
+Write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
+Write-host "By Pass : $noProxy"
+Write-Host ""
+Read-Host "Appuyez sur la touche Entrée pour continuer. Si vous venez de procéder à la configuration, il faut attendre que Docker ait redémarré avant de continuer."
+ Write-host ""
+
+
 }
   else {
    write-Output ""
@@ -247,7 +252,7 @@ Set-Content $env:USERPROFILE\.docker\config.json -Encoding ASCII -Value (Get-Con
    Write-Output ""
    Write-Host "Le système a détecté que vous n'utilisez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker." 
    Write-Host ""
-   Read-Host "Appuyez sur la touche Entrée pour continuer"
+   Read-Host "Appuyez sur la touche Entrée pour continuer. Si vous venez de procéder à la désactivation, il faut attendre que Docker ait redémarré avant de continuer."
    Write-host ""
 
    # Configuration de Git

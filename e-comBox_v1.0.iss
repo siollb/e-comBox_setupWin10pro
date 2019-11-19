@@ -57,6 +57,7 @@ Source: "lanceScriptPS_startPortainer.bat"; DestDir: "{app}\scripts"; Flags: ign
 Source: "lanceScriptPS_startApplication.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_lanceURL.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceURL.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "lanceScriptPS_desactiveStartAutomatiqueDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion Source: "desactiveStartAutomatiqueDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 ; Les scripts bat supplémentaires qui vont être utlisés dans les shortcut
 Source: "lanceScriptPS_restartPortainer.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
@@ -67,8 +68,6 @@ Source: "lanceScriptPS_configProxyDocker.bat"; DestDir: "{app}\scripts"; Flags: 
 Source: "lanceScriptPS_configEnvironnement.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_verifDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_stopDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
-
-
 
 Source: "restartPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "stopPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
@@ -107,7 +106,10 @@ Name: "{group}\Stopper e-comBox"; Filename: "{app}\scripts\lanceScriptPS_stopDoc
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
+;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\scripts\desactiveDemarrageAutomatiqueDocker.ps1"""""; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,Désactivation du démarrage automatique de l'application}"
+Filename: "{app}\scripts\lanceScriptPS_desactiveStartAutomatiqueDocker.bat"; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,la désactivation du démarrage automatique de l'application}"
 Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,l'initialisation de e-comBox}"
+
 ;Filename: "{app}\scripts\lanceScriptPS_installPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
 ;Filename: "{app}\scripts\lanceScriptPS_startPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
 ;Filename: "{app}\scripts\lanceScriptPS_startApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
@@ -116,8 +118,8 @@ Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: wa
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startApplication.ps1"""""; WorkingDir: "{app}"; Flags: waituntilidle; Description: "{cm:LaunchProgram,initialisation}"
 
 [INI]
-;Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry ; Tasks: quicklaunchicon
 Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry
+
 
 [UninstallDelete]
 Type: files; Name: "{app}\{#MyAppName}.url"
@@ -142,7 +144,7 @@ CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
 french.SelectComponentsDesc=Pour que l'application e-comBox fonctionne, les composants ci-dessous doivent être installés. Vous devez disposer des droits d'administrateur.
 french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la puissance de votre machine, l'installation sera plus ou moins longue. %n%nCliquez sur suivant pour continuer.
 french.FinishedLabel=L'assistant a terminé l'installation de e-comBox sur votre ordinateur.
-french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous pouvez dès maintenant initialiser e-comBox en cochant la case ci-dessous. %n%nSi vous ne le faîtes pas tout de suite, cette dernière pourra se faire ultérieurement via le lien Démarrage de l'application.
+french.ClickFinish=Avant de pouvoir profiter pleinement de l'application, vous pouvez dès maintenant initialiser e-comBox en cochant la case ci-dessous. %n%nSi vous ne le faîtes pas tout de suite, cette dernière pourra se faire ultérieurement via le lien Démarrage de l'application.%n%nIl est également conseillé de désactiver l'application au démarrage de la machine car celle-ci consomme des ressources inutiles si elle n'est pas utilisée.
 french.ConfirmUninstall=Vous vous apprêtez à  désinstaller %1. Si vous n'avez plus besoin des composants installés (Git, Docker et HyperV), vous pourrez ensuite procéder à leur désinstallation en suivant la procédure mise à disposition. Cliquez sur oui pour continuer.
 french.WelcomeLabel2=Cet assistant va vous guider dans l'installation de [name/ver] sur votre ordinateur.%n%nL'installation de pré-requis sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé (à deux reprises au maximum). ll est recommandé de fermer toutes les applications actives avant de continuer.%n%nPar ailleurs, le téléchargement et l'installation de ces pré-requis peuvent parfois être long, merci d'être patient.
 
@@ -351,7 +353,9 @@ begin
 Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
 
   if(CurStep=ssInstall) then begin
-     MsgBox('Merci d''attendre la fenêtre "Welcome" de bienvenue de Docker avant de continuer l''installation, signe que Docker a démarré. '#13#13'Vous pouvez ensuite fermer cette fenêtre qui n''apparaît qu''une fois au premier démarrage de Docker.'#13#13'Vous pouvez suivre le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13'Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
+     MsgBox('Si Docker vient d''être installé, merci d''attendre la fenêtre "Welcome" de bienvenue avant de continuer l''installation, signe que Docker a démarré. '#13#13'Vous pouvez ensuite fermer cette fenêtre qui n''apparaît qu''une fois au premier démarrage de Docker.'#13#13'Vous pouvez suivre le statut de Docker dans la barre des tâches au survol de son icône présente dans la zone de notifications dans la partie inférieure droite de l’écran. '#13#13'Ce statut est sur starting quand Docker est en train de démarrer puis passe à running quand Docker a démarré et cela peut prendre du temps au démarrage de la machine.', mbInformation, mb_Ok);
+     MsgBox('Attention, ne validez cette fenêtre que si Docker a correctement démarré.', mbInformation, mb_Ok);
+          
       // Configuration d'un éventuel proxy
         PrepareToInstallWithProgressPage.SetText(('Détection d''un éventuel proxy par l''assistant d''installation'), '');
         ExtractTemporaryFile('configProxyDocker.ps1');
@@ -368,6 +372,7 @@ Log('CurStepChanged(' + IntToStr(Ord(CurStep)) + ') called');
           ProxyByPass:= ProxyByPass;
           MsgBox('Le programme d''installation a constaté qu''un proxy est configuré sur votre machine. '#13#13'Avant de continuer, vous devez configurer les informations suivantes sur Docker (voir documentation qui a été lancée dans votre navigateur par défaut) : '#13#13'Adresse IP du Proxy : ' + AdresseProxy + ' '#13#10'ByPass : ' + ProxyByPass + ' '#13#13'Vous devez attendre que le service ait redémarré (ce qu''il fait automatiquement) avant de continuer.', mbInformation, mb_Ok);
           Log('Proxy Enable : ' +IntToStr(V) + 'Informations du proxy : ' + AdresseProxy + 'Proxy by pass : " ' + ProxyByPass);
+          MsgBox('Attention, ne validez cette fenêtre que si votre proxy a correctement été configuré sur Docker et que ce dernier a redémarré.', mbInformation, mb_Ok);
         end;         
           PrepareToInstallWithProgressPage.SetProgress(10, 10);
          
@@ -391,10 +396,9 @@ begin
      MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
      end ;
   if FinishedInstall then begin
+     // Il faut vérifier ici que la case "initialisation de l'application" a bien été coché sinon mettre un autre message
      MsgBox('Fin de l''installation:' #13#13'L''application e-comBox est en train d''être initialisée. Veuillez patienter.' #13#13'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13'Par la suite, vous pouvez démarrer e-comBox via l''icône du bureau ou bien via le lien du menu de démarrage.'#13#13'Pour prendre en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy, il est nécessaire de réinitialiser e-comBox avec le lien correspondant.', mbInformation, MB_OK);
      end ;
-     // else
-     //MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
   end;
 
 

@@ -154,6 +154,64 @@ if ($info_docker -ilike "*error*") {
             }
 
 
+# Ajout d'une pause pour la vérification de la configuration du Proxy sur Docker 
+ Write-Output "" >> $pathlog\reinitialiseEnvEcombox.log
+ Write-Output "Ajout d'une pause pour la vérification de la configuration du Proxy sur Docker" >> $pathlog\reinitialiseEnvEcombox.log
+ Write-Output "" >> $pathlog\reinitialiseEnvEcombox.log
+
+$reg = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+
+$settings = Get-ItemProperty -Path $reg
+$adresseProxy = $settings.ProxyServer
+$proxyEnable = $settings.ProxyEnable
+
+if ($settings.ProxyEnable -eq 1) {
+$adresseProxy = $settings.ProxyServer
+if ($adresseProxy -ilike "*=*")
+        {
+            $adresseProxy = $adresseProxy -replace "=","://" -split(';') | Select-Object -First 1
+        }
+
+        else
+        {
+            $adresseProxy = "http://" + $adresseProxy
+        }
+    Write-Output "le proxy est activé et est configuré à $adresseProxy" >> $pathlog\reinitialiseEnvEcombox.log
+
+$noProxy = $settings.ProxyOverride
+
+if ($noProxy)
+       { 
+             $noProxy = $noProxy.Replace(';',',')
+       }
+       else
+       {     
+             $noProxy = "localhost"
+       }
+
+    Write-Output "le no proxy est configuré à $noProxy"  >> $pathlog\reinitialiseEnvEcombox.log
+
+
+ # Ajout de la pause
+ Write-Host "Le système a détecté que vous utilisez un proxy pour vous connecter à Internet, veillez à vérifier que ce dernier est correctement configuré au niveau de Docker avec les paramètres suivants :"
+ Write-Host ""
+ write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
+ Write-host "By Pass : $noProxy"
+ Write-Host ""
+ Read-Host "Appuyez sur la touche Entrée pour continuer. Si vous venez de procéder à la configuration, il faut attendre que Docker ait redémarré avant de continuer."
+ Write-host ""
+}
+     else {
+         Write-Output ""  >> $pathlog\reinitialiseEnvEcombox.log
+         Write-Output "Le proxy est désactivé et le fichier config.json a été supprimé"  >> $pathlog\reinitialiseEnvEcombox.log
+         Write-Output ""  >> $pathlog\reinitialiseEnvEcombox.log
+         Write-Host "Le système a détecté que vous n'utilisez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker." 
+         Write-Host ""
+         Read-Host "Appuyez sur la touche Entrée pour continuer. Si vous venez de procéder à la désactivation, il faut attendre que Docker ait redémarré avant de continuer."
+         Write-host ""         
+      }
+
+
 # Reinitialisation de Portainer
 write-host ""
 Write-host "Réinitialisation de Portainer"
