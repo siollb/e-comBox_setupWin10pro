@@ -198,7 +198,7 @@ if ($noProxy)
  write-Host "Adresse IP du proxy (avec le port utilisé) : $adresseProxy"
  Write-host "By Pass : $noProxy"
  Write-Host ""
- whrite-Host "Si vous venez de procéder à la configuration, il faut attendre que Docker ait redémarré avant de continuer."
+ write-Host "Si vous venez de procéder à la configuration, il faut attendre que Docker ait redémarré avant de continuer."
  Write-Host ""
  Read-Host "Appuyez sur la touche Entrée pour continuer."
  Write-host ""
@@ -208,7 +208,7 @@ if ($noProxy)
          Write-Output "Le proxy est désactivé et le fichier config.json a été supprimé"  >> $pathlog\reinitialiseEnvEcombox.log
          Write-Output ""  >> $pathlog\reinitialiseEnvEcombox.log
          Write-Host "Le système a détecté que vous n'utilisez pas de proxy pour vous connecter à Internet, vérifiez que cette fonctionnalité soit bien désactivée sur Docker." 
-         whrite-Host "Si vous venez de procéder à la désactivation, il faut attendre que Docker ait redémarré avant de continuer."
+         write-Host "Si vous venez de procéder à la désactivation, il faut attendre que Docker ait redémarré avant de continuer."
          Write-Host ""
          Read-Host "Appuyez sur la touche Entrée pour continuer."
          Write-host ""         
