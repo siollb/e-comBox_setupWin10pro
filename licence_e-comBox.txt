@@ -1,13 +1,21 @@
 Licence e-comBox
 ==================
 
-L'application e-comBox est diffusée sous licence CC BY-NC-SA 2.0 FR (Creative Common Attribution - Pas d’Utilisation Commerciale - Partage dans les mêmes Conditions 2.0 France).
+Copyright LLB & Réseau CERTA  - 2020
 
-Vous êtes autorisé à utiliser, partager / copier, distribuer et adapter l'application e-comBox par tous moyens et sous tous formats selon les conditions suivantes :
-  - dans le cas où vous adaptez l'application, vous devez diffuser l'application modifiée dans les mêmes conditions, c'est à dire avec la même licence avec laquelle l'application originale a été diffusée ;
-  - vous devez créditer l'application, intégrer un lien vers la licence et indiquer si des modifications ont été effectuées à l'application e-comBox. Vous devez indiquer ces informations par tous les moyens raisonnables.
+Ce logiciel est régi par la licence CeCILL (Acronyme pour Ce(A)C(nrs)I(NRIA)L(ogiciel)L(ibre)) soumise au droit français et respectant les principes de diffusion des logiciels libres. Vous pouvez
+utiliser, modifier et/ou redistribuer ce programme sous les conditions de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
+sur le site "http://www.cecill.info".
 
-Vous n'êtes pas autorisé à :
-  - faire un usage commercial de cette application ou de tout ou partie de l'application ;
-  - appliquer des conditions légales ou des mesures techniques qui restreindraient légalement autrui à utiliser l'application e-comBox dans les conditions décrites par la licence.
+En contrepartie de l'accessibilité au code source et des droits de copie, de modification et de redistribution accordés par cette licence, il n'est
+offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons, seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+titulaire des droits patrimoniaux et les concédants successifs.
 
+A cet égard  l'attention de l'utilisateur est attirée sur les risques associés au chargement,  à l'utilisation,  à la modification et/ou au
+développement et à la reproduction du logiciel par l'utilisateur étant donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+manipuler et qui le réserve donc à des développeurs et des professionnels avertis possédant  des  connaissances  informatiques approfondies.  Les
+utilisateurs sont donc invités à charger  et  tester  l'adéquation  du logiciel à leurs besoins dans des conditions permettant d'assurer la
+sécurité de leurs systèmes et ou de leurs données et, plus généralement, à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
+
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez pris connaissance de la licence CeCILL et que vous en avez accepté les
+termes.
