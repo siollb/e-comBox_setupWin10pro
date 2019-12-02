@@ -107,7 +107,7 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\scripts\desactiveDemarrageAutomatiqueDocker.ps1"""""; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,Désactivation du démarrage automatique de l'application}"
-Filename: "{app}\scripts\lanceScriptPS_desactiveStartAutomatiqueDocker.bat"; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,la désactivation du démarrage automatique de l'application}"
+;Filename: "{app}\scripts\lanceScriptPS_desactiveStartAutomatiqueDocker.bat"; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,la désactivation du démarrage automatique de l'application}"
 Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,l'initialisation de e-comBox}"
 
 ;Filename: "{app}\scripts\lanceScriptPS_installPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"

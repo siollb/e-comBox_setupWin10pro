@@ -70,23 +70,26 @@ $TestPath=Test-Path $Path
 
 If ($TestPath -eq $False) {
     # Récupération de Portainer sur Git
-    Write-host ""
-    Write-host "    --> Portainer n'existe pas, il faut le récupérer."
-    Write-host "Téléchargement de Portainer."
-    Write-host ""
     Write-Output ""  >> $pathlog\initialisationEcombox.log
     Write-Output "Téléchargement de Portainer" >> $pathlog\initialisationEcombox.log
     git clone https://github.com/siollb/e-comBox_portainer.git *>> $pathlog\initialisationEcombox.log
     }
     else {
       # Suppression de portainer et installation d'un éventuel nouveau Portainer
-      Write-host ""
-      Write-host "    --> Portainer est démarré, il faut le supprimer pour le réinstaller."
-      Write-host ""
       Write-Output ""  >> $pathlog\initialisationEcombox.log
       Write-Output "    --> Portainer est installé, il faut le supprimer pour le réinstaller."  >> $pathlog\initialisationEcombox.log
       Write-Output ""  >> $pathlog\initialisationEcombox.log    
-      #docker-compose down *>> $pathlog\initialisationEcombox.log
+      docker-compose down *>> $pathlog\initialisationEcombox.log
+      docker stop $(docker ps -q) *>> $pathlog\initialisationEcombox.log
+      If (docker ps -a --filter "name=portainer-app") {
+         docker rm -f portainer-app *>> $pathlog\initialisationEcombox.logg
+         }
+      If (docker ps -a --filter "name=portainer-proxy") {
+         docker rm -f portainer-proxy *>> $pathlog\initialisationEcombox.log
+         }
+      If (docker ps -a --format '{{.Names}}' |  Select-String portainer-proxy) {
+         docker rm -f $(docker ps -a --format '{{.Names}}' |  Select-String portainer-proxy)  *>> $pathlog\initialisationEcombox.log
+         }
       Remove-Item "$env:USERPROFILE\e-comBox_portainer" -Recurse -Force *>> $pathlog\initialisationEcombox.log
       Write-Output "" >> $pathlog\initialisationEcombox.log
       Write-Output "Téléchargement de Portainer" >> $pathlog\initialisationEcombox.log
