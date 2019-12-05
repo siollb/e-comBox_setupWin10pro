@@ -69,7 +69,7 @@ Write-Output "Lancement de Portainer :" >> $pathlog\initialisationEcombox.log
 #docker-compose up --build --force-recreate -t 20 -d *>> $pathlog\initialisationEcombox.log
 #docker-compose down *>> $pathlog\initialisationEcombox.log
 If (docker ps -a --filter "name=portainer-app") {
-   docker rm -f portainer-app *>> $pathlog\initialisationEcombox.logg
+   docker rm -f portainer-app *>> $pathlog\initialisationEcombox.log
    }
 If (docker ps -a --filter "name=portainer-proxy") {
    docker rm -f portainer-proxy *>> $pathlog\initialisationEcombox.log
