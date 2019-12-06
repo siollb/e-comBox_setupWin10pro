@@ -1,7 +1,7 @@
 Licence e-comBox
 ==================
 
-Copyright LLB & Réseau CERTA  - 2020
+Copyright BTS SIO LLB Ajaccio & Réseau CERTA  - 2020
 
 Ce logiciel est régi par la licence CeCILL (Acronyme pour Ce(A)C(nrs)I(NRIA)L(ogiciel)L(ibre)) soumise au droit français et respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 

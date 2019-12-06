@@ -16,13 +16,13 @@ MinVersion=10.0.15063
 AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-LicenseFile=C:\Users\daniel\e-comBox_setupWin10pro\licence_e-comBox.rtf
-InfoBeforeFile=C:\Users\daniel\e-comBox_setupWin10pro\avantInstallation.rtf
-; InfoAfterFile=C:\Users\daniel\e-comBox_setupWin10pro\apresInstallation.rtf
+LicenseFile=licence_e-comBox.rtf
+InfoBeforeFile=avantInstallation.rtf
+; InfoAfterFile=apresInstallation.rtf
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=admin
-OutputDir=C:\Users\daniel\e-comBox_setupWin10pro
-OutputBaseFilename=e-combox_pro_educ_ent_v1.0
+OutputDir=setup
+OutputBaseFilename=e-combox_win10_v1.0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -38,8 +38,8 @@ VersionInfoVersion=1.0
 DisableWelcomePage=False
 AlwaysShowDirOnReadyPage=True
 AlwaysShowGroupOnReadyPage=True
-WizardImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupGrande.bmp
-WizardSmallImageFile=C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
+WizardImageFile=imageSetupGrande.bmp
+WizardSmallImageFile=imageSetupPetite.bmp
 FlatComponentsList=False
 ;SignTool=SignatureCode
 AlwaysUsePersonalGroup=True
@@ -307,7 +307,8 @@ begin
         //end
        end else begin
          // Vérifie si Docker est installé et l'installe et le configure au cas où.
-         if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker Desktop') = false then begin
+         //if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker Desktop') = false then begin
+         if RegValueExists(HKEY_LOCAL_MACHINE,'SOFTWARE\Docker Inc.\Docker\1.0','AppPath') = false then begin
            MsgBox('Docker n''est pas installé. '#13#13'Le programme va procéder à son installation. '#13#10'Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
            PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker...'), '');
            PrepareToInstallWithProgressPage.SetProgress(5, 10);
@@ -319,8 +320,6 @@ begin
            Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(8, 10);
            PrepareToInstallWithProgressPage.SetText(('Préparation du redémarrage...'), '');
-           //ExtractTemporaryFile('lanceDocker.ps1');
-           //Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\lanceDocker.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
            PrepareToInstallWithProgressPage.SetProgress(10, 10);
            MsgBox('Docker a été installé, vous pouvez continuer.', mbInformation, mb_Ok);
            CreateRunOnceEntry;

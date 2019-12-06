@@ -1,4 +1,4 @@
-Starting compile.  [mardi, décembre 03 2019 at 00:31:02]
+Starting compile.  [vendredi, décembre 06 2019 at 18:11:13]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -40,6 +40,7 @@ Parsing [Setup] section, line 42
 Parsing [Setup] section, line 43
 Parsing [Setup] section, line 45
 Parsing [Setup] section, line 46
+Creating output directory: C:\Users\daniel\e-comBox_setupWin10pro\setup
 Reading file (LicenseFile)
 Reading file (InfoBeforeFile)
 Reading file (WizardImageFile)
@@ -108,7 +109,6 @@ Parsing [Files] section, line 91
 Parsing [Files] section, line 92
 Parsing [Files] section, line 93
 Compiling [Code] section
-Deleting e-combox_pro_educ_ent_v1.0.exe from output directory
 Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_initialisationApplication.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\initialisationApplication.ps1
@@ -152,5 +152,5 @@ Warning: Line 182, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [mardi, décembre 03 2019 at 00:31:03]
-Total compile time: 00:01,687
+Compile finished.  [vendredi, décembre 06 2019 at 18:11:15]
+Total compile time: 00:01,594
