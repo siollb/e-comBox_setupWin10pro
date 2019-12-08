@@ -38,7 +38,7 @@ VersionInfoVersion=1.0
 DisableWelcomePage=False
 AlwaysShowDirOnReadyPage=True
 AlwaysShowGroupOnReadyPage=True
-WizardImageFile=imageSetupGrande.bmp
+WizardImageFile=imageSetupVerticale.bmp
 WizardSmallImageFile=imageSetupPetite.bmp
 FlatComponentsList=False
 ;SignTool=SignatureCode
@@ -93,13 +93,16 @@ Source: "startApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 ; Le fichier regroupant les identifiants d'accès aux applications
-Source: "e-comBox_identifiants_acces_applications.pdf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "e-comBox_identifiants_acces_applications.pdf"; DestDir: "{app}"; Flags: ignoreversion
+;L'icône e-comBox
+Source: "ecomboxIco.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"
+Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"; IconFilename: "{app}\ecomboxIco.ico"
+Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"; IconFilename: "{app}\ecomboxIco.ico"
 Name: "{group}\Réinitialiser l'environnement"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
-Name: "{group}\Stopper e-comBox"; Filename: "{app}\scripts\lanceScriptPS_stopDocker.bat" 
+Name: "{group}\Stopper e-comBox"; Filename: "{app}\scripts\lanceScriptPS_stopDocker.bat"
 Name: "{group}\Supprimer tous les sites"; Filename: "{app}\scripts\lanceScriptPS_supprimeSites.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 

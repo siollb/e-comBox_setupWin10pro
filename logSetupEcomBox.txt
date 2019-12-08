@@ -1,4 +1,4 @@
-Starting compile.  [dimanche, décembre 08 2019 at 22:01:12]
+Starting compile.  [lundi, décembre 09 2019 at 00:27:56]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -43,7 +43,7 @@ Parsing [Setup] section, line 46
 Reading file (LicenseFile)
 Reading file (InfoBeforeFile)
 Reading file (WizardImageFile)
-   File: C:\Users\daniel\e-comBox_setupWin10pro\imageSetupGrande.bmp
+   File: C:\Users\daniel\e-comBox_setupWin10pro\imageSetupVerticale.bmp
 Reading file (WizardSmallImageFile)
    File: C:\Users\daniel\e-comBox_setupWin10pro\imageSetupPetite.bmp
 Preparing Setup program executable
@@ -57,23 +57,23 @@ Parsing [Languages] section, line 49
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 121
-Parsing [Components] section, line 122
-Parsing [Components] section, line 123
-Parsing [Dirs] section, line 149
-Parsing [Dirs] section, line 150
-Parsing [Icons] section, line 100
-Parsing [Icons] section, line 101
-Parsing [Icons] section, line 102
+Parsing [Components] section, line 124
+Parsing [Components] section, line 125
+Parsing [Components] section, line 126
+Parsing [Dirs] section, line 152
+Parsing [Dirs] section, line 153
 Parsing [Icons] section, line 103
 Parsing [Icons] section, line 104
 Parsing [Icons] section, line 105
 Parsing [Icons] section, line 106
-Parsing [INI] section, line 112
-Parsing [UninstallDelete] section, line 116
-Parsing [UninstallDelete] section, line 117
-Parsing [UninstallDelete] section, line 118
-Parsing [Run] section, line 109
+Parsing [Icons] section, line 107
+Parsing [Icons] section, line 108
+Parsing [Icons] section, line 109
+Parsing [INI] section, line 115
+Parsing [UninstallDelete] section, line 119
+Parsing [UninstallDelete] section, line 120
+Parsing [UninstallDelete] section, line 121
+Parsing [Run] section, line 112
 Parsing [Files] section, line 53
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
@@ -111,6 +111,7 @@ Parsing [Files] section, line 91
 Parsing [Files] section, line 92
 Parsing [Files] section, line 93
 Parsing [Files] section, line 97
+Parsing [Files] section, line 100
 Compiling [Code] section
 Deleting e-combox_win10_v1.0.exe from output directory
 Creating setup files
@@ -150,14 +151,15 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startApplication.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\e-comBox_identifiants_acces_applications.pdf
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\ecomboxIco.ico
    Compressing Setup program executable
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 171, Column 3: [Hint] Variable 'S' never used
+Warning: Line 174, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [dimanche, décembre 08 2019 at 22:01:13]
-Total compile time: 00:01,766
+Compile finished.  [lundi, décembre 09 2019 at 00:27:57]
+Total compile time: 00:01,203
