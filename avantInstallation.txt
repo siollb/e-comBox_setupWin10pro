@@ -1,5 +1,0 @@
-Cette exécutable ne doit être utilisé que sur Windows 10 professionnel, education ou entreprise. Un autre exécutable est prévu pour Windows 10 famille.
-
-Pour une utilisation confortable de l'application, vous devez disposer :
-  - d'au moins 4 Go de RAM (12 Go minimum sont recommandés pour pouvoir lancer de nombreux sites) ;
-  - d'au moins 20 Go de libre sur le disque dur (selon le nombre de sites installés, l'utilisation de l'espace disque sera variable, il ne pourra cependant pas excéder 64 GO).

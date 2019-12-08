@@ -1,4 +1,4 @@
-Starting compile.  [vendredi, décembre 06 2019 at 18:11:13]
+Starting compile.  [dimanche, décembre 08 2019 at 22:01:12]
 Compiling script with Inno Setup 6.0.2 (u) [ISDLLCompileScriptW]
 
 [PreCompile] Processing.
@@ -40,7 +40,6 @@ Parsing [Setup] section, line 42
 Parsing [Setup] section, line 43
 Parsing [Setup] section, line 45
 Parsing [Setup] section, line 46
-Creating output directory: C:\Users\daniel\e-comBox_setupWin10pro\setup
 Reading file (LicenseFile)
 Reading file (InfoBeforeFile)
 Reading file (WizardImageFile)
@@ -58,22 +57,23 @@ Parsing [Languages] section, line 49
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    Messages in script file
 Reading [Code] section
-Parsing [Components] section, line 132
-Parsing [Components] section, line 133
-Parsing [Components] section, line 134
-Parsing [Dirs] section, line 160
-Parsing [Dirs] section, line 161
+Parsing [Components] section, line 121
+Parsing [Components] section, line 122
+Parsing [Components] section, line 123
+Parsing [Dirs] section, line 149
+Parsing [Dirs] section, line 150
 Parsing [Icons] section, line 100
 Parsing [Icons] section, line 101
+Parsing [Icons] section, line 102
 Parsing [Icons] section, line 103
+Parsing [Icons] section, line 104
 Parsing [Icons] section, line 105
 Parsing [Icons] section, line 106
-Parsing [Icons] section, line 108
-Parsing [INI] section, line 123
-Parsing [UninstallDelete] section, line 127
-Parsing [UninstallDelete] section, line 128
-Parsing [UninstallDelete] section, line 129
-Parsing [Run] section, line 113
+Parsing [INI] section, line 112
+Parsing [UninstallDelete] section, line 116
+Parsing [UninstallDelete] section, line 117
+Parsing [UninstallDelete] section, line 118
+Parsing [Run] section, line 109
 Parsing [Files] section, line 53
 Parsing [Files] section, line 54
 Parsing [Files] section, line 55
@@ -91,7 +91,7 @@ Parsing [Files] section, line 68
 Parsing [Files] section, line 69
 Parsing [Files] section, line 70
 Parsing [Files] section, line 71
-Parsing [Files] section, line 73
+Parsing [Files] section, line 72
 Parsing [Files] section, line 74
 Parsing [Files] section, line 75
 Parsing [Files] section, line 76
@@ -99,6 +99,8 @@ Parsing [Files] section, line 77
 Parsing [Files] section, line 78
 Parsing [Files] section, line 79
 Parsing [Files] section, line 80
+Parsing [Files] section, line 81
+Parsing [Files] section, line 82
 Parsing [Files] section, line 85
 Parsing [Files] section, line 86
 Parsing [Files] section, line 87
@@ -108,7 +110,9 @@ Parsing [Files] section, line 90
 Parsing [Files] section, line 91
 Parsing [Files] section, line 92
 Parsing [Files] section, line 93
+Parsing [Files] section, line 97
 Compiling [Code] section
+Deleting e-combox_win10_v1.0.exe from output directory
 Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_initialisationApplication.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\initialisationApplication.ps1
@@ -127,6 +131,7 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_configEnvironnement.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_verifDocker.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_stopDocker.bat
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\lanceScriptPS_supprimeSites.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\stopPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\restartApplication.ps1
@@ -135,6 +140,7 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\configEnvironnement.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\verifDocker.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\stopDocker.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\supprimeSites.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\checkHyperV.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\activeHyperV.bat
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\downloadDocker.ps1
@@ -143,14 +149,15 @@ Creating setup files
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\installPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startPortainer.ps1
    Compressing: C:\Users\daniel\e-comBox_setupWin10pro\startApplication.ps1
+   Compressing: C:\Users\daniel\e-comBox_setupWin10pro\e-comBox_identifiants_acces_applications.pdf
    Compressing Setup program executable
    Updating version info
 
 Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (AlwaysUsePersonalGroup,userdesktop,userdocs) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the "UsedUserAreasWarning" topic in help file for more information.
-Warning: Line 182, Column 3: [Hint] Variable 'S' never used
+Warning: Line 171, Column 3: [Hint] Variable 'S' never used
 [PostCompile] Processing.
 [PostCompile] Processing is still being tested.
 [PostCompile] Processing finished.
 
-Compile finished.  [vendredi, décembre 06 2019 at 18:11:15]
-Total compile time: 00:01,594
+Compile finished.  [dimanche, décembre 08 2019 at 22:01:13]
+Total compile time: 00:01,766

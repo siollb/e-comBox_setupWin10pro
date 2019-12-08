@@ -68,6 +68,7 @@ Source: "lanceScriptPS_configProxyDocker.bat"; DestDir: "{app}\scripts"; Flags: 
 Source: "lanceScriptPS_configEnvironnement.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_verifDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "lanceScriptPS_stopDocker.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "lanceScriptPS_supprimeSites.bat"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
 Source: "restartPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "stopPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
@@ -77,10 +78,9 @@ Source: "configProxyDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "configEnvironnement.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "verifDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "stopDocker.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "supprimeSites.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 
-
-; Les scripts pour installer les pré-requis
-
+; Les scripts pour installer les pré-requis   
 Source: "checkHyperV.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "activeHyperV.bat"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "downloadDocker.ps1"; DestDir: "{tmp}"; Flags: ignoreversion
@@ -92,30 +92,19 @@ Source: "startPortainer.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 Source: "startApplication.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
+; Le fichier regroupant les identifiants d'accès aux applications
+Source: "e-comBox_identifiants_acces_applications.pdf"; DestDir: "{app}"; Flags: ignoreversion
+
 [Icons]
-;Name: "{group}\Initialiser e-comBox"; Filename: "{app}\lanceScriptPS_initialisationApplication.bat"
-;Name: "{group}\Ouvrir e-comBox"; Filename: "{app}\{#MyAppName}.url"
-;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"
 Name: "{group}\Démarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_lanceURL.bat"
-;Name: "{userstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.url"; Tasks: desktopicon
 Name: "{group}\Réinitialiser l'environnement"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
-;Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\scripts\lanceScriptPS_restartApplication.bat"
 Name: "{group}\Vérifier et configurer l'environnement"; Filename: "{app}\scripts\lanceScriptPS_configEnvironnement.bat"
 Name: "{group}\Stopper e-comBox"; Filename: "{app}\scripts\lanceScriptPS_stopDocker.bat" 
-;Name: "{group}\Redémarrer e-comBox"; Filename: "{app}\scripts\lanceScriptPS_restartDocker.bat"
+Name: "{group}\Supprimer tous les sites"; Filename: "{app}\scripts\lanceScriptPS_supprimeSites.bat"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\scripts\desactiveDemarrageAutomatiqueDocker.ps1"""""; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,Désactivation du démarrage automatique de l'application}"
-;Filename: "{app}\scripts\lanceScriptPS_desactiveStartAutomatiqueDocker.bat"; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,la désactivation du démarrage automatique de l'application}"
 Filename: "{app}\scripts\lanceScriptPS_initialisationApplication.bat"; Flags: waituntilterminated postinstall hidewizard; Description: "{cm:LaunchProgram,l'initialisation de e-comBox}"
-
-;Filename: "{app}\scripts\lanceScriptPS_installPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
-;Filename: "{app}\scripts\lanceScriptPS_startPortainer.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
-;Filename: "{app}\scripts\lanceScriptPS_startApplication.bat"; Flags: waituntilterminated postinstall runhidden hidewizard; Description: "{cm:LaunchProgram,initialisation}"
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\installPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startPortainer.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated
-;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{app}\startApplication.ps1"""""; WorkingDir: "{app}"; Flags: waituntilidle; Description: "{cm:LaunchProgram,initialisation}"
 
 [INI]
 Filename: "{app}\{#MyAppName}.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://localhost:8888"; Flags: uninsdeleteentry
@@ -133,9 +122,10 @@ Name: "Git"; Description: "Git pour Windows"; Types: full compact custom; Flags:
 
 [Tasks]
 ;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
-;Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"
-;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"
+;Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"  
+;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"
 ;Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"
+;Name: "InitialiseApp"; Description: "Task"; GroupDescription: "tasks"
 
 [ThirdParty]
 CompileLogFile=C:\Users\daniel\e-comBox_setupWin10pro\logSetupEcomBox.txt
@@ -146,7 +136,7 @@ french.SelectComponentsLabel2=Selon le débit de votre connexion Internet et la p
 french.FinishedLabel=L'assistant a terminé l'installation de e-comBox sur votre ordinateur.
 french.ClickFinish=Il est conseillé de désactiver l'application au démarrage de la machine car celle-ci consomme des ressources inutiles si elle n'est pas utilisée.  %nPour ce faire, laisser la case correspondante cochée.%n%nAvant de pouvoir profiter pleinement de l'application, vous pouvez dès maintenant initialiser e-comBox en laissant la case correspondante cochée. %n%nSi vous ne le faîtes pas tout de suite, cette dernière pourra se faire ultérieurement via le lien Démarrage de l'application.
 french.ConfirmUninstall=Vous vous apprêtez à  désinstaller %1. Si vous n'avez plus besoin des composants installés (Git, Docker et HyperV), vous pourrez ensuite procéder à leur désinstallation en suivant la procédure mise à disposition. Cliquez sur oui pour continuer.
-french.WelcomeLabel2=Cet assistant va vous guider dans l'installation de [name/ver] sur votre ordinateur.%n%nL'installation de pré-requis sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé (à deux reprises au maximum). ll est recommandé de fermer toutes les applications actives avant de continuer.%n%nPar ailleurs, le téléchargement et l'installation de ces pré-requis peuvent parfois être long, merci d'être patient.
+french.WelcomeLabel2=Cet assistant va vous guider dans l'installation de [name/ver] sur votre ordinateur.%n%nL'installation de composants sera peut-être nécessaire. Merci de permettre le redémarrage de votre ordinateur quand cela vous le sera demandé (à deux reprises au maximum). ll est recommandé de fermer toutes les applications actives avant de continuer.%n%nPar ailleurs, le téléchargement et l'installation de ces pré-requis peuvent parfois être long, merci d'être patient.
 
 [UninstallRun]
 ;Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File """"{tmp}\desinstallGit.ps1"""""; WorkingDir: "{app}"; Flags: waituntilterminated; StatusMsg: "Git a été désinstallé"; Components: Git
@@ -285,7 +275,6 @@ begin
      PrepareToInstallWithProgressPage.SetText(('Vérification et installation des pré-requis...'), '');
      ExtractTemporaryFile('installGit.ps1');
      Exec('PowerShell.exe', ExpandConstant(' -ExecutionPolicy Bypass -File "{tmp}\installGit.ps1"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-     //MsgBox('La dernière version de Git a été installé, vous pouvez continuer' , mbInformation, mb_Ok);  
      PrepareToInstallWithProgressPage.SetProgress(2, 10);
      
      // Vérifie si HyperV est activé et l'active au cas où puis redémarre la machine     
@@ -303,12 +292,10 @@ begin
         //Redémarrage de la machine
         CreateRunOnceEntry;
         NeedsRestart := True;
-        Result := QuitMessage1Reboot;
-        //end
+        Result := QuitMessage1Reboot;         
        end else begin
-         // Vérifie si Docker est installé et l'installe et le configure au cas où.
-         //if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Run','Docker Desktop') = false then begin
-         if RegValueExists(HKEY_LOCAL_MACHINE,'SOFTWARE\Docker Inc.\Docker\1.0','AppPath') = false then begin
+        // Vérifie si Docker est installé et l'installe et le configure au cas où.
+        if RegKeyExists(HKEY_LOCAL_MACHINE,'SOFTWARE\Docker Inc.') = false then begin
            MsgBox('Docker n''est pas installé. '#13#13'Le programme va procéder à son installation. '#13#10'Le temps de téléchargement peut être long. Merci de patienter.', mbInformation, mb_Ok);
            PrepareToInstallWithProgressPage.SetText(('Téléchargement de Docker...'), '');
            PrepareToInstallWithProgressPage.SetProgress(5, 10);
@@ -384,6 +371,7 @@ begin
   Result := Restarted;
 end;
 
+
 procedure DeinitializeSetup();
 
 var
@@ -395,21 +383,14 @@ begin
      MsgBox('L''installation continue au prochain démarrage...', mbInformation, MB_OK);
      end ;
   if FinishedInstall then begin
-     // Il faut vérifier ici que la case "initialisation de l'application" a bien été coché sinon mettre un autre message
-     MsgBox('Fin de l''installation:' #13#13'L''application e-comBox est en train d''être initialisée. Veuillez patienter.' #13#13'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13'Par la suite, vous pouvez démarrer e-comBox via l''icône du bureau ou bien via le lien du menu de démarrage.'#13#13'Pour prendre en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy, il est nécessaire de réinitialiser e-comBox avec le lien correspondant.', mbInformation, MB_OK);
-     end ;
-  end;
+    if (WizardForm.RunList.Checked[0]) then begin
+    MsgBox('Fin de l''installation:' #13#13'L''application e-comBox est en train d''être initialisée. Veuillez patienter.' #13#13'Elle sera ensuite lancée automatiquement dans votre navigateur par défaut.' #13#13'Par la suite, vous pouvez démarrer e-comBox via l''icône du bureau ou bien via le lien du menu de démarrage.'#13#13'Pour prendre en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy, il est nécessaire de réinitialiser e-comBox avec le lien correspondant.'#13#13'Vous pouvez cliquez sur OK et commencer à utiliser l''application dès qu''elle sera initialisée.', mbInformation, MB_OK);
+    end else begin
+      MsgBox('Fin de l''installation:' #13#13'Vous avez choisi de ne pas initialiser l''application.' #13#13'Vous pouvez démarrer e-comBox via l''icône du bureau ou bien via le lien du menu de démarrage.'#13#13'Pour prendre en compte les modifications de l''environnement comme un changement d''adresse IP ou l''ajout d''un proxy, il est nécessaire de réinitialiser e-comBox avec le lien correspondant. '#13#13'Vous pouvez cliquez sur OK et commencer à utiliser l''application.', mbInformation, MB_OK);
+    end ;
+ end;
 
-
-//procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-//var
-  //ErrorCode: Integer;
-
-//begin
-  //if CurUninstallStep = usDone then begin
-    // ShellExec('open', 'https://docs.google.com/document/d/11RxyTEsPuGdWgp5C3ZNbglBpxfSsMQS2UvazFqZdVSo/edit?usp=sharing', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);   
- // end;
-//end;
+end;
 
 
 procedure DeinitializeUninstall;

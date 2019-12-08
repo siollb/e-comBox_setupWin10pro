@@ -82,7 +82,7 @@ If ($TestPath -eq $False) {
       docker-compose down *>> $pathlog\initialisationEcombox.log
       docker stop $(docker ps -q) *>> $pathlog\initialisationEcombox.log
       If (docker ps -a --filter "name=portainer-app") {
-         docker rm -f portainer-app *>> $pathlog\initialisationEcombox.logg
+         docker rm -f portainer-app *>> $pathlog\initialisationEcombox.log
          }
       If (docker ps -a --filter "name=portainer-proxy") {
          docker rm -f portainer-proxy *>> $pathlog\initialisationEcombox.log
